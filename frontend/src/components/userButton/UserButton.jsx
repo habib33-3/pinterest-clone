@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import "./userButton.css";
+import Image from "../Image/Image";
 
 const UserButton = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,9 +15,9 @@ const UserButton = () => {
           src="/general/noAvatar.png"
           alt="User Avatar"
         />
-        <img
+        <Image
           onClick={() => setIsOpen(!isOpen)}
-          src="/general/arrow.svg"
+          path="/general/arrow.svg"
           alt="Dropdown Arrow"
         />
         {isOpen && (
