@@ -170,7 +170,7 @@ const Gallery = () => {
   return (
     <div className="gallery">
       {items.map((item) => (
-        <GalleryItem 
+        <GalleryItem
           key={item.id}
           item={item}
         />
