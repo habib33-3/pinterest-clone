@@ -18,7 +18,9 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-infinite-scroll-component": "^6.1.0",
-    "react-router": "^7.5.0"
+    "react-router": "^7.5.0",
+    "timeago.js": "^4.0.2",
+    "timeagojs": "^1.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

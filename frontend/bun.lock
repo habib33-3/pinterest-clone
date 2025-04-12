@@ -12,6 +12,8 @@
         "react-dom": "^19.0.0",
         "react-infinite-scroll-component": "^6.1.0",
         "react-router": "^7.5.0",
+        "timeago.js": "^4.0.2",
+        "timeagojs": "^1.0.0",
       },
       "devDependencies": {
         "@eslint/js": "^9.21.0",
@@ -477,6 +479,10 @@
     "synckit": ["synckit@0.9.2", "", { "dependencies": { "@pkgr/core": "^0.1.0", "tslib": "^2.6.2" } }, "sha512-vrozgXDQwYO72vHjUb/HnFbQx1exDjoKzqx23aXEg2a9VIg2TSFZ8FmeZpTjUCFMYw7mpX4BE2SFu8wI7asYsw=="],
 
     "throttle-debounce": ["throttle-debounce@2.3.0", "", {}, "sha512-H7oLPV0P7+jgvrk+6mwwwBDmxTaxnu9HMXmloNLXwnNO0ZxZ31Orah2n8lU1eMPvsaowP2CX+USCgyovXfdOFQ=="],
+
+    "timeago.js": ["timeago.js@4.0.2", "", {}, "sha512-a7wPxPdVlQL7lqvitHGGRsofhdwtkoSXPGATFuSOA2i1ZNQEPLrGnj68vOp2sOJTCFAQVXPeNMX/GctBaO9L2w=="],
+
+    "timeagojs": ["timeagojs@1.0.0", "", {}, "sha512-4xMugz/D5nW979wSMHXwQhI+/sUel2NnCWupguzcFyynP9rL9Bt29vNMCThx+6/LDXbL7LC2xnJUflQhNhLagg=="],
 
     "tinyglobby": ["tinyglobby@0.2.12", "", { "dependencies": { "fdir": "^6.4.3", "picomatch": "^4.0.2" } }, "sha512-qkf4trmKSIiMTs/E63cxH+ojC2unam7rJ0WrauAzpT3ECNTxGRMlaXxVbfxMUC/w0LaYk6jQ4y/nGR9uBO3tww=="],
 
