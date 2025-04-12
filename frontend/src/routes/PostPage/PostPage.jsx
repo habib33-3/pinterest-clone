@@ -52,7 +52,7 @@ const PostPage = () => {
             />
             <span>{data.user.displayname}</span>
           </Link>
-          <Comments />
+          <Comments id={data._id}/>
         </div>
       </div>
     </div>

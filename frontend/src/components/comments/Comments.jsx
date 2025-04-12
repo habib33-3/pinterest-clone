@@ -1,31 +1,44 @@
 import { useState } from "react";
 
+import { useQuery } from "@tanstack/react-query";
 import EmojiPicker from "emoji-picker-react";
 
+import { apiRequest } from "../../utils/apiRequest";
 import Image from "../Image/Image";
+import Comment from "./Comment";
 import "./comments.css";
 
-const Comments = () => {
+const Comments = ({ id: postId }) => {
   const [open, setOpen] = useState(false);
+
+  const { isPending, error, data } = useQuery({
+    queryKey: ["comments", postId],
+    queryFn: () =>
+      apiRequest.get(`/comments/${postId}`).then((res) => res.data),
+  });
+
+  if (isPending) return "Loading...";
+
+  if (error) return "An error has occurred: " + error.message;
+
+  console.log(data);
 
   return (
     <div className="comments">
       <div className="commentList">
-        <span className="commentCount">5 Comments</span>
-        <div className="comment">
-          <Image
-            path={"/general/noAvatar.png"}
-            alt=""
+        <span className="commentCount">
+          {data.length === 0
+            ? "No Comments"
+            : data.length === 1
+              ? "1 Comment"
+              : `${data.length} Comments`}
+        </span>
+        {data.map((comment) => (
+          <Comment
+            comment={comment}
+            key={comment._id}
           />
-          <div className="commentContent">
-            <div className="commentUsername">John Doe</div>
-            <p className="commentText">
-              lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi,
-              nesciunt.
-            </p>
-            <span className="commentTime">1h ago</span>
-          </div>
-        </div>
+        ))}
       </div>
 
       <form className="commentForm">

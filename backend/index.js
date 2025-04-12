@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import pinRouter from "./routes/pins.route.js";
 import boardRouter from "./routes/board.routes.js";
+import commentRouter from "./routes/comments.routes.js";
 
 const app = express();
 
@@ -20,6 +21,8 @@ app.use("/user", userRouter);
 app.use("/pins", pinRouter);
 
 app.use("/boards",boardRouter)
+
+app.use("/comments",commentRouter)
 
 const startServer = async () => {
   try {
