@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { getPins } from "../controllers/pins.controller.js";
+import { getPin, getPins } from "../controllers/pins.controller.js";
 
-const router=Router()
+const router = Router();
 
+router.get("/", getPins);
 
-router.get("/",getPins)
+router.get("/:id", getPin);
 
-export default router
+export default router;

@@ -1,6 +1,7 @@
 import { Router } from "express";
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
+import { getUser } from "../controllers/user.controller.js";
 
 const router = Router();
 
@@ -23,6 +24,8 @@ router.post("/create", async (req, res) => {
 router.get("/", async (req, res) => {
   const users = await User.find();
   res.send(users);
-})
+});
+
+router.get("/:username", getUser);
 
 export default router;

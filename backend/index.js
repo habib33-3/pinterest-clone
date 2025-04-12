@@ -5,6 +5,7 @@ import { connectDb } from "./utils/connectDb.js";
 import dotenv from "dotenv";
 import cors from "cors";
 import pinRouter from "./routes/pins.route.js";
+import boardRouter from "./routes/board.routes.js";
 
 const app = express();
 
@@ -17,6 +18,8 @@ app.use(cors());
 app.use("/user", userRouter);
 
 app.use("/pins", pinRouter);
+
+app.use("/boards",boardRouter)
 
 const startServer = async () => {
   try {
