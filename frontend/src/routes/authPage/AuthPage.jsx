@@ -1,11 +1,30 @@
 import { useState } from "react";
 
 import Image from "../../components/Image/Image";
+import { apiRequest } from "../../utils/apiRequest";
 import "./authPage.css";
 
 const AuthPage = () => {
   const [isRegister, setIsRegister] = useState(false);
   const [error, setError] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData);
+    console.log(data);
+
+    try {
+      const res = await apiRequest.post(
+        `/user/auth/${isRegister ? "register" : "login"}`,
+        data
+      );
+
+      console.log(res);
+    } catch (error) {
+      setError(error.response.data.message||"An error has occurred");
+    }
+  };
 
   return (
     <div className="authPage">
@@ -20,6 +39,7 @@ const AuthPage = () => {
           <form
             key={"register"}
             action=""
+            onSubmit={handleSubmit}
           >
             <div className="formGroup">
               <label htmlFor="username">Username</label>
@@ -72,7 +92,7 @@ const AuthPage = () => {
         ) : (
           <form
             key={"login"}
-            action=""
+            action="" onSubmit={handleSubmit}
           >
             <div className="formGroup">
               <label htmlFor="email">Email</label>
