@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import "./userButton.css";
 import Image from "../Image/Image";
+import "./userButton.css";
 
 const UserButton = () => {
   const [isOpen, setIsOpen] = useState(false);
