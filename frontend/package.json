@@ -11,6 +11,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.72.2",
+    "axios": "^1.8.4",
     "emoji-picker-react": "^4.12.2",
     "imagekitio-react": "^4.3.0",
     "react": "^19.0.0",

@@ -15,11 +15,11 @@ const GalleryItem = ({ item }) => {
         alt={""}
         className={""}
         h={optimizedHeight}
-        path={item.media}
+        src={item.media}
         w={372}
       />
       <Link
-        to={`/pin/${item.id}`}
+        to={`/pin/${item._id}`}
         className="overlay"
       />
       <button className="saveButton">Save</button>
