@@ -9,3 +9,15 @@ export const getPostComments = async (req, res) => {
 
   res.status(200).send(comments);
 };
+
+export const addComment = async (req, res) => {
+  const { description, pinId } = req.body;
+
+  const comment = await Comment.create({
+    pin: pinId,
+    description,
+    user: req.userId,
+  });
+
+  res.status(201).send(comment);
+};

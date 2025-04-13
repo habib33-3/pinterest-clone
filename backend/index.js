@@ -1,4 +1,3 @@
-// server.js
 import express from "express";
 import userRouter from "./routes/user.route.js";
 import { connectDb } from "./utils/connectDb.js";
@@ -7,6 +6,7 @@ import cors from "cors";
 import pinRouter from "./routes/pins.route.js";
 import boardRouter from "./routes/board.routes.js";
 import commentRouter from "./routes/comments.routes.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
@@ -20,6 +20,8 @@ app.use(
     credentials: true,
   })
 );
+
+app.use(cookieParser());
 
 app.use("/user", userRouter);
 

@@ -38,7 +38,7 @@ const Comments = ({ id: postId }) => {
         ))}
       </div>
 
-      <CommentForm />
+      <CommentForm pinId={postId} />
     </div>
   );
 };
