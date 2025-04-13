@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { useNavigate } from "react-router";
+
 import Image from "../../components/Image/Image";
 import { apiRequest } from "../../utils/apiRequest";
 import "./authPage.css";
@@ -7,6 +9,8 @@ import "./authPage.css";
 const AuthPage = () => {
   const [isRegister, setIsRegister] = useState(false);
   const [error, setError] = useState("");
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,9 +24,13 @@ const AuthPage = () => {
         data
       );
 
+      if (res.status === 200 || res.status === 201) {
+        navigate("/");
+      }
+
       console.log(res);
     } catch (error) {
-      setError(error.response.data.message||"An error has occurred");
+      setError(error.response.data.message || "An error has occurred");
     }
   };
 
@@ -92,7 +100,8 @@ const AuthPage = () => {
         ) : (
           <form
             key={"login"}
-            action="" onSubmit={handleSubmit}
+            action=""
+            onSubmit={handleSubmit}
           >
             <div className="formGroup">
               <label htmlFor="email">Email</label>

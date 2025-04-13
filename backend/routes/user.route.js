@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import {
   getUser,
   login,
+  logout,
   registerUser,
 } from "../controllers/user.controller.js";
 
@@ -18,5 +19,6 @@ router.get("/:username", getUser);
 
 router.post("/auth/register", registerUser);
 router.post("/auth/login", login);
+router.post("/auth/logout", logout);
 
 export default router;
