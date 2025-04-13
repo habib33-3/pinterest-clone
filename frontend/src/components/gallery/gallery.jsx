@@ -30,8 +30,6 @@ const Gallery = ({ search, userId, boardId }) => {
 
   const allPins = data.pages.flatMap((page) => page.pins) || [];
 
-  console.log(allPins);
-
   return (
     <InfiniteScroll
       dataLength={allPins.length}

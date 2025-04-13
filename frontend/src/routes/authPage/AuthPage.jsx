@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 
 import Image from "../../components/Image/Image";
 import { apiRequest } from "../../utils/apiRequest";
+import { useAuthStore } from "../../utils/store";
 import "./authPage.css";
 
 const AuthPage = () => {
@@ -12,17 +13,20 @@ const AuthPage = () => {
 
   const navigate = useNavigate();
 
+  const { setCurrentUser } = useAuthStore();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
-    console.log(data);
 
     try {
       const res = await apiRequest.post(
         `/user/auth/${isRegister ? "register" : "login"}`,
         data
       );
+
+      setCurrentUser(res.data);
 
       if (res.status === 200 || res.status === 201) {
         navigate("/");

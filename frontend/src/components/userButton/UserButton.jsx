@@ -1,32 +1,34 @@
 import { useState } from "react";
 
+import { Link, useNavigate } from "react-router";
+
 import { apiRequest } from "../../utils/apiRequest";
+import { useAuthStore } from "../../utils/store";
 import Image from "../Image/Image";
 import "./userButton.css";
-import { useNavigate } from "react-router";
 
 const UserButton = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const { currentUser, removeCurrentUser } = useAuthStore();
 
   const handleLogout = async () => {
     try {
       await apiRequest.post("/user/auth/logout");
 
-      navigate("/auth");
+      removeCurrentUser();
 
+      navigate("/auth");
     } catch (error) {
       console.log(error);
     }
   };
 
-  const currentUser = true;
-
   if (currentUser) {
     return (
       <div className="userButton">
-        <img
-          src="/general/noAvatar.png"
+        <Image
+          src={currentUser.img || "/general/noAvatar.png"}
           alt="User Avatar"
         />
         <div
@@ -41,7 +43,12 @@ const UserButton = () => {
         </div>
         {isOpen && (
           <div className="userOptions">
-            <div className="userOption">Profile</div>
+            <Link
+              to={`/profile/${currentUser.username}`}
+              className="userOption"
+            >
+              Profile
+            </Link>
             <div className="userOption">Settings</div>
             <div
               onClick={handleLogout}
@@ -56,12 +63,12 @@ const UserButton = () => {
   }
 
   return (
-    <a
-      href="/"
+    <Link
+      to="/auth"
       className="loginLink"
     >
       Login / Sign Up
-    </a>
+    </Link>
   );
 };
 
