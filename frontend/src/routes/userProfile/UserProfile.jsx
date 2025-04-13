@@ -7,6 +7,7 @@ import Image from "../../components/Image/Image";
 import Boards from "../../components/boards/boards";
 import Gallery from "../../components/gallery/gallery";
 import { apiRequest } from "../../utils/apiRequest";
+import FollowButton from "./FollowButton";
 import "./userProfile.css";
 
 const UserProfile = () => {
@@ -38,7 +39,9 @@ const UserProfile = () => {
 
       <span className="profileUsername">{data.username}</span>
 
-      <div className="followCounts">10 followers . 10 following</div>
+      <div className="followCounts">
+        {data.followerCount} followers . {data.followingCount} following
+      </div>
       <div className="profileInteractions">
         <Image
           path={"/general/share.svg"}
@@ -47,7 +50,8 @@ const UserProfile = () => {
 
         <div className="profileButtons">
           <button>Message</button>
-          <button>Follow</button>
+
+          <FollowButton data={data} />
         </div>
 
         <Image

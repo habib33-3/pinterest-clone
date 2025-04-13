@@ -24,6 +24,8 @@ const UserButton = () => {
     }
   };
 
+  console.log(currentUser);
+
   if (currentUser) {
     return (
       <div className="userButton">
