@@ -24,13 +24,11 @@ const UserButton = () => {
     }
   };
 
-  console.log(currentUser);
-
   if (currentUser) {
     return (
       <div className="userButton">
         <Image
-          src={currentUser.img || "/general/noAvatar.png"}
+          path={"/general/noAvatar.png"}
           alt="User Avatar"
         />
         <div
