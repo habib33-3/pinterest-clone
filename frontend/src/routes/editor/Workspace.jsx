@@ -1,6 +1,6 @@
 import Image from "../../components/Image/Image";
-import "./Editor.css"
 import { useEditorStore } from "../../utils/editorStore";
+import "./Editor.css";
 
 const Workspace = ({ previewImg }) => {
   const { textOptions, setTextOptions } = useEditorStore();
@@ -29,21 +29,19 @@ const Workspace = ({ previewImg }) => {
               }
               style={{
                 color: textOptions.color,
-             
               }}
             />
-
-            <div
+            <button
               className="deleteTextButton"
               onClick={() => setTextOptions({ ...textOptions, text: "" })}
             >
               <Image
                 path="/general/delete.svg"
-                alt=""
+                alt="Delete"
                 w={24}
                 h={24}
               />
-            </div>
+            </button>
           </div>
         )}
       </div>

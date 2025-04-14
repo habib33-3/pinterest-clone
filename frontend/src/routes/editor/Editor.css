@@ -66,11 +66,22 @@
   position: relative;
 }
 
+.canvas img {
+  width: 100%;
+}
+
+/* Updated text and delete button styles */
 .text {
   position: absolute;
-  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   max-width: 100%;
   border: 1px dashed red;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 4px 8px;
+  box-sizing: border-box;
+  z-index: 999;
 }
 
 .text input {
@@ -78,27 +89,23 @@
   outline: none;
   background-color: transparent;
   font-size: inherit;
-  cursor: grab;
-  width: 100%;
+  color: inherit;
+  flex: 1;
+  min-width: 0;
 }
 
 .deleteTextButton {
-  position: absolute;
-  top: -36px;
-  right: 0;
+  border: none;
+  outline: none;
   background-color: white;
   width: 32px;
   height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px;
+  padding: 4px;
   border-radius: 50%;
   cursor: pointer;
-}
-
-.canvas img {
-  width: 100%;
 }
 
 .options {
