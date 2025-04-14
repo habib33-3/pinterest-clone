@@ -1,13 +1,36 @@
+import { useEffect } from "react";
+
 import Image from "../../components/Image/Image";
 import { useEditorStore } from "../../utils/editorStore";
 import "./Editor.css";
 
 const Workspace = ({ previewImg }) => {
-  const { textOptions, setTextOptions } = useEditorStore();
+  const { textOptions, setTextOptions, canvasOptions, setCanvasOptions } =
+    useEditorStore();
+
+  useEffect(() => {
+    if (canvasOptions.height === 0) {
+      const canvasHeight = (375 * previewImg.height) / previewImg.width;
+
+      setCanvasOptions({
+        ...canvasOptions,
+        height: canvasHeight,
+        orientation: canvasHeight > 375 ? "landscape" : "portrait",
+      });
+    }
+  }, [canvasOptions, previewImg.height, previewImg.width, setCanvasOptions]);
+
+  console.log(canvasOptions);
 
   return (
     <div className="workspace">
-      <div className="canvas">
+      <div
+        className="canvas"
+        style={{
+          height: `${canvasOptions.height}px`,
+          backgroundColor: canvasOptions.backgroundColor,
+        }}
+      >
         <img
           src={previewImg.url}
           alt=""

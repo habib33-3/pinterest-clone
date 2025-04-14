@@ -2,7 +2,8 @@ import Image from "../../components/Image/Image";
 import { useEditorStore } from "../../utils/editorStore";
 
 const Layer = () => {
-  const { selectedLayer, setSelectedLayer, addText } = useEditorStore();
+  const { selectedLayer, setSelectedLayer, addText, canvasOptions } =
+    useEditorStore();
 
   const handleSelectedLayer = (layer) => {
     setSelectedLayer(layer);
@@ -39,7 +40,7 @@ const Layer = () => {
         <div
           className="layerImage"
           style={{
-            backgroundColor: "teal",
+            backgroundColor: canvasOptions.backgroundColor,
           }}
         ></div>
         <span>Canvas</span>

@@ -2,7 +2,9 @@ import { create } from "zustand";
 
 export const useEditorStore = create((set) => ({
   selectedLayer: "canvas",
+
   setSelectedLayer: (layer) => set({ selectedLayer: layer }),
+
   textOptions: {
     text: "",
     fontSize: 48,
@@ -10,7 +12,9 @@ export const useEditorStore = create((set) => ({
     top: 0,
     left: 0,
   },
+
   setTextOptions: (options) => set({ textOptions: options }),
+
   addText: () =>
     set({
       textOptions: {
@@ -21,4 +25,14 @@ export const useEditorStore = create((set) => ({
         left: 0,
       },
     }),
+
+  canvasOptions: {
+    height: 0,
+    width: 0,
+    orientation: "",
+    size: "original",
+    backgroundColor: "#000",
+  },
+
+  setCanvasOptions: (options) => set({ canvasOptions: options }),
 }));
