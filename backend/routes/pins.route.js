@@ -1,10 +1,13 @@
 import { Router } from "express";
-import { getPin, getPins } from "../controllers/pins.controller.js";
+import { createPin, getPin, getPins } from "../controllers/pins.controller.js";
+import { authMiddleware } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
 router.get("/", getPins);
 
 router.get("/:id", getPin);
+
+router.post("/", authMiddleware, createPin);
 
 export default router;

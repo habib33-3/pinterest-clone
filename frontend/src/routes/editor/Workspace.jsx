@@ -40,10 +40,10 @@ const Workspace = ({ previewImg }) => {
     });
   };
 
-  const handleMouseUp = (e) => {
+  const handleMouseUp = () => {
     dragging.current = false;
   };
-  const handleMouseLeave = (e) => {
+  const handleMouseLeave = () => {
     dragging.current = false;
   };
 

@@ -35,7 +35,7 @@ const PostPage = () => {
       <div className="postContainer">
         <div className="postImg">
           <Image
-            src={data.media}
+            path={data.media}
             alt={""}
             w={736}
           />

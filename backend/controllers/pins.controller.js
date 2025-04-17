@@ -1,7 +1,8 @@
+import sharp from "sharp";
 import Pin from "../models/pins.model.js";
 
 import mongoose from "mongoose";
-
+import ImageKit from "imagekit";
 
 export const getPins = async (req, res) => {
   const pageNumber = Number(req.query.cursor) || 0;
@@ -40,7 +41,6 @@ export const getPins = async (req, res) => {
   }
 };
 
-
 export const getPin = async (req, res) => {
   const { id } = req.params;
   const pin = await Pin.findById(id).populate(
@@ -49,4 +49,94 @@ export const getPin = async (req, res) => {
   );
 
   res.status(200).send(pin);
+};
+
+export const createPin = async (req, res) => {
+  const { title, description, link, board, textOptions, canvasOptions, tags } =
+    req.body;
+
+  const media = req.files.media;
+
+  // if (!title || !description ) {
+  //   return res.status(400).send("Missing required fields");
+  // }
+
+  const parsedTextOptions = JSON.parse(textOptions || "{}");
+  const parsedCanvasOptions = JSON.parse(canvasOptions || "{}");
+
+  const metadata = await sharp(media.data).metadata();
+
+  const originalOrientation =
+    metadata.width > metadata.height ? "landscape" : "portrait";
+
+  const originalAspectRatio = metadata.width / metadata.height;
+
+  let clientAspectRatio;
+  let width;
+  let height;
+
+  if (parsedCanvasOptions.size !== "original") {
+    clientAspectRatio =
+      parsedCanvasOptions.size.split(":")[0] /
+      parsedCanvasOptions.size.split(":")[1];
+  } else {
+    parsedCanvasOptions.orientation === originalOrientation
+      ? (clientAspectRatio = originalAspectRatio)
+      : (clientAspectRatio = 1 / originalAspectRatio);
+  }
+
+  width = metadata.width;
+  height = metadata.width / clientAspectRatio;
+
+  const imageKit = new ImageKit({
+    privateKey: process.env.IK_PRIVATE_KEY,
+    publicKey: process.env.IK_PUBLIC_KEY,
+    urlEndpoint: process.env.IK_URL_ENDPOINT,
+  });
+
+  const textLeftPosition = Math.round((parsedTextOptions.left * width) / 375);
+  const textTopPosition = Math.round(
+    (parsedTextOptions.top * height) / parsedCanvasOptions.height
+  );
+
+  const transformationString = `w-${width},h-${height}${
+    originalAspectRatio > clientAspectRatio ? ",cm-pad_resize" : ""
+  },bg-${parsedCanvasOptions.backgroundColor.substring(1)}${
+    parsedTextOptions.text
+      ? `,l-text,i-${parsedTextOptions.text},fs-${
+          parsedTextOptions.fontSize * 2.1
+        },lx-${textLeftPosition},ly-${textTopPosition},co-${parsedTextOptions.color.substring(
+          1
+        )},l-end`
+      : ""
+  }`;
+
+  imageKit
+    .upload({
+      file: media.data,
+      fileName: media.name,
+      folder: "pins",
+      transformation: {
+        pre: transformationString,
+      },
+    })
+    .then(async (response) => {
+      const pin = await Pin.create({
+        user: req.userId,
+        title,
+        description,
+        link: link || null,
+        board: board || null,
+        tags: tags ? tags.split(",").map((tag) => tag.trim()) : [],
+        media: response.filePath,
+        width: response.width,
+        height: response.height,
+      });
+
+      return res.status(201).send(pin);
+    })
+    .catch((error) => {
+      console.log(error);
+      return res.status(500).send(error);
+    });
 };

@@ -7,6 +7,8 @@ import pinRouter from "./routes/pins.route.js";
 import boardRouter from "./routes/board.routes.js";
 import commentRouter from "./routes/comments.routes.js";
 import cookieParser from "cookie-parser";
+import fileUpload from "express-fileupload";
+import morgan from "morgan";
 
 const app = express();
 
@@ -22,6 +24,10 @@ app.use(
 );
 
 app.use(cookieParser());
+
+app.use(fileUpload());
+
+app.use(morgan("combined"));
 
 app.use("/user", userRouter);
 
