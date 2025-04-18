@@ -55,14 +55,22 @@ export const getPin = async (req, res) => {
 };
 
 export const createPin = async (req, res) => {
-  const { title, description, link, board, textOptions, canvasOptions, tags } =
-    req.body;
+  const {
+    title,
+    description,
+    link,
+    board,
+    tags,
+    textOptions,
+    canvasOptions,
+    newBoard,
+  } = req.body;
 
   const media = req.files.media;
 
-  // if (!title || !description ) {
-  //   return res.status(400).send("Missing required fields");
-  // }
+  if ((!title, !description, !media)) {
+    return res.status(400).json({ message: "All fields are required!" });
+  }
 
   const parsedTextOptions = JSON.parse(textOptions || "{}");
   const parsedCanvasOptions = JSON.parse(canvasOptions || "{}");
@@ -70,8 +78,7 @@ export const createPin = async (req, res) => {
   const metadata = await sharp(media.data).metadata();
 
   const originalOrientation =
-    metadata.width > metadata.height ? "landscape" : "portrait";
-
+    metadata.width < metadata.height ? "portrait" : "landscape";
   const originalAspectRatio = metadata.width / metadata.height;
 
   let clientAspectRatio;
@@ -84,16 +91,16 @@ export const createPin = async (req, res) => {
       parsedCanvasOptions.size.split(":")[1];
   } else {
     parsedCanvasOptions.orientation === originalOrientation
-      ? (clientAspectRatio = originalAspectRatio)
+      ? (clientAspectRatio = originalOrientation)
       : (clientAspectRatio = 1 / originalAspectRatio);
   }
 
   width = metadata.width;
   height = metadata.width / clientAspectRatio;
 
-  const imageKit = new ImageKit({
-    privateKey: process.env.IK_PRIVATE_KEY,
+  const imagekit = new Imagekit({
     publicKey: process.env.IK_PUBLIC_KEY,
+    privateKey: process.env.IK_PRIVATE_KEY,
     urlEndpoint: process.env.IK_URL_ENDPOINT,
   });
 
@@ -102,9 +109,26 @@ export const createPin = async (req, res) => {
     (parsedTextOptions.top * height) / parsedCanvasOptions.height
   );
 
-  const transformationString = `w-${width},h-${height}${
-    originalAspectRatio > clientAspectRatio ? ",cm-pad_resize" : ""
-  },bg-${parsedCanvasOptions.backgroundColor.substring(1)}${
+
+
+  let croppingStrategy = "";
+
+  if (parsedCanvasOptions.size !== "original") {
+    if (originalAspectRatio > clientAspectRatio) {
+      croppingStrategy = ",cm-pad_resize";
+    }
+  } else {
+    if (
+      originalOrientation === "landscape" &&
+      parsedCanvasOptions.orientation === "portrait"
+    ) {
+      croppingStrategy = ",cm-pad_resize";
+    }
+  }
+
+  const transformationString = `w-${width},h-${height}${croppingStrategy},bg-${parsedCanvasOptions.backgroundColor.substring(
+    1
+  )}${
     parsedTextOptions.text
       ? `,l-text,i-${parsedTextOptions.text},fs-${
           parsedTextOptions.fontSize * 2.1
@@ -114,7 +138,7 @@ export const createPin = async (req, res) => {
       : ""
   }`;
 
-  imageKit
+  imagekit
     .upload({
       file: media.data,
       fileName: media.name,
@@ -124,23 +148,33 @@ export const createPin = async (req, res) => {
       },
     })
     .then(async (response) => {
-      const pin = await Pin.create({
+     
+      let newBoardId;
+
+      if (newBoard) {
+        const res = await Board.create({
+          title: newBoard,
+          user: req.userId,
+        });
+        newBoardId = res._id;
+      }
+
+      const newPin = await Pin.create({
         user: req.userId,
         title,
         description,
         link: link || null,
-        board: board || null,
+        board: newBoardId || board || null,
         tags: tags ? tags.split(",").map((tag) => tag.trim()) : [],
         media: response.filePath,
         width: response.width,
         height: response.height,
       });
-
-      return res.status(201).send(pin);
+      return res.status(201).json(newPin);
     })
-    .catch((error) => {
-      console.log(error);
-      return res.status(500).send(error);
+    .catch((err) => {
+      console.log(err);
+      return res.status(500).json(err);
     });
 };
 
@@ -179,8 +213,6 @@ export const interact = async (req, res) => {
   const { id } = req.params;
 
   const { type } = req.body;
-
-  
 
   if (type === "like") {
     const isLiked = await Like.findOne({ pin: id, user: req.userId });
