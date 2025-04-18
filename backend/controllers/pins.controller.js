@@ -3,6 +3,9 @@ import Pin from "../models/pins.model.js";
 
 import mongoose from "mongoose";
 import ImageKit from "imagekit";
+import Like from "../models/like.model.js";
+import jwt from "jsonwebtoken";
+import Save from "../models/save.model.js";
 
 export const getPins = async (req, res) => {
   const pageNumber = Number(req.query.cursor) || 0;
@@ -139,4 +142,65 @@ export const createPin = async (req, res) => {
       console.log(error);
       return res.status(500).send(error);
     });
+};
+
+export const interactionCheck = async (req, res) => {
+  const { id } = req.params;
+
+  const token = req.cookies?.token;
+
+  const likeCount = await Like.countDocuments({ pin: id });
+
+  if (!token) {
+    return res.status(200).send({ likeCount, isLiked: false, isSaved: false });
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+    if (err) {
+      return res
+        .status(200)
+        .send({ likeCount, isLiked: false, isSaved: false });
+    }
+
+    const userId = decoded.userId;
+
+    const isLiked = await Like.findOne({ pin: id, user: userId });
+    const isSaved = await Save.findOne({ pin: id, user: userId });
+
+    return res.status(200).send({
+      likeCount,
+      isLiked: isLiked !== null,
+      isSaved: isSaved !== null,
+    });
+  });
+};
+
+export const interact = async (req, res) => {
+  const { id } = req.params;
+
+  const { type } = req.body;
+
+  
+
+  if (type === "like") {
+    const isLiked = await Like.findOne({ pin: id, user: req.userId });
+
+    if (isLiked) {
+      await Like.findOneAndDelete({ pin: id, user: req.userId });
+      return res.status(200).send("Unliked successfully");
+    } else {
+      await Like.create({ pin: id, user: req.userId });
+      return res.status(200).send("Liked successfully");
+    }
+  } else if (type === "save") {
+    const isSaved = await Save.findOne({ pin: id, user: req.userId });
+
+    if (isSaved) {
+      await Save.findOneAndDelete({ pin: id, user: req.userId });
+      return res.status(200).send("Unsaved successfully");
+    } else {
+      await Save.create({ pin: id, user: req.userId });
+      return res.status(200).send("Saved successfully");
+    }
+  }
 };

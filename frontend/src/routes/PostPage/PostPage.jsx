@@ -41,7 +41,7 @@ const PostPage = () => {
           />
         </div>
         <div className="postDetails">
-          <PostInteraction />
+          <PostInteraction postId={data._id}/>
           <Link
             to={`/${data.user.username}`}
             className="postUser"

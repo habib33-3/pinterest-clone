@@ -1,4 +1,4 @@
-.postInteractions {
+.postInteraction {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -16,7 +16,7 @@
   cursor: pointer;
 }
 
-.postInteractions button {
+.postInteraction button {
   background-color: #e50829;
   color: white;
   border: none;
