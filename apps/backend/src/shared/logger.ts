@@ -123,7 +123,7 @@ export function createLogger(options: LoggerOptions = {}) {
             const fullMsg = `${methodStr} ${url} ${statusStr} ${durationMsg}`;
 
             log(logLevel, fullMsg);
-            return null; // skip morgan default console.log
+            return null;
         }),
 
         (req: Request, res: Response, next: NextFunction) => {
@@ -142,7 +142,7 @@ export function createLogger(options: LoggerOptions = {}) {
     ];
 
     return {
-        middleware, // Use this in your app
+        middleware,
         info: (message: string) => log("info", message),
         warn: (message: string) => log("warn", message),
         error: (message: string) => log("error", message),

@@ -3,7 +3,7 @@ import { Router } from "express";
 import { loginUserSchema, registerUserSchema } from "@/validations/user.validations";
 
 import validationMiddleware from "@/middlewares/validation.middleware";
-import verifyAuth from "@/middlewares/verifyAuth";
+import verifyAuth from "@/middlewares/verifyAuth.middleware";
 
 import {
     registerUserHandler,

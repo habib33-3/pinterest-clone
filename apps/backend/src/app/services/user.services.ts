@@ -28,11 +28,12 @@ export const registerUserService = async (data: RegisterUserType) => {
             password: hashedPassword,
         },
         select: {
-            createdAt: true,
-            email: true,
-            name: true,
-            updatedAt: true,
             id: true,
+            email: true,
+            userName: true,
+            displayName: true,
+            createdAt: true,
+            updatedAt: true,
         },
     });
 

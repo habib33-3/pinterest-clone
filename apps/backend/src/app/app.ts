@@ -8,7 +8,7 @@ import { logger } from "@/shared/logger";
 
 import globalErrorMiddleware from "@/middlewares/global-error.middleware";
 import notFoundMiddleware from "@/middlewares/not-found.middleware";
-import limiter from "@/middlewares/rate-limiter";
+import limiter from "@/middlewares/rate-limiter.middleware";
 
 import router from "./routes/router";
 
