@@ -1,0 +1,7 @@
+# .husky/pre-commit
+
+# Exit on errors
+set -e
+
+# Run lint-staged using Bun to handle linting and formatting on staged files
+pnpm  dlx lint-staged
