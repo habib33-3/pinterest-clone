@@ -1,12 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
-
 }
 
 datasource db {
@@ -15,10 +8,111 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(uuid())
-  name      String
-  email     String    @unique
-  password  String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id          String  @id @default(uuid())
+  email       String  @unique
+  password    String
+  displayName String
+  userName    String  @unique
+  img         String? @default("https://ik.imagekit.io/habav0i4f/general/noAvatar.png")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Board   Board[]
+  Pin     Pin[]
+  Save    Save[]
+  Like    Like[]
+  Comment Comment[]
+
+  following Follow[] @relation("Following")
+  followers Follow[] @relation("Followers")
+}
+
+model Board {
+  id    String @id @default(uuid())
+  title String
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Pin       Pin[]
+}
+
+model Pin {
+  id          String   @id @default(uuid())
+  media       String
+  width       Int
+  height      Int
+  title       String
+  description String
+  link        String
+  tags        String[]
+
+  boardId String
+  board   Board  @relation(fields: [boardId], references: [id])
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Save    Save[]
+  Like    Like[]
+  Comment Comment[]
+}
+
+model Save {
+  id String @id @default(uuid())
+
+  pinId String
+  pin   Pin    @relation(fields: [pinId], references: [id])
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Like {
+  id String @id @default(uuid())
+
+  pinId String
+  pin   Pin    @relation(fields: [pinId], references: [id])
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Comment {
+  id          String @id @default(uuid())
+  description String
+
+  pinId String
+  pin   Pin    @relation(fields: [pinId], references: [id])
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Follow {
+  id String @id @default(uuid())
+
+  followerId String
+  follower   User   @relation("Following", fields: [followerId], references: [id])
+
+  followingId String
+  following   User   @relation("Followers", fields: [followingId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
