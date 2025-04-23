@@ -17,20 +17,21 @@ const Boards = ({ userId }) => {
   if (error) return "An error has occurred: " + error.message;
 
   return (
-    <div className="collections">
+    <div className="w-full grid grid-cols-7 gap-16">
       {data.map((board) => (
         <Link
           to={`/search?boardId=${board._id}`}
-          className="collection"
+          className=" mb-8 cursor-pointer"
           key={board._id}
         >
           <Image
+            className={"w-full object-cover rounded-2xl "}
             src={board.firstPin.media}
             alt=""
           />
-          <div className="collectionInfo">
-            <h1>{board.title}</h1>
-            <span>
+          <div className=" flex flex-col gap-2">
+            <h1 className="font-medium text-base">{board.title}</h1>
+            <span className="text-gray-500 text-sm">
               {board.pinCount} pins . {format(board.createdAt)}
             </span>
           </div>

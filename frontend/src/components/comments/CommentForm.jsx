@@ -16,11 +16,6 @@ const CommentForm = ({ pinId }) => {
   };
 
   const addComment = async () => {
-    console.log({
-      description: desc,
-      pinId: pinId,
-    });
-
     const res = await apiRequest.post("/comments", {
       description: desc,
       pinId: pinId,
@@ -54,10 +49,11 @@ const CommentForm = ({ pinId }) => {
 
   return (
     <form
-      className="commentForm"
+      className="commentForm bg-neutral-100 p-4 rounded-4xl flex align-center gap-4"
       onSubmit={handleSubmit}
     >
       <input
+        className="flex-1 border-none outline-none bg-transparent text-base"
         type="text"
         placeholder="Add a comment"
         name="comment"
