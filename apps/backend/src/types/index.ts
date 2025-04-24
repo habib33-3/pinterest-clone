@@ -7,8 +7,8 @@ type Meta = {
 };
 
 export type ApiResponse<T> = {
-    statusCode: number;
-    success: boolean;
+    statusCode?: number;
+    success?: boolean;
     message?: string | null;
     meta?: Meta;
     data?: T | null;

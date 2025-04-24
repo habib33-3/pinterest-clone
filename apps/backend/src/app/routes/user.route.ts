@@ -1,11 +1,16 @@
 import { Router } from "express";
 
-import { loginUserSchema, registerUserSchema } from "@/validations/user.validations";
+import {
+    followUserSchema,
+    loginUserSchema,
+    registerUserSchema,
+} from "@/validations/user.validations";
 
 import validationMiddleware from "@/middlewares/validation.middleware";
 import verifyAuth from "@/middlewares/verifyAuth.middleware";
 
 import {
+    followUserHandler,
     registerUserHandler,
     userLoginHandler,
     userLogoutHandler,
@@ -18,5 +23,7 @@ router.post("/", validationMiddleware(registerUserSchema), registerUserHandler);
 router.post("/login", validationMiddleware(loginUserSchema), userLoginHandler);
 
 router.post("/logout", verifyAuth, userLogoutHandler);
+
+router.post("/follow", verifyAuth, validationMiddleware(followUserSchema), followUserHandler);
 
 export const userRouter = router;

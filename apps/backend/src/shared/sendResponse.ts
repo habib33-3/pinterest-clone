@@ -1,18 +1,20 @@
 import type { Request, Response } from "express";
 
+import { StatusCodes } from "http-status-codes";
+
 import type { ApiResponse } from "@/types";
 
 const sendResponse = <T>(req: Request, res: Response, payload: ApiResponse<T>): Response => {
-    const { statusCode, success, message, meta, data } = payload;
+    const finalStatusCode = payload.statusCode || StatusCodes.OK;
 
-    return res.status(statusCode).json({
-        statusCode,
-        success,
-        message: message ?? null,
+    return res.status(finalStatusCode).json({
+        statusCode: finalStatusCode,
+        success: payload.success ?? true,
+        message: payload.message ?? null,
         path: req.originalUrl,
-        meta: meta ?? null,
-        data: data ?? null,
-        timestamp: new Date().toISOString(), // Useful for tracing
+        meta: payload.meta ?? null,
+        data: payload.data ?? null,
+        timestamp: new Date().toISOString(),
     });
 };
 

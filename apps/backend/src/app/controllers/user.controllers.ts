@@ -8,9 +8,13 @@ import asyncHandler from "@/shared/asyncHandler";
 import { COOKIE_NAME } from "@/shared/constants";
 import sendResponse from "@/shared/sendResponse";
 
-import type { LoginUserType, RegisterUserType } from "@/validations/user.validations";
+import type {
+    FollowUserType,
+    LoginUserType,
+    RegisterUserType,
+} from "@/validations/user.validations";
 
-import { registerUserService, userLoginService } from "@/services/user.services";
+import { followUserService, registerUserService, userLoginService } from "@/services/user.services";
 
 export const registerUserHandler = asyncHandler(
     async (req: Request<{}, {}, RegisterUserType>, res) => {
@@ -22,7 +26,6 @@ export const registerUserHandler = asyncHandler(
 
         sendResponse(req, res, {
             statusCode: StatusCodes.CREATED,
-            success: true,
             message: "User created successfully",
             data: result.user,
         });
@@ -37,8 +40,6 @@ export const userLoginHandler = asyncHandler(async (req: Request<{}, {}, LoginUs
     setCookie(res, COOKIE_NAME, result.token);
 
     sendResponse(req, res, {
-        statusCode: StatusCodes.OK,
-        success: true,
         message: "User login successfully",
         data: result.user,
     });
@@ -48,8 +49,19 @@ export const userLogoutHandler = asyncHandler(async (req, res) => {
     deleteCookie(res, COOKIE_NAME);
 
     sendResponse(req, res, {
-        statusCode: StatusCodes.OK,
-        success: true,
         message: "User logout successfully",
+    });
+});
+
+export const followUserHandler = asyncHandler(async (req: Request<{}, {}, FollowUserType>, res) => {
+    const { followingId } = req.body;
+
+    const followerId = req.user?.id as string;
+
+    const result = await followUserService(followerId, followingId);
+
+    sendResponse(req, res, {
+        message: result.message,
+        data: result,
     });
 });
