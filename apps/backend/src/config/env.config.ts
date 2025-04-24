@@ -24,6 +24,9 @@ const envSchema = z.object({
         }
         return result;
     }),
+    IMAGEKIT_PUBLIC_KEY: z.string(),
+    IMAGEKIT_PRIVATE_KEY: z.string(),
+    IMAGEKIT_URL_ENDPOINT: z.string(),
 });
 
 export const parsedEnv = envSchema.safeParse(process.env);
