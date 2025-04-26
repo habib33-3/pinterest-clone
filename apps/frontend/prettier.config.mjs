@@ -1,20 +1,28 @@
 /** @type {import("prettier").Config} */
 export default {
-  trailingComma: "es5",
-  tabWidth: 2,
+  // Basic formatting options
   semi: true,
+  tabWidth: 2,
   singleQuote: false,
+  trailingComma: "es5",
   bracketSpacing: true,
   bracketSameLine: false,
   arrowParens: "always",
-  singleAttributePerLine: true,
   jsxSingleQuote: false,
+  singleAttributePerLine: true,
+
+  // Plugins
   plugins: [
     "@trivago/prettier-plugin-sort-imports",
     "prettier-plugin-tailwindcss",
     "prettier-plugin-packagejson",
   ],
+
+  // TailwindCSS plugin settings
   tailwindStylesheet: "./src/index.css",
+  tailwindFunctions: ["clsx", "twMerge", "cn", "tw", "twJoin", "cva"],
+
+  // Import sorting options
   importOrderSeparation: true,
   importOrderSortSpecifiers: true,
   importOrder: [
@@ -26,8 +34,6 @@ export default {
 
     "^@/config/(.*)$",
     "^@/layouts/(.*)$",
-    "^@/pages/(.*)$",
-    "^@/router/(.*)$",
     "^@/providers/(.*)$",
     "^@/components/(.*)$",
     "^@/hooks/(.*)$",
@@ -37,6 +43,12 @@ export default {
     "^@/store/(.*)$",
     "^@/types/(.*)$",
     "^@/assets/(.*)$",
+    "^@/validations/(.*)$",
+    "^@/ui/(.*)$",
+
+    "^@/pages/(.*)$",
+    "^@/form/(.*)$",
+    "^@/router/(.*)$",
 
     "^[./]",
   ],
