@@ -36,9 +36,12 @@ export const registerUserService = async (data: RegisterUserType) => {
 
     const hashedPassword = await hashData(data.password);
 
+    const displayName = data.email.split("@")[0];
+
     const user = await prisma.user.create({
         data: {
             ...data,
+            displayName,
             password: hashedPassword,
         },
         select: {

@@ -7,12 +7,19 @@ import { DEFAULT_PORT, DEFAULT_RATE_LIMIT_WINDOW_MS } from "@/shared/constants";
 import { logger } from "@/shared/logger";
 
 const envSchema = z.object({
-    NODE_ENV: z.enum(["dev", "test", "production"]).default("dev"),
+    NODE_ENV: z.enum(["dev", "test", "production"]).default("production"),
     // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     PORT: z.coerce.number().min(1).max(65535).default(DEFAULT_PORT),
     RATE_LIMIT_WINDOW_MS: z.coerce.number().min(1).default(DEFAULT_RATE_LIMIT_WINDOW_MS),
     JWT_SECRET: z.string(),
     DATABASE_URL: z.string(),
+    CORS_ORIGINS: z
+        .string()
+        .optional()
+        .transform((val) => {
+            if (!val) return [];
+            return val.split(",").map((origin) => origin.trim());
+        }),
     TOKEN_EXPIRATION: z.string().transform((val, ctx) => {
         const result = ms(val as StringValue);
         if (typeof result !== "number") {

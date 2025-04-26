@@ -26,30 +26,33 @@ export default {
   importOrderSeparation: true,
   importOrderSortSpecifiers: true,
   importOrder: [
+    // React-related imports
     "^react$",
     "^react-dom(.*)$",
     "^react-router(.*)$",
 
+    // Third-party modules
     "<THIRD_PARTY_MODULES>",
 
+    // Absolute imports (grouped by functionality)
     "^@/config/(.*)$",
     "^@/layouts/(.*)$",
     "^@/providers/(.*)$",
     "^@/components/(.*)$",
     "^@/hooks/(.*)$",
     "^@/services/(.*)$",
+    "^@/store/(.*)$",
     "^@/lib/(.*)$",
     "^@/utils/(.*)$",
-    "^@/store/(.*)$",
     "^@/types/(.*)$",
     "^@/assets/(.*)$",
     "^@/validations/(.*)$",
     "^@/ui/(.*)$",
-
     "^@/pages/(.*)$",
     "^@/form/(.*)$",
     "^@/router/(.*)$",
 
+    // Relative imports (current directory and below)
     "^[./]",
   ],
 };

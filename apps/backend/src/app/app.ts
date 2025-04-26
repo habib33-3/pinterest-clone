@@ -4,6 +4,8 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import helmet from "helmet";
 
+import { env } from "@/config/env.config";
+
 import { logger } from "@/shared/logger";
 
 import globalErrorMiddleware from "@/middlewares/global-error.middleware";
@@ -18,11 +20,15 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Cookie parser
 app.use(cookieParser());
 
-// CORS, Helmet, and Rate Limiter
-app.use(cors());
+app.use(
+    cors({
+        credentials: true,
+        origin: env.CORS_ORIGINS.length > 0 ? env.CORS_ORIGINS : "*",
+    })
+);
+
 app.use(helmet());
 app.use(limiter);
 

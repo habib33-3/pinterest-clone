@@ -4,7 +4,6 @@ export const registerUserFormSchema = z
   .object({
     email: z.string().email(),
     userName: z.string(),
-    displayName: z.string(),
     password: z.string().min(6),
     confirmPassword: z.string().min(6),
   })

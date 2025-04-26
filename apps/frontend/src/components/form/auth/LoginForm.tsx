@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
 import { useForm } from "react-hook-form";
@@ -29,6 +31,8 @@ const LoginForm = () => {
     },
   });
 
+  const navigate = useNavigate();
+
   const handleLogin = async (data: LoginFormSchemaType) => {
     try {
       const res = await api.post("/user/login", {
@@ -38,6 +42,7 @@ const LoginForm = () => {
 
       if (res.status === 200) {
         toast.success("User logged in successfully");
+        await navigate("/");
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {

@@ -14,7 +14,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@imagekit/javascript": "^5.0.0",
     "@prisma/client": "^6.6.0",
     "argon2": "^0.41.1",
     "chalk": "4",
@@ -53,10 +52,8 @@
     "eslint-plugin-security": "^3.0.1",
     "eslint-plugin-sonarjs": "^3.0.2",
     "eslint-plugin-unicorn": "^58.0.0",
-    "nodemon": "^3.1.9",
     "prettier": "^3.5.3",
     "prettier-plugin-packagejson": "^2.5.10",
-    "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.8.3"

@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
 import { useForm } from "react-hook-form";
@@ -29,23 +31,25 @@ const RegisterForm = () => {
     defaultValues: {
       email: "",
       userName: "",
-      displayName: "",
       password: "",
       confirmPassword: "",
     },
   });
+
+  const navigate = useNavigate();
 
   const handleFormSubmit = async (data: RegisterUserFormSchemaType) => {
     try {
       const res = await api.post("/user", {
         email: data.email,
         userName: data.userName,
-        displayName: data.displayName,
+
         password: data.password,
       });
 
       if (res.status === 201) {
         toast.success("User registered successfully");
+        await navigate("/");
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -86,19 +90,6 @@ const RegisterForm = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>User Name</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="displayName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Display Name</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>

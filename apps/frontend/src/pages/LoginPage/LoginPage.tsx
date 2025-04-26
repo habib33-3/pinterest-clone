@@ -23,7 +23,7 @@ const LoginPage = () => {
             setFormName(formName === "login" ? "register" : "login");
           }}
         >
-          {formName === "login" ? "register" : "login"}
+          {formName === "login" ? "Sign Up" : "Login"}
         </Button>
       </div>
       <Card className="mx-auto mb-20 max-w-md bg-gray-100/10 px-10">
