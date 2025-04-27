@@ -54,21 +54,24 @@ const Avatar = () => {
         />
       </PopoverTrigger>
       <PopoverContent className="mx-2 w-36">
-        <ul className="flex flex-col items-center justify-center">
+        <ul className="flex flex-col items-start justify-center space-y-2">
           <li>
             <Link
               to="/profile"
-              className="hover:underline"
+              className="text-sm hover:underline"
             >
               Profile
             </Link>
           </li>
           <li>
             <Button
-              variant={"ghost"}
+              variant="ghost"
               onClick={handleLogout}
+              className="flex items-center space-x-2"
+              aria-label="Logout"
             >
-              Logout <LogOut />
+              <LogOut />
+              <span>Logout</span>
             </Button>
           </li>
         </ul>
