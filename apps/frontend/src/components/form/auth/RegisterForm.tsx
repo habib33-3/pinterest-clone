@@ -8,7 +8,9 @@ import { toast } from "sonner";
 import PasswordField from "@/components/shared/PasswordField";
 import SubmitButton from "@/components/shared/SubmitButton";
 
-import { api } from "@/lib/api";
+import { useUserStore } from "@/stores/userStore";
+
+import { createUserApi } from "@/api/userApi";
 
 import {
   type RegisterUserFormSchemaType,
@@ -37,17 +39,16 @@ const RegisterForm = () => {
   });
 
   const navigate = useNavigate();
+  const { setUser } = useUserStore();
 
   const handleFormSubmit = async (data: RegisterUserFormSchemaType) => {
     try {
-      const res = await api.post("/user", {
-        email: data.email,
-        userName: data.userName,
+      const res = await createUserApi(data);
 
-        password: data.password,
-      });
+      console.info(res);
 
-      if (res.status === 201) {
+      if (res.data.data) {
+        setUser(res.data.data);
         toast.success("User registered successfully");
         await navigate("/");
       }

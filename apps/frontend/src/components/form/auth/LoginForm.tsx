@@ -8,7 +8,9 @@ import { toast } from "sonner";
 import PasswordField from "@/components/shared/PasswordField";
 import SubmitButton from "@/components/shared/SubmitButton";
 
-import { api } from "@/lib/api";
+import { useUserStore } from "@/stores/userStore";
+
+import { loginUserApi } from "@/api/userApi";
 
 import { type LoginFormSchemaType, loginFormSchema } from "@/validations/auth";
 
@@ -33,14 +35,16 @@ const LoginForm = () => {
 
   const navigate = useNavigate();
 
+  const { setUser } = useUserStore();
+
   const handleLogin = async (data: LoginFormSchemaType) => {
     try {
-      const res = await api.post("/user/login", {
-        email: data.email,
-        password: data.password,
-      });
+      const res = await loginUserApi(data);
 
-      if (res.status === 200) {
+      console.info(res);
+
+      if (res.data.data) {
+        setUser(res.data.data);
         toast.success("User logged in successfully");
         await navigate("/");
       }

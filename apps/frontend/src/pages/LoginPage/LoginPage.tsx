@@ -13,7 +13,7 @@ import LoginForm from "@/form/auth/LoginForm";
 import RegisterForm from "@/form/auth/RegisterForm";
 
 const LoginPage = () => {
-  const [formName, setFormName] = useState<"login" | "register">("register");
+  const [formName, setFormName] = useState<"login" | "register">("login");
 
   return (
     <main className="mx-auto min-h-screen max-w-7xl">
