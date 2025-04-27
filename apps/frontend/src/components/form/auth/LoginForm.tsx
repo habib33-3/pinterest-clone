@@ -5,8 +5,8 @@ import { AxiosError } from "axios";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import PasswordField from "@/components/shared/PasswordField";
-import SubmitButton from "@/components/shared/SubmitButton";
+import SubmitButton from "@/components/buttons/SubmitButton";
+import PasswordField from "@/components/form-fields/PasswordField";
 
 import { useUserStore } from "@/stores/userStore";
 

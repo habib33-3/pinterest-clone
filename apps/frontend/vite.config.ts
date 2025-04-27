@@ -19,6 +19,7 @@ export default defineConfig({
       "@/hooks": path.resolve(__dirname, "src/hooks"),
       "@/ui": path.resolve(__dirname, "src/components/ui"),
       "@/form": path.resolve(__dirname, "src/components/form"),
+      "@/shared": path.resolve(__dirname, "src/components/shared"),
       "@/components": path.resolve(__dirname, "src/components"),
       "@/layouts": path.resolve(__dirname, "src/layouts"),
       "@/types": path.resolve(__dirname, "src/types"),

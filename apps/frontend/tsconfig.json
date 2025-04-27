@@ -17,6 +17,7 @@
       "@/providers/*": ["src/providers/*"],
       "@/router/*": ["src/router/*"],
       "@/layouts/*": ["src/layouts/*"],
+      "@/shared/*": ["src/components/shared/*"],
       "@/components/*": ["src/components/*"],
       "@/ui/*": ["src/components/ui/*"],
       "@/form/*": ["src/components/form/*"],

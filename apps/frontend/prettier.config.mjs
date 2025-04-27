@@ -43,6 +43,7 @@ export default {
     "^@/services/(.*)$",
     "^@/stores/(.*)$",
     "^@/api/(.*)$",
+    "^@/shared/(.*)$",
     "^@/lib/(.*)$",
     "^@/utils/(.*)$",
     "^@/types/(.*)$",
