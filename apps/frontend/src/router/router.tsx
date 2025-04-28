@@ -2,8 +2,11 @@ import { createBrowserRouter } from "react-router";
 
 import RootLayout from "@/layouts/RootLayout";
 
+import CreatePage from "@/pages/CreatePage/CreatePage";
 import HomePage from "@/pages/HomePage/HomePage";
 import LoginPage from "@/pages/LoginPage/LoginPage";
+
+import ProtectedRouter from "./ProtectedRouter";
 
 const router = createBrowserRouter([
   {
@@ -13,6 +16,15 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <HomePage />,
+      },
+
+      {
+        path: "create",
+        element: (
+          <ProtectedRouter>
+            <CreatePage />
+          </ProtectedRouter>
+        ),
       },
     ],
   },

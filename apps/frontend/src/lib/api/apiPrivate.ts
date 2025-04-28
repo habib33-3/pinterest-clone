@@ -1,9 +1,11 @@
 import axios, { type AxiosError } from "axios";
 
+import { env } from "@/config/env.config";
+
 import { useUserStore } from "@/stores/userStore";
 
 export const apiPrivate = axios.create({
-  baseURL: "http://localhost:5000/api/v1",
+  baseURL: env.VITE_BACKEND_API_URL,
   withCredentials: true,
 });
 
