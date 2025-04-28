@@ -1,4 +1,5 @@
-import { api } from "@/lib/api";
+import { apiPrivate } from "@/lib/api/apiPrivate";
+import { apiPublic } from "@/lib/api/apiPublic";
 
 import type {
   LoginFormSchemaType,
@@ -12,7 +13,7 @@ export const createUserApi = async ({
   userName,
   password,
 }: RegisterUserFormSchemaType) => {
-  return api.post<ApiResponse<User>>("/user", {
+  return apiPublic.post<ApiResponse<User>>("/user", {
     email: email,
     userName: userName,
     password: password,
@@ -23,12 +24,12 @@ export const loginUserApi = async ({
   email,
   password,
 }: LoginFormSchemaType) => {
-  return api.post<ApiResponse<User>>("/user/login", {
+  return apiPublic.post<ApiResponse<User>>("/user/login", {
     email: email,
     password: password,
   });
 };
 
 export const logoutApi = async () => {
-  return api.post("/user/logout");
+  return apiPrivate.post("/user/logout");
 };
