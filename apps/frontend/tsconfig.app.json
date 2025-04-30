@@ -29,6 +29,7 @@
       "@/services/*": ["src/services/*"],
       "@/utils/*": ["src/utils/*"],
       "@/types/*": ["src/types/*"],
+      "@/constants/*": ["src/constants/*"],
       "@/validations/*": ["src/validations/*"],
       "@/hooks/*": ["src/hooks/*"],
       "@/providers/*": ["src/providers/*"],

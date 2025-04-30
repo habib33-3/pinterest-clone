@@ -11,6 +11,7 @@
       "@/lib/*": ["src/lib/*"],
       "@/services/*": ["src/services/*"],
       "@/utils/*": ["src/utils/*"],
+      "@/constants/*": ["src/constants/*"],
       "@/types/*": ["src/types/*"],
       "@/validations/*": ["src/validations/*"],
       "@/hooks/*": ["src/hooks/*"],

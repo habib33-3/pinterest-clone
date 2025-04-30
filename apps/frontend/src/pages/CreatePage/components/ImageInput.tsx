@@ -1,5 +1,7 @@
 import { type ChangeEvent, useRef } from "react";
 
+import { Link } from "react-router";
+
 import { Pen, RefreshCcw, Upload } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -30,13 +32,15 @@ const ImageInput = () => {
             className="h-full w-full rounded-3xl object-cover"
           />
 
-          <Button
-            variant="outline"
-            className="absolute top-4 right-4 flex transform items-center gap-1 border border-red-700 bg-red-700 px-3 py-1 text-sm text-white shadow-sm transition duration-200 hover:scale-105 hover:bg-red-800 hover:text-white focus:ring-2 focus:ring-red-500 focus:outline-none"
-          >
-            <Pen className="size-4 text-white" />
-            <span>Edit</span>
-          </Button>
+          <Link to={"/edit-pin"}>
+            <Button
+              variant="outline"
+              className="absolute top-4 right-4 flex transform items-center gap-1 border border-red-700 bg-red-700 px-3 py-1 text-sm text-white shadow-sm transition duration-200 hover:scale-105 hover:bg-red-800 hover:text-white focus:ring-2 focus:ring-red-500 focus:outline-none"
+            >
+              <Pen className="size-4 text-white" />
+              <span>Edit</span>
+            </Button>
+          </Link>
 
           <Button
             onClick={() => fileInputRef.current?.click()}

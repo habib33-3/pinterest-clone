@@ -49,6 +49,7 @@ export default {
     "^@/types/(.*)$",
     "^@/assets/(.*)$",
     "^@/validations/(.*)$",
+    "^@/constants/(.*)$",
     "^@/ui/(.*)$",
     "^@/pages/(.*)$",
     "^@/form/(.*)$",

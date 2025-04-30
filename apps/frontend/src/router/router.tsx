@@ -3,6 +3,7 @@ import { createBrowserRouter } from "react-router";
 import RootLayout from "@/layouts/RootLayout";
 
 import CreatePage from "@/pages/CreatePage/CreatePage";
+import EditPin from "@/pages/EditPin/EditPin";
 import HomePage from "@/pages/HomePage/HomePage";
 import LoginPage from "@/pages/LoginPage/LoginPage";
 
@@ -23,6 +24,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRouter>
             <CreatePage />
+          </ProtectedRouter>
+        ),
+      },
+      {
+        path: "edit-pin",
+        element: (
+          <ProtectedRouter>
+            <EditPin />
           </ProtectedRouter>
         ),
       },
