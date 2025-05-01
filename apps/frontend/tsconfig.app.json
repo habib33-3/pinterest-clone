@@ -24,25 +24,25 @@
 
     "baseUrl": ".",
     "paths": {
+      "@/api/*": ["src/api/*"],
+      "@/assets/*": ["src/assets/*"],
       "@/config/*": ["src/config/*"],
-      "@/lib/*": ["src/lib/*"],
-      "@/services/*": ["src/services/*"],
-      "@/utils/*": ["src/utils/*"],
-      "@/types/*": ["src/types/*"],
       "@/constants/*": ["src/constants/*"],
-      "@/validations/*": ["src/validations/*"],
+      "@/form/*": ["src/components/form/*"],
       "@/hooks/*": ["src/hooks/*"],
+      "@/layouts/*": ["src/layouts/*"],
+      "@/lib/*": ["src/lib/*"],
+      "@/pages/*": ["src/pages/*"],
       "@/providers/*": ["src/providers/*"],
       "@/router/*": ["src/router/*"],
-      "@/layouts/*": ["src/layouts/*"],
+      "@/services/*": ["src/services/*"],
       "@/shared/*": ["src/components/shared/*"],
-      "@/components/*": ["src/components/*"],
-      "@/ui/*": ["src/components/ui/*"],
-      "@/form/*": ["src/components/form/*"],
-      "@/pages/*": ["src/pages/*"],
       "@/stores/*": ["src/stores/*"],
-      "@/assets/*": ["src/assets/*"],
-      "@/api/*": ["src/api/*"]
+      "@/types/*": ["src/types/*"],
+      "@/ui/*": ["src/components/ui/*"],
+      "@/utils/*": ["src/utils/*"],
+      "@/validations/*": ["src/validations/*"],
+      "@/components/*": ["src/components/*"]
     }
   },
   "include": ["src"]
