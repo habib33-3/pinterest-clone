@@ -1,5 +1,6 @@
 import { RectangleHorizontal, RectangleVertical } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -30,17 +31,12 @@ const CanvasOptions = () => {
   };
 
   const handleOrientationChange = (orientation: Orientation) => {
-    const currentSize = canvasOptions.size;
-
-    const newSize = {
-      width: currentSize.height,
-      height: currentSize.width,
-    };
+    const { width, height } = canvasOptions.size;
 
     setCanvasOptions({
       ...canvasOptions,
       orientation,
-      size: newSize,
+      size: { width: height, height: width },
     });
   };
 
@@ -68,16 +64,19 @@ const CanvasOptions = () => {
   return (
     <div className="w-full">
       <div className="space-y-6">
+        {/* Orientation Section */}
         <div>
           <h2 className="mb-3 text-lg font-bold">Orientation</h2>
           <div className="flex flex-wrap gap-3">
             {orientationOptions.map(({ value, icon, title }) => (
-              <div
+              <Button
+                size={"icon"}
+                variant={"outline"}
                 key={value}
+                title={title}
                 onClick={() => {
                   handleOrientationChange(value as Orientation);
                 }}
-                title={title}
                 className={cn(
                   "cursor-pointer rounded-lg px-3 py-2 hover:bg-gray-300/50",
                   canvasOptions.orientation === value
@@ -86,49 +85,58 @@ const CanvasOptions = () => {
                 )}
               >
                 {icon}
-              </div>
+              </Button>
             ))}
           </div>
         </div>
 
+        {/* Size Section */}
         <div>
           <h2 className="mb-3 text-lg font-bold">Size</h2>
           <div className="flex flex-wrap gap-2">
             {orientationSizes.map((size) => (
-              <div
+              <Button
+                size={"icon"}
+                variant={"outline"}
                 key={size.name}
+                onClick={() => {
+                  handleSizeChange(size);
+                }}
                 className={cn(
                   "cursor-pointer rounded-lg px-3 py-2 hover:bg-gray-300/50",
-                  canvasOptions.size.width === size.width &&
-                    canvasOptions.size.height === size.height
+                  canvasOptions.size.width / canvasOptions.size.height ===
+                    size.width / size.height
                     ? "scale-105 transform border-2 border-blue-600 bg-blue-500 text-white shadow-lg"
                     : "bg-gray-200"
                 )}
               >
-                <p
-                  className="text-sm font-bold"
-                  onClick={() => {
-                    handleSizeChange(size);
-                  }}
-                >
+                <p className="text-sm font-bold">
                   {size.width}:{size.height}
                 </p>
-              </div>
+              </Button>
             ))}
-            <div
+            <Button
+              size={"icon"}
+              variant={"outline"}
+              onClick={handleResetToOriginal}
               className={cn(
-                "cursor-pointer rounded-lg px-3 py-2 hover:bg-gray-300/50"
+                "w-max cursor-pointer rounded-lg bg-gray-200 px-3 py-2 hover:bg-gray-300/50",
+                canvasOptions.orientation ===
+                  canvasOptions.originalOrientation &&
+                  canvasOptions.size.width ===
+                    canvasOptions.originalSize.width &&
+                  canvasOptions.size.height ===
+                    canvasOptions.originalSize.height
+                  ? "scale-105 transform border-2 border-blue-600 bg-blue-500 text-white shadow-lg"
+                  : ""
               )}
             >
-              <p
-                className="text-sm font-bold"
-                onClick={handleResetToOriginal}
-              >
-                Original
-              </p>
-            </div>
+              <p className="text-sm font-bold">Original</p>
+            </Button>
           </div>
         </div>
+
+        {/* Background Color */}
         <div className="flex w-full items-center justify-between">
           <Label className="text-lg font-bold">Background Color</Label>
           <Input
@@ -141,7 +149,6 @@ const CanvasOptions = () => {
             }}
             type="color"
             className="w-20 text-lg font-semibold"
-            defaultValue="#000000"
           />
         </div>
       </div>
