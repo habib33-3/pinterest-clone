@@ -1,11 +1,6 @@
 import { create } from "zustand";
 
-import type {
-  CanvasOptions,
-  Orientation,
-  TextBoxOptions,
-  TextOptions,
-} from "../types";
+import type { CanvasOptions, TextBoxOptions, TextOptions } from "../types";
 
 type ImageStore = {
   uploadedImage: File | null;
@@ -40,6 +35,11 @@ export const useImageStore = create<ImageStore>((set) => ({
       width: 375,
       height: 667,
     },
+    originalOrientation: "portrait",
+    originalSize: {
+      width: 375,
+      height: 667,
+    },
     backgroundColor: "#ffffff",
   },
   setCanvasOptions: (options) => {
@@ -47,12 +47,7 @@ export const useImageStore = create<ImageStore>((set) => ({
       const updatedOptions =
         typeof options === "function" ? options(state.canvasOptions) : options;
 
-      const orientation: Orientation =
-        updatedOptions.size.width > updatedOptions.size.height
-          ? "landscape"
-          : "portrait";
-
-      return { canvasOptions: { ...updatedOptions, orientation } };
+      return { canvasOptions: updatedOptions };
     });
   },
 

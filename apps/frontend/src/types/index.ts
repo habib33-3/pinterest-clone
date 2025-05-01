@@ -35,6 +35,11 @@ export type CanvasOptions = {
     width: number;
     height: number;
   };
+  originalSize: {
+    width: number;
+    height: number;
+  };
+  originalOrientation: Orientation;
   backgroundColor: string;
 };
 

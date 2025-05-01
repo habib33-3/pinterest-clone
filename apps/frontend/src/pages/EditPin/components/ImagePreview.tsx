@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 import { Trash2Icon } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
@@ -12,30 +10,8 @@ const ImagePreview = () => {
     textBoxOptions,
     textOptions,
     setTextBoxOptions,
-    setCanvasOptions,
+    canvasOptions,
   } = useImageStore();
-
-  useEffect(() => {
-    if (!uploadedImage) return;
-
-    const objectUrl = URL.createObjectURL(uploadedImage);
-    const img = new Image();
-    img.src = objectUrl;
-
-    img.onload = () => {
-      setCanvasOptions((prev) => ({
-        ...prev,
-        size: {
-          width: img.width,
-          height: img.height,
-        },
-      }));
-    };
-
-    return () => {
-      URL.revokeObjectURL(objectUrl);
-    };
-  }, [uploadedImage, setCanvasOptions]);
 
   if (!uploadedImage) return <div>No image</div>;
 
@@ -52,6 +28,10 @@ const ImagePreview = () => {
   return (
     <div className="relative w-[375px] overflow-hidden rounded-4xl">
       <img
+        style={{
+          width: `${String(canvasOptions.size.width)}px`,
+          height: `${String(canvasOptions.size.height)}px`,
+        }}
         src={URL.createObjectURL(uploadedImage)}
         alt="Uploaded preview"
         className="h-auto w-full object-cover object-center"

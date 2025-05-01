@@ -11,14 +11,29 @@ import { Label } from "@/components/ui/label";
 import { useImageStore } from "@/stores/imgStore";
 
 const ImageInput = () => {
-  const { setUploadedImage, uploadedImage } = useImageStore();
+  const { setUploadedImage, uploadedImage, setCanvasOptions } = useImageStore();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setUploadedImage(file);
+      const img = new Image();
+      img.onload = () => {
+        const width = img.width;
+        const height = img.height;
+        const orientation = width > height ? "landscape" : "portrait";
+
+        setUploadedImage(file);
+        setCanvasOptions((prev) => ({
+          ...prev,
+          originalOrientation: orientation,
+          originalSize: { width, height },
+          orientation,
+          size: { width, height },
+        }));
+      };
+      img.src = URL.createObjectURL(file);
     }
   };
 
