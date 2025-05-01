@@ -18,6 +18,14 @@ type CanvasOptions = {
   backgroundColor: string;
 };
 
+type TextBoxOptions = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  text: string;
+};
+
 type ImageStore = {
   uploadedImage: File | null;
   setUploadedImage: (file: File | null) => void;
@@ -25,6 +33,8 @@ type ImageStore = {
   setTextOptions: (options: TextOptions) => void;
   canvasOptions: CanvasOptions;
   setCanvasOptions: (options: CanvasOptions) => void;
+  textBoxOptions: TextBoxOptions;
+  setTextBoxOptions: (options: TextBoxOptions) => void;
 };
 
 export const useImageStore = create<ImageStore>((set) => ({
@@ -33,7 +43,7 @@ export const useImageStore = create<ImageStore>((set) => ({
     set({ uploadedImage: file });
   },
   textOptions: {
-    fontSize: 16, // fixed typo
+    fontSize: 16,
     alignment: "center",
     color: "#000",
   },
@@ -50,5 +60,15 @@ export const useImageStore = create<ImageStore>((set) => ({
   },
   setCanvasOptions: (options) => {
     set({ canvasOptions: options });
+  },
+  textBoxOptions: {
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0,
+    text: "",
+  },
+  setTextBoxOptions: (options) => {
+    set({ textBoxOptions: options });
   },
 }));
