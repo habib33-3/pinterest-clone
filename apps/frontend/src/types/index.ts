@@ -19,3 +19,29 @@ export type User = {
   userName: string;
   avatar: string;
 };
+
+export type TextAlignment = "left" | "center" | "right";
+export type Orientation = "portrait" | "landscape";
+
+export type TextOptions = {
+  fontSize: number;
+  alignment: TextAlignment;
+  color: string;
+};
+
+export type CanvasOptions = {
+  orientation: Orientation;
+  size: {
+    width: number;
+    height: number;
+  };
+  backgroundColor: string;
+};
+
+export type TextBoxOptions = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  text: string;
+};

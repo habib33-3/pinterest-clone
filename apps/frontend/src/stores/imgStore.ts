@@ -1,30 +1,11 @@
 import { create } from "zustand";
 
-type TextAlignment = "left" | "center" | "right";
-type Orientation = "portrait" | "landscape";
-
-type TextOptions = {
-  fontSize: number;
-  alignment: TextAlignment;
-  color: string;
-};
-
-type CanvasOptions = {
-  orientation: Orientation;
-  size: {
-    width: number;
-    height: number;
-  };
-  backgroundColor: string;
-};
-
-type TextBoxOptions = {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  text: string;
-};
+import type {
+  CanvasOptions,
+  Orientation,
+  TextBoxOptions,
+  TextOptions,
+} from "../types";
 
 type ImageStore = {
   uploadedImage: File | null;
@@ -32,7 +13,10 @@ type ImageStore = {
   textOptions: TextOptions;
   setTextOptions: (options: TextOptions) => void;
   canvasOptions: CanvasOptions;
-  setCanvasOptions: (options: CanvasOptions) => void;
+  setCanvasOptions: (
+    options: CanvasOptions | ((prev: CanvasOptions) => CanvasOptions)
+  ) => void;
+
   textBoxOptions: TextBoxOptions;
   setTextBoxOptions: (options: TextBoxOptions) => void;
 };
@@ -56,11 +40,22 @@ export const useImageStore = create<ImageStore>((set) => ({
       width: 375,
       height: 667,
     },
-    backgroundColor: "#fff",
+    backgroundColor: "#ffffff",
   },
   setCanvasOptions: (options) => {
-    set({ canvasOptions: options });
+    set((state) => {
+      const updatedOptions =
+        typeof options === "function" ? options(state.canvasOptions) : options;
+
+      const orientation: Orientation =
+        updatedOptions.size.width > updatedOptions.size.height
+          ? "landscape"
+          : "portrait";
+
+      return { canvasOptions: { ...updatedOptions, orientation } };
+    });
   },
+
   textBoxOptions: {
     x: 0,
     y: 0,
