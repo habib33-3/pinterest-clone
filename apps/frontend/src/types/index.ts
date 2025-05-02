@@ -44,8 +44,8 @@ export type CanvasOptions = {
 };
 
 export type TextBoxOptions = {
-  x: number;
-  y: number;
+  left: number;
+  top: number;
   width: number;
   height: number;
   text: string;

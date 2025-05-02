@@ -5,7 +5,18 @@ import { cn } from "@/lib/utils";
 
 const Layers = () => {
   const { setLayer, layer } = useLayerStore();
-  const { canvasOptions } = useImageStore();
+  const { canvasOptions, setTextBoxOptions } = useImageStore();
+
+  const handleAddText = () => {
+    setLayer("text");
+    setTextBoxOptions({
+      height: 30,
+      left: 50,
+      top: 50,
+      width: 100,
+      text: "",
+    });
+  };
 
   return (
     <div className="mt-10 flex flex-1 flex-col justify-start gap-6 px-4">
@@ -15,9 +26,7 @@ const Layers = () => {
       <div className="flex flex-col gap-4">
         {/* Text Layer Option */}
         <div
-          onClick={() => {
-            setLayer("text");
-          }}
+          onClick={handleAddText}
           className={cn(
             "group flex cursor-pointer items-center gap-3 rounded-xl border bg-white p-4 shadow-sm transition hover:bg-gray-50 hover:shadow-md",
             layer === "text" ? "bg-gray-200/70 shadow-md" : ""

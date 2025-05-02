@@ -48,7 +48,7 @@ const SizeSelectors = () => {
               "cursor-pointer rounded-lg px-3 py-2 hover:bg-gray-300/50",
               canvasOptions.size.width / canvasOptions.size.height ===
                 size.width / size.height
-                ? "scale-105 transform border-2 border-blue-600 bg-blue-500 text-white shadow-lg"
+                ? "scale-105 transform border-2 border-gray-600 bg-gray-500 text-white shadow-lg"
                 : "bg-gray-200"
             )}
           >
@@ -66,7 +66,7 @@ const SizeSelectors = () => {
             canvasOptions.orientation === canvasOptions.originalOrientation &&
               canvasOptions.size.width === canvasOptions.originalSize.width &&
               canvasOptions.size.height === canvasOptions.originalSize.height
-              ? "scale-105 transform border-2 border-blue-600 bg-blue-500 text-white shadow-lg"
+              ? "scale-105 transform border-2 border-gray-600 bg-gray-500 text-white shadow-lg"
               : ""
           )}
         >
