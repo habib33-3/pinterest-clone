@@ -49,6 +49,7 @@ export const registerUserService = async (data: RegisterUserType) => {
             email: true,
             userName: true,
             displayName: true,
+            avatar: true,
             createdAt: true,
             updatedAt: true,
         },

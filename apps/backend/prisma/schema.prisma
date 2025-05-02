@@ -13,7 +13,7 @@ model User {
   password    String
   displayName String
   userName    String  @unique
-  img         String? @default("https://ik.imagekit.io/habav0i4f/general/noAvatar.png")
+  avatar         String? @default("https://ik.imagekit.io/habav0i4f/general/noAvatar.png")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

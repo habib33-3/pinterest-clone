@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import type { ChangeEvent, KeyboardEvent, MouseEvent } from "react";
 import { useCallback, useRef, useState } from "react";
 
@@ -104,8 +103,8 @@ const ImagePreview = () => {
         src={URL.createObjectURL(uploadedImage)}
         alt="Uploaded preview"
         style={{
-          width: `${canvasOptions.size.width}px`,
-          height: `${canvasOptions.size.height}px`,
+          width: `${String(canvasOptions.size.width)}px`,
+          height: `${String(canvasOptions.size.height)}px`,
         }}
         className="h-auto w-full object-cover object-center"
       />
@@ -115,10 +114,10 @@ const ImagePreview = () => {
           className="absolute"
           onMouseDown={handleMouseDown}
           style={{
-            left: `${textBoxOptions.left}px`,
-            top: `${textBoxOptions.top}px`,
-            width: `${textBoxOptions.width}px`,
-            height: `${textBoxOptions.height}px`,
+            left: `${String(textBoxOptions.left)}px`,
+            top: `${String(textBoxOptions.top)}px`,
+            width: `${String(textBoxOptions.width)}px`,
+            height: `${String(textBoxOptions.height)}px`,
           }}
         >
           {isEditing ? (
@@ -135,7 +134,7 @@ const ImagePreview = () => {
                 layer === "text" ? "bg-gray-200/70 shadow-md" : ""
               )}
               style={{
-                fontSize: `${textOptions.fontSize}px`,
+                fontSize: `${String(textOptions.fontSize)}px`,
                 textAlign: textOptions.alignment,
                 color: textOptions.color,
               }}
@@ -147,7 +146,7 @@ const ImagePreview = () => {
               }}
               className="flex h-full w-full cursor-text items-center justify-center px-2 text-center"
               style={{
-                fontSize: `${textOptions.fontSize}px`,
+                fontSize: `${String(textOptions.fontSize)}px`,
                 textAlign: textOptions.alignment,
                 color: textOptions.color,
               }}
