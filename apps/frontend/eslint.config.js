@@ -105,7 +105,6 @@ const unicornRules = {
     "unicorn/no-array-reduce": "off",
     "unicorn/prevent-abbreviations": "off",
     "unicorn/prefer-node-protocol": "off",
-    "no-duplicate-imports": "error",
   },
 };
 
