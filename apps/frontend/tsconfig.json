@@ -23,6 +23,7 @@
       "@/stores/*": ["src/stores/*"],
       "@/types/*": ["src/types/*"],
       "@/ui/*": ["src/components/ui/*"],
+      "@/buttons/*": ["src/components/buttons/*"],
       "@/utils/*": ["src/utils/*"],
       "@/validations/*": ["src/validations/*"],
       "@/components/*": ["src/components/*"]

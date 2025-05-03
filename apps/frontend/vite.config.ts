@@ -18,6 +18,7 @@ export default defineConfig({
       "@/router": path.resolve(__dirname, "src/router"),
       "@/hooks": path.resolve(__dirname, "src/hooks"),
       "@/ui": path.resolve(__dirname, "src/components/ui"),
+      "@/buttons": path.resolve(__dirname, "src/components/buttons"),
       "@/form": path.resolve(__dirname, "src/components/form"),
       "@/shared": path.resolve(__dirname, "src/components/shared"),
       "@/components": path.resolve(__dirname, "src/components"),

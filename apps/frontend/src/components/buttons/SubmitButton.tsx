@@ -2,6 +2,8 @@ import type { ButtonHTMLAttributes } from "react";
 
 import { Loader2 } from "lucide-react";
 
+import { cn } from "@/lib/utils";
+
 import { Button } from "@/ui/button";
 
 type Props = {
@@ -10,17 +12,23 @@ type Props = {
   loadingText?: string;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
-const SubmitButton = ({ loading, title, loadingText, ...props }: Props) => {
+const SubmitButton = ({
+  loading,
+  title,
+  loadingText,
+  className,
+  ...props
+}: Props) => {
   return (
     <Button
       type="submit"
       disabled={loading}
-      className="w-full"
+      className={cn("w-full", className)}
       {...props}
     >
       {loading ? (
         <div className="flex items-center justify-center gap-2">
-          <Loader2 className="h-4 w-4 animate-spin" />
+          <Loader2 className="size-4 animate-spin" />
           <span>{loadingText ?? "Submitting..."}</span>
         </div>
       ) : (

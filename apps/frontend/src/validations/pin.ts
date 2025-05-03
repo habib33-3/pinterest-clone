@@ -4,6 +4,8 @@ export const createPinFormSchema = z.object({
   title: z.string(),
   description: z.string().optional(),
   link: z.string().url().optional(),
+  board: z.string().optional(),
+  newBoardTitle: z.string().optional(),
   tags: z.array(z.string()).optional(),
 });
 

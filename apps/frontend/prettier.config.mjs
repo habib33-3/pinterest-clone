@@ -51,6 +51,7 @@ export default {
     "^@/validations/(.*)$",
     "^@/constants/(.*)$",
     "^@/ui/(.*)$",
+    "^@/buttons/(.*)$",
     "^@/pages/(.*)$",
     "^@/form/(.*)$",
     "^@/router/(.*)$",
