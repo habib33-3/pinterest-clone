@@ -40,7 +40,7 @@ const Sidebar = () => {
 
   return (
     <aside className="sticky top-0 flex h-screen w-20 flex-col items-center justify-between border-r border-solid border-neutral-200 bg-gray-100 px-4 py-6">
-      <Link to={"/"}>
+      <Link to="/">
         <img
           src={logo}
           alt="Logo"
@@ -69,7 +69,7 @@ const Sidebar = () => {
       </ul>
 
       <Link
-        to={"/setting"}
+        to="/setting"
         className="group mt-auto flex h-16 w-16 transform items-center justify-center rounded-full text-gray-600 transition-transform group-hover:text-primary hover:scale-110 hover:bg-gray-200"
       >
         <Settings size={24} />

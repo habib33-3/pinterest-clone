@@ -18,7 +18,7 @@ const EditPin = () => {
   return (
     <div className="mx-auto my-4 max-w-7xl px-2 pb-10">
       <div className="flex w-full items-center justify-end">
-        <Link to={"/create"}>
+        <Link to="/create">
           <Button className="bg-red-700 text-white hover:bg-red-950 active:scale-95">
             Save
           </Button>

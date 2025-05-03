@@ -23,8 +23,8 @@ const TextAlignmentSelector = () => {
       <div className="flex gap-2">
         {alignments.map(({ value, icon }) => (
           <Button
-            size={"icon"}
-            variant={"outline"}
+            size="icon"
+            variant="outline"
             key={value}
             className={cn(
               "cursor-pointer rounded-lg bg-accent p-2",

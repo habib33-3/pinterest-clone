@@ -4,6 +4,7 @@ import typescriptPlugin from "@typescript-eslint/eslint-plugin";
 import typescriptParser from "@typescript-eslint/parser";
 import prettier from "eslint-config-prettier";
 import jsxA11y from "eslint-plugin-jsx-a11y";
+import noUnsanitized from "eslint-plugin-no-unsanitized";
 import reactDom from "eslint-plugin-react-dom";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactX from "eslint-plugin-react-x";
@@ -31,6 +32,7 @@ const typescriptRules = {
     ...typescriptPlugin.configs.recommended.rules,
     ...typescriptPlugin.configs["recommended-requiring-type-checking"].rules,
     ...typescriptPlugin.configs["strict-type-checked"].rules,
+
     "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
     "@typescript-eslint/consistent-type-imports": "error",
     "@typescript-eslint/no-misused-promises": [
@@ -45,6 +47,15 @@ const typescriptRules = {
     "@typescript-eslint/switch-exhaustiveness-check": "error",
     "@typescript-eslint/no-floating-promises": "error",
     "@typescript-eslint/prefer-ts-expect-error": "warn",
+
+    // Additional best practices
+    "@typescript-eslint/consistent-type-definitions": ["error", "type"],
+    "@typescript-eslint/prefer-readonly": "warn",
+    "@typescript-eslint/prefer-enum-initializers": "warn",
+    "@typescript-eslint/no-unnecessary-type-arguments": "warn",
+    "@typescript-eslint/no-unsafe-assignment": "warn",
+    "@typescript-eslint/no-unsafe-member-access": "warn",
+    "@typescript-eslint/no-unsafe-return": "warn",
   },
 };
 
@@ -125,7 +136,6 @@ const globalReactRules = {
     "react/prop-types": "off",
     "react/jsx-key": "error",
     "react/self-closing-comp": "error",
-    "no-console": ["warn", { allow: ["warn", "error", "info"] }],
     "react/jsx-no-constructed-context-values": "warn",
     "react/jsx-boolean-value": "warn",
     "react/destructuring-assignment": ["error", "always"],
@@ -134,6 +144,8 @@ const globalReactRules = {
     "react/no-danger": "error",
     "react/no-unstable-nested-components": "warn",
     "react/jsx-no-leaked-render": "warn",
+
+    "no-console": ["warn", { allow: ["warn", "error", "info"] }],
     "no-implicit-coercion": "warn",
     "prefer-const": "error",
     "no-else-return": "warn",
@@ -150,6 +162,29 @@ const globalReactRules = {
       },
     ],
     "no-alert": "warn",
+
+    // Additional best practices
+    "no-magic-numbers": [
+      "warn",
+      {
+        ignore: [
+          0, 1, -1, 2, 3, 4, 5, 6, 7, 8, 9, 200, 400, 401, 403, 404, 500,
+        ],
+        enforceConst: true,
+      },
+    ],
+    "no-return-await": "error",
+    "prefer-template": "error",
+    "prefer-destructuring": ["warn", { object: true, array: false }],
+    "no-lonely-if": "warn",
+    "object-shorthand": ["error", "always"],
+    "sort-imports": ["warn", { ignoreDeclarationSort: true }],
+    "react/jsx-no-useless-fragment": "warn",
+    "react/no-unused-prop-types": "warn",
+    "react/jsx-curly-brace-presence": [
+      "warn",
+      { props: "never", children: "never" },
+    ],
   },
 };
 
@@ -182,6 +217,23 @@ const securityRules = {
     "security/detect-object-injection": "warn",
     "security/detect-non-literal-regexp": "warn",
     "security/detect-unsafe-regex": "warn",
+    "security/detect-child-process": "error",
+    "security/detect-disable-mustache-escape": "warn",
+    "security/detect-eval-with-expression": "error",
+    "security/detect-new-buffer": "error",
+    "security/detect-no-csrf-before-method-override": "warn",
+    "security/detect-possible-timing-attacks": "warn",
+    "security/detect-non-literal-fs-filename": "warn",
+  },
+};
+
+const noUnsanitizedRules = {
+  plugins: {
+    "no-unsanitized": noUnsanitized,
+  },
+  rules: {
+    "no-unsanitized/method": "error",
+    "no-unsanitized/property": "error",
   },
 };
 
@@ -208,6 +260,7 @@ export default defineConfig([
   globalReactRules,
   jsxA11yRules,
   securityRules,
+  noUnsanitizedRules,
   reactDomReactXRules,
   prettier,
 ]);

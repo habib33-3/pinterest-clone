@@ -14,9 +14,9 @@ export const createUserApi = async ({
   password,
 }: RegisterUserFormSchemaType) => {
   return apiPublic.post<ApiResponse<User>>("/user", {
-    email: email,
-    userName: userName,
-    password: password,
+    email,
+    userName,
+    password,
   });
 };
 
@@ -25,8 +25,8 @@ export const loginUserApi = async ({
   password,
 }: LoginFormSchemaType) => {
   return apiPublic.post<ApiResponse<User>>("/user/login", {
-    email: email,
-    password: password,
+    email,
+    password,
   });
 };
 

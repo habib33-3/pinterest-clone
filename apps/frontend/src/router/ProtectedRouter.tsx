@@ -18,7 +18,7 @@ const ProtectedRouter = ({ children }: PropsWithChildren) => {
     );
   }
 
-  return <>{children}</>;
+  return children;
 };
 
 export default ProtectedRouter;

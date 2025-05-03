@@ -20,8 +20,8 @@ const ImageInput = () => {
     if (file) {
       const img = new Image();
       img.onload = () => {
-        const width = img.width;
-        const height = img.height;
+        const { width } = img;
+        const { height } = img;
         const orientation = width > height ? "landscape" : "portrait";
 
         setUploadedImage(file);
@@ -47,7 +47,7 @@ const ImageInput = () => {
             className="h-full w-full rounded-3xl object-cover"
           />
 
-          <Link to={"/edit-pin"}>
+          <Link to="/edit-pin">
             <Button
               variant="outline"
               className="absolute top-4 right-4 flex transform items-center gap-1 border border-red-700 bg-red-700 px-3 py-1 text-sm text-white shadow-sm transition duration-200 hover:scale-105 hover:bg-red-800 hover:text-white focus:ring-2 focus:ring-red-500 focus:outline-none"
