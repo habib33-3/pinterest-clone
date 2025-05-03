@@ -26,7 +26,13 @@ const Layers = () => {
       <div className="flex flex-col gap-4">
         {/* Text Layer Option */}
         <div
+          role="button"
           onClick={handleAddText}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              handleAddText();
+            }
+          }}
           className={cn(
             "group flex cursor-pointer items-center gap-3 rounded-xl border bg-white p-4 shadow-sm transition hover:bg-gray-50 hover:shadow-md",
             layer === "text" ? "bg-gray-200/70 shadow-md" : ""
@@ -49,8 +55,14 @@ const Layers = () => {
 
         {/* Canvas Layer Option */}
         <div
+          role="button"
           onClick={() => {
             setLayer("canvas");
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              setLayer("canvas");
+            }
           }}
           className={cn(
             "group flex cursor-pointer items-center gap-3 rounded-xl border bg-white p-4 shadow-sm transition hover:bg-gray-50 hover:shadow-md",

@@ -36,6 +36,7 @@ const FormField = <
   ...props
 }: ControllerProps<TFieldValues, TName>) => {
   return (
+    // eslint-disable-next-line react-x/no-unstable-context-value
     <FormFieldContext value={{ name: props.name }}>
       <Controller {...props} />
     </FormFieldContext>
@@ -78,6 +79,7 @@ function FormItem({ className, ...props }: React.ComponentProps<"div">) {
   const id = React.useId();
 
   return (
+    // eslint-disable-next-line react-x/no-unstable-context-value
     <FormItemContext value={{ id }}>
       <div
         data-slot="form-item"
@@ -97,7 +99,7 @@ function FormLabel({
   return (
     <Label
       data-slot="form-label"
-      data-error={!!error}
+      data-error={Boolean(error)}
       className={cn("data-[error=true]:text-destructive", className)}
       htmlFor={formItemId}
       {...props}
@@ -116,7 +118,7 @@ function FormControl({ ...props }: React.ComponentProps<typeof Slot>) {
       aria-describedby={
         !error ? formDescriptionId : `${formDescriptionId} ${formMessageId}`
       }
-      aria-invalid={!!error}
+      aria-invalid={Boolean(error)}
       {...props}
     />
   );
@@ -139,6 +141,7 @@ function FormMessage({ className, ...props }: React.ComponentProps<"p">) {
   const { error, formMessageId } = useFormField();
   const body = error ? String(error.message ?? "") : props.children;
 
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (!body) {
     return null;
   }

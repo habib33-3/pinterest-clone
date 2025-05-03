@@ -16,7 +16,6 @@ import globals from "globals";
 
 const baseJsConfig = js.configs.recommended;
 
-// === ⚡ TypeScript Rules ===
 const typescriptRules = {
   files: ["**/*.ts", "**/*.tsx"],
   languageOptions: {
@@ -43,10 +42,12 @@ const typescriptRules = {
     "@typescript-eslint/ban-ts-comment": "warn",
     "@typescript-eslint/strict-boolean-expressions": "warn",
     "@typescript-eslint/no-empty-interface": "warn",
+    "@typescript-eslint/switch-exhaustiveness-check": "error",
+    "@typescript-eslint/no-floating-promises": "error",
+    "@typescript-eslint/prefer-ts-expect-error": "warn",
   },
 };
 
-// === ⚛️ React Recommended ===
 const reactRecommendedConfig = {
   ...reactRecommended,
   settings: {
@@ -56,10 +57,8 @@ const reactRecommendedConfig = {
   },
 };
 
-// === ⚛️ React JSX Runtime ===
 const reactJsxRuntimeConfig = jsxRuntime;
 
-// === ⚛️ React Hooks ===
 const reactHooksRules = {
   plugins: {
     "react-hooks": reactHooks,
@@ -70,7 +69,6 @@ const reactHooksRules = {
   },
 };
 
-// === 🔍 TanStack Query Rules ===
 const tanstackQueryRules = {
   files: ["**/*.ts", "**/*.tsx"],
   plugins: {
@@ -82,7 +80,6 @@ const tanstackQueryRules = {
   },
 };
 
-// === 🦄 Unicorn Rules ===
 const unicornRules = {
   plugins: {
     unicorn,
@@ -108,7 +105,6 @@ const unicornRules = {
   },
 };
 
-// === 🌍 Environment and React Core Rules ===
 const globalReactRules = {
   languageOptions: {
     globals: {
@@ -136,20 +132,48 @@ const globalReactRules = {
     "react/no-array-index-key": "warn",
     "react/no-deprecated": "warn",
     "react/no-danger": "error",
+    "react/no-unstable-nested-components": "warn",
+    "react/jsx-no-leaked-render": "warn",
+    "no-implicit-coercion": "warn",
+    "prefer-const": "error",
+    "no-else-return": "warn",
+    "no-unused-expressions": "warn",
+    "consistent-return": "warn",
+    eqeqeq: ["error", "always"],
+    "no-throw-literal": "warn",
+    "no-restricted-syntax": [
+      "warn",
+      {
+        selector: "ForInStatement",
+        message:
+          "for..in loops iterate over the entire prototype chain. Use Object.{keys,values,entries}, and iterate over the resulting array.",
+      },
+    ],
+    "no-alert": "warn",
   },
 };
 
-// === ♿ JSX Accessibility Rules ===
 const jsxA11yRules = {
   plugins: {
     "jsx-a11y": jsxA11y,
   },
   rules: {
     ...jsxA11y.recommended,
+    "jsx-a11y/anchor-is-valid": [
+      "error",
+      {
+        components: ["Link"],
+        specialLink: ["hrefLeft", "hrefRight"],
+        aspects: ["invalidHref", "preferButton"],
+      },
+    ],
+    "jsx-a11y/alt-text": "warn",
+    "jsx-a11y/click-events-have-key-events": "warn",
+    "jsx-a11y/no-static-element-interactions": "warn",
+    "jsx-a11y/no-noninteractive-element-interactions": "warn",
   },
 };
 
-// === 🔒 Security Plugin Rules ===
 const securityRules = {
   plugins: {
     security,
@@ -161,10 +185,6 @@ const securityRules = {
   },
 };
 
-// === 💅 Prettier Config ===
-const prettierRules = prettier;
-
-// === 🧠 React DOM & React X Rules (Safe Load) ===
 const reactDomReactXRules = {
   plugins: {
     "react-x": reactX,
@@ -176,7 +196,6 @@ const reactDomReactXRules = {
   },
 };
 
-// === 🧠 Final Export ===
 export default defineConfig([
   globalIgnores(["**/node_modules/", "**/dist/"]),
   baseJsConfig,
@@ -190,5 +209,5 @@ export default defineConfig([
   jsxA11yRules,
   securityRules,
   reactDomReactXRules,
-  prettierRules,
+  prettier,
 ]);

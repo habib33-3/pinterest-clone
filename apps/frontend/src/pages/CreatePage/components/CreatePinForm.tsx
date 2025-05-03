@@ -157,7 +157,7 @@ const CreatePinForm = () => {
                 )}
               />
 
-              {isNewBoard && (
+              {isNewBoard ? (
                 <div className="mt-4 rounded-lg border border-dashed p-4">
                   <h4 className="mb-2 text-lg font-semibold">
                     Create New Board
@@ -177,7 +177,7 @@ const CreatePinForm = () => {
                     )}
                   />
                 </div>
-              )}
+              ) : null}
             </div>
           </form>
         </Form>

@@ -6,6 +6,8 @@ import { cn } from "@/lib/utils";
 
 import type { TextAlignment } from "@/types/index";
 
+import { Button } from "@/ui/button";
+
 const alignments = [
   { value: "left", icon: <AlignLeft className="size-5" /> },
   { value: "center", icon: <AlignCenter className="size-5" /> },
@@ -20,7 +22,9 @@ const TextAlignmentSelector = () => {
       <p className="text-lg font-bold">Alignment</p>
       <div className="flex gap-2">
         {alignments.map(({ value, icon }) => (
-          <div
+          <Button
+            size={"icon"}
+            variant={"outline"}
             key={value}
             className={cn(
               "cursor-pointer rounded-lg bg-accent p-2",
@@ -34,7 +38,7 @@ const TextAlignmentSelector = () => {
             }}
           >
             {icon}
-          </div>
+          </Button>
         ))}
       </div>
     </div>

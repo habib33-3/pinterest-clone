@@ -93,6 +93,7 @@ const ImagePreview = () => {
 
   return (
     <div
+      role="button"
       className="relative w-[375px] overflow-hidden rounded-4xl"
       ref={containerRef}
       onMouseMove={handleMouseMove}
@@ -111,6 +112,7 @@ const ImagePreview = () => {
 
       {textBoxOptions.width > 0 && textBoxOptions.height > 0 && (
         <div
+          role="button"
           className="absolute"
           onMouseDown={handleMouseDown}
           style={{
@@ -141,6 +143,7 @@ const ImagePreview = () => {
             />
           ) : (
             <div
+              role="button"
               onDoubleClick={() => {
                 setIsEditing(true);
               }}
@@ -155,7 +158,7 @@ const ImagePreview = () => {
             </div>
           )}
 
-          {textBoxOptions.text && isEditing && (
+          {textBoxOptions.text && isEditing ? (
             <button
               type="button"
               aria-label="Delete Text"
@@ -168,7 +171,7 @@ const ImagePreview = () => {
             >
               <Trash2Icon className="size-5 text-red-500" />
             </button>
-          )}
+          ) : null}
         </div>
       )}
     </div>
