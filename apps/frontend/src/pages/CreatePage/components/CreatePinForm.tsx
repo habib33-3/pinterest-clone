@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { X } from "lucide-react";
 import { useForm } from "react-hook-form";
 
 import { useImageStore } from "@/stores/imgStore";
@@ -12,7 +13,9 @@ import {
   createPinFormSchema,
 } from "@/validations/pin";
 
-import { Form, FormField, FormItem, FormLabel } from "@/ui/form";
+import { Badge } from "@/ui/badge";
+import { Button } from "@/ui/button";
+import { Form, FormField, FormItem, FormLabel, FormMessage } from "@/ui/form";
 import { Input } from "@/ui/input";
 import {
   Select,
@@ -28,6 +31,7 @@ import SubmitButton from "@/buttons/SubmitButton";
 const CreatePinForm = () => {
   const { uploadedImage } = useImageStore();
   const [isNewBoard, setIsNewBoard] = useState(false);
+  const [tags, setTags] = useState<string[]>([]);
 
   const form = useForm<CreatePinFormSchemaType>({
     resolver: zodResolver(createPinFormSchema),
@@ -41,8 +45,24 @@ const CreatePinForm = () => {
     },
   });
 
+  const handleAddTags = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const input = e.target as HTMLInputElement;
+    const value = input.value.trim();
+
+    if ((e.key === "Enter" || e.key === ",") && value) {
+      e.preventDefault();
+      if (!tags.includes(value)) {
+        const updatedTags = [...tags, value];
+        setTags(updatedTags);
+        form.setValue("tags", updatedTags);
+        form.clearErrors("tags");
+      }
+      input.value = "";
+    }
+  };
+
   const onSubmit = (data: CreatePinFormSchemaType) => {
-    console.info(data);
+    console.log(data);
   };
 
   return (
@@ -76,6 +96,7 @@ const CreatePinForm = () => {
                       placeholder="Enter pin title"
                       className="rounded-lg border border-gray-300 bg-muted px-4 py-3 text-base focus:ring-2 focus:ring-primary focus:outline-none dark:border-gray-700"
                     />
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -92,6 +113,7 @@ const CreatePinForm = () => {
                       placeholder="Add a description..."
                       className="rounded-lg border border-gray-300 bg-muted px-4 py-3 text-base focus:ring-2 focus:ring-primary focus:outline-none dark:border-gray-700"
                     />
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -108,6 +130,7 @@ const CreatePinForm = () => {
                       placeholder="Paste a destination link (optional)"
                       className="rounded-lg border border-gray-300 bg-muted px-4 py-3 text-base focus:ring-2 focus:ring-primary focus:outline-none dark:border-gray-700"
                     />
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -115,16 +138,49 @@ const CreatePinForm = () => {
               <FormField
                 control={form.control}
                 name="tags"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Tags</FormLabel>
-                    <Input
-                      {...field}
-                      disabled={!uploadedImage}
-                      placeholder="Comma-separated tags (e.g. travel, beach)"
-                      className="rounded-lg border border-gray-300 bg-muted px-4 py-3 text-base focus:ring-2 focus:ring-primary focus:outline-none dark:border-gray-700"
-                    />
-                  </FormItem>
+                render={() => (
+                  <div className="flex flex-col space-y-2">
+                    <FormItem>
+                      <FormLabel>Tags</FormLabel>
+
+                      <Input
+                        type="text"
+                        placeholder="Type and press enter or comma"
+                        onKeyDown={(e) => {
+                          handleAddTags(e);
+                        }}
+                        disabled={!uploadedImage}
+                        className="rounded-lg border border-gray-300 bg-muted px-4 py-3 text-base focus:ring-2 focus:ring-primary focus:outline-none dark:border-gray-700"
+                      />
+                      <FormMessage />
+                    </FormItem>
+                    <div className="rounded-lg px-4 py-3">
+                      <div className="mb-2 flex flex-wrap gap-2">
+                        {tags.map((tag, index) => (
+                          <Badge
+                            key={tag}
+                            className="flex items-center gap-2 rounded-full bg-green-600 px-2 py-1 text-sm text-white shadow-md transition duration-300 ease-in-out hover:shadow-lg"
+                          >
+                            {tag}
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => {
+                                const newTags = tags.filter(
+                                  (_, i) => i !== index
+                                );
+                                setTags(newTags);
+                                form.setValue("tags", newTags);
+                              }}
+                              className="ml-2 transition duration-200"
+                            >
+                              <X className="size-3" />
+                            </Button>
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                 )}
               />
 
@@ -153,6 +209,7 @@ const CreatePinForm = () => {
                         <SelectItem value="food">Food</SelectItem>
                       </SelectContent>
                     </Select>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -173,6 +230,7 @@ const CreatePinForm = () => {
                           placeholder="e.g. Travel Ideas"
                           className="rounded-lg border border-gray-300 bg-muted px-4 py-3 text-base focus:ring-2 focus:ring-primary focus:outline-none dark:border-gray-700"
                         />
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
