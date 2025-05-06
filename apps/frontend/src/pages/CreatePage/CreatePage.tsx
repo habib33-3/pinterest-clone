@@ -1,5 +1,5 @@
-import CreatePinForm from "./components/CreatePinForm";
-import ImageInput from "./components/ImageInput";
+import CreatePinForm from "./form/CreatePinForm";
+import ImageInput from "./form/ImageInput";
 
 const CreatePage = () => {
   return (

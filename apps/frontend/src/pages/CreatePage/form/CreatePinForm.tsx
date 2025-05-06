@@ -1,23 +1,6 @@
-import { useState } from "react";
-
-import { useNavigate } from "react-router";
-
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
 import { X } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-
-import { useImageStore } from "@/stores/imgStore";
-
-import { createPinApi } from "@/api/pinApi";
 
 import { cn } from "@/lib/utils";
-
-import {
-  type CreatePinFormSchemaType,
-  createPinFormSchema,
-} from "@/validations/pin";
 
 import { Badge } from "@/ui/badge";
 import { Button } from "@/ui/button";
@@ -34,73 +17,20 @@ import { Textarea } from "@/ui/textarea";
 
 import SubmitButton from "@/buttons/SubmitButton";
 
+import { useCreatePinForm } from "./hook/useCreatePin";
+
 const CreatePinForm = () => {
-  const { uploadedImage, textBoxOptions, textOptions, canvasOptions } =
-    useImageStore();
-  const [isNewBoard, setIsNewBoard] = useState(false);
-  const [tags, setTags] = useState<string[]>([]);
-
-  const navigate = useNavigate();
-
-  const form = useForm<CreatePinFormSchemaType>({
-    resolver: zodResolver(createPinFormSchema),
-    defaultValues: {
-      title: "",
-      description: "",
-      link: "",
-      newBoardTitle: "",
-      board: "",
-      tags: [],
-    },
-  });
-
-  const handleAddTags = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    const input = e.target as HTMLInputElement;
-    const value = input.value.trim();
-
-    if ((e.key === "Enter" || e.key === ",") && value) {
-      e.preventDefault();
-      if (!tags.includes(value)) {
-        const updatedTags = [...tags, value];
-        setTags(updatedTags);
-        form.setValue("tags", updatedTags);
-        form.clearErrors("tags");
-      }
-      input.value = "";
-    }
-  };
-
-  const mutation = useMutation({
-    mutationKey: ["pin"],
-    mutationFn: (data: CreatePinFormSchemaType) =>
-      createPinApi(data, uploadedImage, {
-        canvasOptions,
-        textOptions,
-        textBoxOptions,
-      }),
-    onSuccess: () => {
-      form.reset();
-      setTags([]);
-      setIsNewBoard(false);
-      void navigate("/");
-
-      toast.success("Pin created successfully");
-    },
-    onError: () => {
-      toast.error("Failed to create pin");
-    },
-  });
-
-  const onSubmit = (data: CreatePinFormSchemaType) => {
-    if (tags.length === 0) {
-      toast.error("Please add at least one tag");
-      return;
-    }
-
-    if (uploadedImage) {
-      mutation.mutate(data);
-    }
-  };
+  const {
+    form,
+    isNewBoard,
+    setIsNewBoard,
+    onSubmit,
+    mutation,
+    handleAddTags,
+    setTags,
+    tags,
+    uploadedImage,
+  } = useCreatePinForm();
 
   return (
     <div className="flex flex-1 items-start justify-center px-6 py-10 md:px-10">
@@ -128,8 +58,9 @@ const CreatePinForm = () => {
                 name="title"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Title</FormLabel>
+                    <FormLabel htmlFor="title">Title</FormLabel>
                     <Input
+                      id="title"
                       {...field}
                       disabled={!uploadedImage}
                       placeholder="Enter pin title"
@@ -145,8 +76,9 @@ const CreatePinForm = () => {
                 name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Description</FormLabel>
+                    <FormLabel htmlFor="description">Description</FormLabel>
                     <Textarea
+                      id="description"
                       {...field}
                       disabled={!uploadedImage}
                       placeholder="Add a description..."
@@ -162,9 +94,10 @@ const CreatePinForm = () => {
                 name="link"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Link</FormLabel>
+                    <FormLabel htmlFor="link">Link</FormLabel>
                     <Input
                       {...field}
+                      id="link"
                       disabled={!uploadedImage}
                       placeholder="Paste a destination link (optional)"
                       className="rounded-lg border border-gray-300 bg-muted px-4 py-3 text-base focus:ring-2 focus:ring-primary focus:outline-none dark:border-gray-700"
@@ -180,10 +113,11 @@ const CreatePinForm = () => {
                 render={() => (
                   <div className="flex flex-col space-y-2">
                     <FormItem>
-                      <FormLabel>Tags</FormLabel>
+                      <FormLabel htmlFor="tags">Tags</FormLabel>
 
                       <Input
                         type="text"
+                        id="tags"
                         placeholder="Type and press enter or comma"
                         onKeyDown={(e) => {
                           handleAddTags(e);
@@ -263,8 +197,11 @@ const CreatePinForm = () => {
                     name="newBoardTitle"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Board Name</FormLabel>
+                        <FormLabel htmlFor="newBoardTitle">
+                          Board Name
+                        </FormLabel>
                         <Input
+                          id="newBoardTitle"
                           {...field}
                           placeholder="e.g. Travel Ideas"
                           className="rounded-lg border border-gray-300 bg-muted px-4 py-3 text-base focus:ring-2 focus:ring-primary focus:outline-none dark:border-gray-700"

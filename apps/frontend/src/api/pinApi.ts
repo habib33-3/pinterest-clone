@@ -74,7 +74,5 @@ export const createPinApi = async (
     }
   );
 
-  console.log(res.data.data);
-
   return res.data.data;
 };

@@ -10,6 +10,8 @@ export const createPinFormSchema = z
     tags: z.array(z.string()).optional(),
   })
   .superRefine((data, ctx) => {
+    console.log(data);
+
     if (!data.board && !data.newBoardTitle) {
       ctx.addIssue({
         path: ["board"],
