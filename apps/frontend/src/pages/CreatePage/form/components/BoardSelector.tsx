@@ -1,4 +1,6 @@
-import { Controller } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
+
+import type { CreatePinFormSchemaType } from "@/validations/pin";
 
 import { FormField, FormItem, FormLabel, FormMessage } from "@/ui/form";
 import { Input } from "@/ui/input";
@@ -10,15 +12,28 @@ import {
   SelectValue,
 } from "@/ui/select";
 
-// Import Controller
+import useGetAllBoards from "../hook/useGetAllBoards";
 
-import { useCreatePinForm } from "../hook/useCreatePin";
+type BoardSelectorProps = {
+  isNewBoard: boolean;
+  setIsNewBoard: (value: boolean) => void;
+};
 
-const SelectBoard = () => {
-  const { form, isNewBoard, setIsNewBoard } = useCreatePinForm();
+const BoardSelector = ({ isNewBoard, setIsNewBoard }: BoardSelectorProps) => {
+  const form = useFormContext<CreatePinFormSchemaType>();
+
+  const { boards, status } = useGetAllBoards();
+
+  if (status === "pending") {
+    return <div>Loading...</div>;
+  }
+
+  if (status === "error") {
+    return <div>Error</div>;
+  }
 
   return (
-    <div>
+    <>
       <FormField
         control={form.control}
         name="board"
@@ -29,11 +44,6 @@ const SelectBoard = () => {
               onValueChange={(val) => {
                 field.onChange(val);
                 setIsNewBoard(val === "new-board");
-
-                // Reset the newBoardTitle when selecting an existing board
-                if (val !== "new-board") {
-                  form.setValue("newBoardTitle", "");
-                }
               }}
               defaultValue={field.value}
             >
@@ -43,6 +53,15 @@ const SelectBoard = () => {
               <SelectContent>
                 <SelectItem value="new-board">Create New Board</SelectItem>
                 {/* Replace with actual dynamic board list */}
+
+                {boards.map((board) => (
+                  <SelectItem
+                    key={board.id}
+                    value={board.id}
+                  >
+                    {board.title}
+                  </SelectItem>
+                ))}
                 <SelectItem value="travel">Travel</SelectItem>
                 <SelectItem value="food">Food</SelectItem>
               </SelectContent>
@@ -55,13 +74,14 @@ const SelectBoard = () => {
       {isNewBoard ? (
         <div className="mt-4 rounded-lg border border-dashed p-4">
           <h4 className="mb-2 text-lg font-semibold">Create New Board</h4>
-          <Controller
+          <FormField
             control={form.control}
             name="newBoardTitle"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Board Name</FormLabel>
+                <FormLabel htmlFor="newBoardTitle">Board Name</FormLabel>
                 <Input
+                  id="newBoardTitle"
                   {...field}
                   placeholder="e.g. Travel Ideas"
                   className="rounded-lg border border-gray-300 bg-muted px-4 py-3 text-base focus:ring-2 focus:ring-primary focus:outline-none dark:border-gray-700"
@@ -72,8 +92,8 @@ const SelectBoard = () => {
           />
         </div>
       ) : null}
-    </div>
+    </>
   );
 };
 
-export default SelectBoard;
+export default BoardSelector;

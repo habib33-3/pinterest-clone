@@ -1,3 +1,5 @@
+import type { AxiosResponse } from "axios";
+
 type Meta = {
   page: number;
   limit: number;
@@ -11,3 +13,5 @@ export type ApiResponse<T> = {
   meta?: Meta;
   data?: T | null;
 };
+
+export type ApiAxiosResponse<T> = AxiosResponse<ApiResponse<T>>;

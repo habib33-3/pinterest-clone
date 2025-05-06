@@ -1,22 +1,13 @@
-import { X } from "lucide-react";
-
 import { cn } from "@/lib/utils";
 
-import { Badge } from "@/ui/badge";
-import { Button } from "@/ui/button";
 import { Form, FormField, FormItem, FormLabel, FormMessage } from "@/ui/form";
 import { Input } from "@/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/ui/select";
 import { Textarea } from "@/ui/textarea";
 
 import SubmitButton from "@/buttons/SubmitButton";
 
+import BoardSelector from "./components/BoardSelector";
+import TagInput from "./components/TagInput";
 import { useCreatePinForm } from "./hook/useCreatePin";
 
 const CreatePinForm = () => {
@@ -111,107 +102,28 @@ const CreatePinForm = () => {
                 control={form.control}
                 name="tags"
                 render={() => (
-                  <div className="flex flex-col space-y-2">
-                    <FormItem>
-                      <FormLabel htmlFor="tags">Tags</FormLabel>
-
-                      <Input
-                        type="text"
-                        id="tags"
-                        placeholder="Type and press enter or comma"
-                        onKeyDown={(e) => {
-                          handleAddTags(e);
-                        }}
-                        disabled={!uploadedImage}
-                        className="rounded-lg border border-gray-300 bg-muted px-4 py-3 text-base focus:ring-2 focus:ring-primary focus:outline-none dark:border-gray-700"
-                      />
-                      <FormMessage />
-                    </FormItem>
-                    <div className="rounded-lg px-4 py-3">
-                      <div className="mb-2 flex flex-wrap gap-2">
-                        {tags.map((tag, index) => (
-                          <Badge
-                            key={tag}
-                            className="flex items-center gap-2 rounded-full bg-green-600 px-2 py-1 text-sm text-white shadow-md transition duration-300 ease-in-out hover:shadow-lg"
-                          >
-                            {tag}
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              onClick={() => {
-                                const newTags = tags.filter(
-                                  (_, i) => i !== index
-                                );
-                                setTags(newTags);
-                                form.setValue("tags", newTags);
-                              }}
-                              className="ml-2 transition duration-200"
-                            >
-                              <X className="size-3" />
-                            </Button>
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
+                  <TagInput
+                    tags={tags}
+                    setTags={(newTags) => {
+                      setTags(newTags);
+                      form.setValue("tags", newTags);
+                    }}
+                    handleAddTags={handleAddTags}
+                    disabled={!uploadedImage}
+                  />
                 )}
               />
 
               <FormField
                 control={form.control}
                 name="board"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Board</FormLabel>
-                    <Select
-                      onValueChange={(val) => {
-                        field.onChange(val);
-                        setIsNewBoard(val === "new-board");
-                      }}
-                      defaultValue={field.value}
-                    >
-                      <SelectTrigger className="w-full rounded-lg border border-gray-300 bg-muted px-4 py-3 text-base focus:ring-2 focus:ring-primary focus:outline-none dark:border-gray-700">
-                        <SelectValue placeholder="Select a board" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="new-board">
-                          Create New Board
-                        </SelectItem>
-                        {/* Replace with actual dynamic board list */}
-                        <SelectItem value="travel">Travel</SelectItem>
-                        <SelectItem value="food">Food</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
+                render={() => (
+                  <BoardSelector
+                    isNewBoard={isNewBoard}
+                    setIsNewBoard={setIsNewBoard}
+                  />
                 )}
               />
-
-              {isNewBoard ? (
-                <div className="mt-4 rounded-lg border border-dashed p-4">
-                  <h4 className="mb-2 text-lg font-semibold">
-                    Create New Board
-                  </h4>
-                  <FormField
-                    control={form.control}
-                    name="newBoardTitle"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel htmlFor="newBoardTitle">
-                          Board Name
-                        </FormLabel>
-                        <Input
-                          id="newBoardTitle"
-                          {...field}
-                          placeholder="e.g. Travel Ideas"
-                          className="rounded-lg border border-gray-300 bg-muted px-4 py-3 text-base focus:ring-2 focus:ring-primary focus:outline-none dark:border-gray-700"
-                        />
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              ) : null}
             </div>
           </form>
         </Form>

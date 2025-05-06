@@ -15,3 +15,9 @@ export type Pin = {
   board: string;
   tags: string[];
 };
+
+export type Board = {
+  id: string;
+  title: string;
+  pins: Pin[];
+};
