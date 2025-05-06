@@ -1,8 +1,12 @@
 import { useState } from "react";
 
+import { useNavigate } from "react-router";
+
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { X } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 import { useImageStore } from "@/stores/imgStore";
 
@@ -36,6 +40,8 @@ const CreatePinForm = () => {
   const [isNewBoard, setIsNewBoard] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
 
+  const navigate = useNavigate();
+
   const form = useForm<CreatePinFormSchemaType>({
     resolver: zodResolver(createPinFormSchema),
     defaultValues: {
@@ -64,15 +70,35 @@ const CreatePinForm = () => {
     }
   };
 
-  const onSubmit = async (data: CreatePinFormSchemaType) => {
-    const createNewBoard = data.board === "new-board";
-
-    if (uploadedImage) {
-      await createPinApi(data, createNewBoard, uploadedImage, {
+  const mutation = useMutation({
+    mutationKey: ["pin"],
+    mutationFn: (data: CreatePinFormSchemaType) =>
+      createPinApi(data, uploadedImage, {
         canvasOptions,
         textOptions,
         textBoxOptions,
-      });
+      }),
+    onSuccess: () => {
+      form.reset();
+      setTags([]);
+      setIsNewBoard(false);
+      void navigate("/");
+
+      toast.success("Pin created successfully");
+    },
+    onError: () => {
+      toast.error("Failed to create pin");
+    },
+  });
+
+  const onSubmit = (data: CreatePinFormSchemaType) => {
+    if (tags.length === 0) {
+      toast.error("Please add at least one tag");
+      return;
+    }
+
+    if (uploadedImage) {
+      mutation.mutate(data);
     }
   };
 
@@ -90,7 +116,9 @@ const CreatePinForm = () => {
             <div className="flex items-center justify-end">
               <SubmitButton
                 className="w-32"
-                loading={form.formState.isSubmitting}
+                loading={
+                  mutation.status === "pending" || form.formState.isSubmitting
+                }
                 title="Publish"
               />
             </div>

@@ -15,7 +15,6 @@ import type { Pin } from "../types";
 
 export const createPinApi = async (
   data: CreatePinFormSchemaType,
-  createNewBoard: boolean,
   uploadedImage: File | null,
   options: {
     canvasOptions?: CanvasOptions;
@@ -45,10 +44,6 @@ export const createPinApi = async (
 
   if (data.board) {
     formData.append("board", data.board);
-  }
-
-  if (createNewBoard) {
-    formData.append("createNewBoard", String(createNewBoard));
   }
 
   if (data.tags && data.tags.length > 0) {
