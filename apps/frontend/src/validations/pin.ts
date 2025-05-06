@@ -7,6 +7,7 @@ export const createPinFormSchema = z.object({
   board: z.string().optional(),
   newBoardTitle: z.string().optional(),
   tags: z.array(z.string()).optional(),
+  // createNewBoard:z.boolean().default(false)
 });
 
 export type CreatePinFormSchemaType = z.infer<typeof createPinFormSchema>;

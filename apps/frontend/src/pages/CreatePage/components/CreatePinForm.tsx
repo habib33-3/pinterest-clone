@@ -6,6 +6,8 @@ import { useForm } from "react-hook-form";
 
 import { useImageStore } from "@/stores/imgStore";
 
+import { createPinApi } from "@/api/pinApi";
+
 import { cn } from "@/lib/utils";
 
 import {
@@ -29,7 +31,8 @@ import { Textarea } from "@/ui/textarea";
 import SubmitButton from "@/buttons/SubmitButton";
 
 const CreatePinForm = () => {
-  const { uploadedImage } = useImageStore();
+  const { uploadedImage, textBoxOptions, textOptions, canvasOptions } =
+    useImageStore();
   const [isNewBoard, setIsNewBoard] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
 
@@ -61,8 +64,16 @@ const CreatePinForm = () => {
     }
   };
 
-  const onSubmit = (data: CreatePinFormSchemaType) => {
-    console.log(data);
+  const onSubmit = async (data: CreatePinFormSchemaType) => {
+    const createNewBoard = data.board === "new-board";
+
+    if (uploadedImage) {
+      await createPinApi(data, createNewBoard, uploadedImage, {
+        canvasOptions,
+        textOptions,
+        textBoxOptions,
+      });
+    }
   };
 
   return (

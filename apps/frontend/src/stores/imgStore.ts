@@ -1,6 +1,10 @@
 import { create } from "zustand";
 
-import type { CanvasOptions, TextBoxOptions, TextOptions } from "../types";
+import type {
+  CanvasOptions,
+  TextBoxOptions,
+  TextOptions,
+} from "@/types/editingOptions";
 
 type ImageStore = {
   uploadedImage: File | null;
