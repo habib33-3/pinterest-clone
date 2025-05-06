@@ -8,18 +8,14 @@ import sendResponse from "@/shared/sendResponse";
 
 import type { CreatePinType } from "@/validations/pin.validation";
 
-import { createNewPinAndBoard } from "@/services/pin.services";
+import { createPinService } from "@/services/pin.services";
 
 export const createPinHandler = asyncHandler(async (req: Request<{}, {}, CreatePinType>, res) => {
     if (!req.file) {
         throw new ApiError(StatusCodes.BAD_REQUEST, "No file uploaded");
     }
 
-    let result;
-
-    if (req.body.createNewBoard) {
-        result = await createNewPinAndBoard(req.body, req?.user?.id as string, req.file);
-    }
+    const result = await createPinService(req.body, req.file, req.user?.id as string);
 
     sendResponse(req, res, {
         message: "Pin uploaded successfully",

@@ -1,5 +1,6 @@
 import { Router } from "express";
 
+import { boardRouter } from "./board.route";
 import { pinRouter } from "./pin.route";
 import { userRouter } from "./user.route";
 
@@ -13,6 +14,11 @@ const routes = [
     {
         path: "/pin",
         router: pinRouter,
+    },
+
+    {
+        path: "/board",
+        router: boardRouter,
     },
 ];
 

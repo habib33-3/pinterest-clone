@@ -12,7 +12,7 @@ export const createPinSchema = z.object({
             }
             return value;
         }, z.array(z.string())),
-        createNewBoard: z.preprocess((val) => val === "true" || val === true, z.boolean()),
+
         newBoardTitle: z.string().optional(),
         canvasOptions: z.string(),
         textOptions: z.string(),

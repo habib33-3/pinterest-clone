@@ -52,7 +52,6 @@ const BoardSelector = ({ isNewBoard, setIsNewBoard }: BoardSelectorProps) => {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="new-board">Create New Board</SelectItem>
-                {/* Replace with actual dynamic board list */}
 
                 {boards.map((board) => (
                   <SelectItem
@@ -62,8 +61,6 @@ const BoardSelector = ({ isNewBoard, setIsNewBoard }: BoardSelectorProps) => {
                     {board.title}
                   </SelectItem>
                 ))}
-                <SelectItem value="travel">Travel</SelectItem>
-                <SelectItem value="food">Food</SelectItem>
               </SelectContent>
             </Select>
             <FormMessage />

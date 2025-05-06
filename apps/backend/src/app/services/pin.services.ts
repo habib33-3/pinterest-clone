@@ -8,45 +8,64 @@ import type { CreatePinType } from "@/validations/pin.validation";
 
 import { prisma } from "@/db/prisma";
 
-export const createBoardService = async (title: string, user: string) => {
-    return prisma.board.create({
-        data: {
-            title,
-            userId: user,
-        },
-    });
-};
-
-export const createNewPinAndBoard = async (
+export const createPinService = async (
     data: CreatePinType,
-    user: string,
-    img: Express.Multer.File
+    uploadedImage: Express.Multer.File,
+    user: string
 ) => {
-    const uploadedImg = await uploadImageToImageKit(img, "pins");
+    if (!data?.board && !data?.newBoardTitle) {
+        throw new ApiError(StatusCodes.BAD_REQUEST, "New Board Title or Board Id is required");
+    }
 
-    return prisma.$transaction(async (tx) => {
-        console.dir(data, {
-            depth: Infinity,
+    if (
+        data.board === "new-board" &&
+        (!data?.newBoardTitle || String(data.newBoardTitle).trim() === "")
+    ) {
+        throw new ApiError(
+            StatusCodes.BAD_REQUEST,
+            "New Board Title is required when creating a new board"
+        );
+    }
+
+    const img = await uploadImageToImageKit(uploadedImage, "pins");
+
+    if (data.newBoardTitle !== undefined) {
+        return prisma.$transaction(async (tx) => {
+            const boardTitle = data.newBoardTitle as string;
+            const board = await tx.board.create({
+                data: {
+                    title: boardTitle,
+                    userId: user,
+                },
+            });
+
+            return tx.pin.create({
+                data: {
+                    title: data.title,
+                    description: data.description ?? "",
+                    link: data.link ?? "",
+                    media: img.url,
+                    boardId: board.id,
+                    width: img.width,
+                    height: img.height,
+                    userId: user,
+                },
+            });
         });
+    }
 
-        const board = await tx.board.create({
+    if (data.board) {
+        return prisma.pin.create({
             data: {
-                title: data.newBoardTitle as string,
-                userId: user,
-            },
-        });
-
-        return tx.pin.create({
-            data: {
-                description: data.description ?? "",
-                height: uploadedImg.height,
-                link: data.link ?? "",
-                media: uploadedImg.url,
                 title: data.title,
-                width: uploadedImg.width,
-                boardId: board.id,
+                description: data.description ?? "",
+                link: data.link ?? "",
+                media: img.url,
+                boardId: data.board,
+                width: img.width,
+                height: img.height,
                 userId: user,
             },
         });
-    });
+    }
 };
