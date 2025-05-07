@@ -1,5 +1,59 @@
 import { z } from "zod";
 
+export const canvasOptionsSchema = z
+    .object({
+        orientation: z.enum(["portrait", "landscape"]),
+        size: z.object({
+            width: z.number(),
+            height: z.number(),
+        }),
+        originalSize: z.object({
+            width: z.number(),
+            height: z.number(),
+        }),
+        originalOrientation: z.enum(["portrait", "landscape"]),
+        backgroundColor: z.string(),
+    })
+    .default({
+        orientation: "portrait",
+        size: { width: 375, height: 667 },
+        originalSize: { width: 375, height: 667 },
+        originalOrientation: "portrait",
+        backgroundColor: "#ffffff",
+    });
+
+export const textOptionsSchema = z
+    .object({
+        fontSize: z.number(),
+        alignment: z.enum(["left", "center", "right"]),
+        color: z.string(),
+    })
+    .default({
+        fontSize: 16,
+        alignment: "center",
+        color: "#000000",
+    });
+
+export const textBoxOptionsSchema = z
+    .object({
+        left: z.number(),
+        top: z.number(),
+        width: z.number(),
+        height: z.number(),
+        text: z.string(),
+    })
+    .default({
+        left: 50,
+        top: 50,
+        width: 100,
+        height: 30,
+        text: "",
+    });
+
+export type CanvasOptionsType = z.infer<typeof canvasOptionsSchema>;
+export type TextOptionsType = z.infer<typeof textOptionsSchema>;
+export type TextBoxOptionsType = z.infer<typeof textBoxOptionsSchema>;
+
 export const createPinSchema = z.object({
     body: z.object({
         title: z.string(),

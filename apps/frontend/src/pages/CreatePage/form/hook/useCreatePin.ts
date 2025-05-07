@@ -15,7 +15,7 @@ import type { CreatePinFormSchemaType } from "@/validations/pin";
 import { createPinFormSchema } from "@/validations/pin";
 
 export const useCreatePinForm = () => {
-  const { uploadedImage, textBoxOptions, textOptions, canvasOptions } =
+  const { uploadedImage, textBoxOptions, textOptions, canvasOptions, reset } =
     useImageStore();
   const [isNewBoard, setIsNewBoard] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
@@ -60,6 +60,7 @@ export const useCreatePinForm = () => {
     onSuccess: () => {
       form.reset();
       setTags([]);
+      reset();
       setIsNewBoard(false);
       void navigate("/");
 

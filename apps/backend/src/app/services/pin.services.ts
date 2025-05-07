@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 
-import { uploadImageToImageKit } from "@/lib/image-kit";
+import { getImageKitTransformationString, uploadImageToImageKit } from "@/lib/image-kit";
 
 import ApiError from "@/shared/ApiError";
 
@@ -27,7 +27,15 @@ export const createPinService = async (
         );
     }
 
-    const img = await uploadImageToImageKit(uploadedImage, "pins");
+    const img = await uploadImageToImageKit(uploadedImage, "pins", {
+        canvasOptionsString: data.canvasOptions,
+        textOptionsString: data.textOptions,
+        textBoxOptionsString: data.textBoxOptions,
+    });
+
+    if (!img) {
+        throw new ApiError(StatusCodes.BAD_REQUEST, "Image upload failed");
+    }
 
     if (data.newBoardTitle !== undefined) {
         return prisma.$transaction(async (tx) => {
