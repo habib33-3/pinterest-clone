@@ -68,6 +68,15 @@ export const createPinSchema = z.object({
         }, z.array(z.string())),
 
         newBoardTitle: z.string().optional(),
+        newBoardDescription: z.string().optional(),
+        isNewBoardPrivate: z
+            .preprocess((val) => {
+                if (typeof val === "string") {
+                    return val === "true";
+                }
+                return val;
+            }, z.boolean())
+            .optional(),
         canvasOptions: z.string(),
         textOptions: z.string(),
         textBoxOptions: z.string(),

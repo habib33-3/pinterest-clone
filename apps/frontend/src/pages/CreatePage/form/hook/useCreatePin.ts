@@ -30,6 +30,8 @@ export const useCreatePinForm = () => {
       newBoardTitle: "",
       board: "",
       tags: [],
+      isBoardPrivate: false,
+      newBoardDescription: "",
     },
   });
 

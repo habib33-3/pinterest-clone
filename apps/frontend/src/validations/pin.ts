@@ -8,6 +8,8 @@ export const createPinFormSchema = z
     board: z.string().optional(),
     newBoardTitle: z.string().optional(),
     tags: z.array(z.string()).optional(),
+    isBoardPrivate: z.boolean().optional(),
+    newBoardDescription: z.string().optional(),
   })
   .superRefine((data, ctx) => {
     if (!data.board && !data.newBoardTitle) {

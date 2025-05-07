@@ -26,10 +26,6 @@ export const createPinApi = async (
 
   formData.append("title", data.title);
 
-  if (uploadedImage) {
-    formData.append("image", uploadedImage);
-  }
-
   if (data.description) {
     formData.append("description", data.description);
   }
@@ -40,6 +36,14 @@ export const createPinApi = async (
 
   if (data.newBoardTitle) {
     formData.append("newBoardTitle", data.newBoardTitle);
+  }
+
+  if (data.newBoardDescription) {
+    formData.append("newBoardDescription", data.newBoardDescription);
+  }
+
+  if (data.isBoardPrivate !== undefined) {
+    formData.append("isNewBoardPrivate", String(data.isBoardPrivate));
   }
 
   if (data.board) {
@@ -62,6 +66,10 @@ export const createPinApi = async (
 
   if (options.textBoxOptions) {
     formData.append("textBoxOptions", JSON.stringify(options.textBoxOptions));
+  }
+
+  if (uploadedImage) {
+    formData.append("image", uploadedImage);
   }
 
   const res = await apiPrivate.post<AxiosResponse<ApiResponse<Pin>>>(
