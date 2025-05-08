@@ -19,5 +19,8 @@ export type Pin = {
 export type Board = {
   id: string;
   title: string;
+  thumbnail: string;
+  description: string;
+  isPrivate: boolean;
   pins: Pin[];
 };

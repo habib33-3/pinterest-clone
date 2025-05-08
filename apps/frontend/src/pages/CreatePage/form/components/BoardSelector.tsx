@@ -1,3 +1,4 @@
+import { PlusIcon } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 
 import type { CreatePinFormSchemaType } from "@/validations/pin";
@@ -53,14 +54,28 @@ const BoardSelector = ({ isNewBoard, setIsNewBoard }: BoardSelectorProps) => {
                 <SelectValue placeholder="Select a board" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="new-board">Create New Board</SelectItem>
+                <SelectItem
+                  className="text-primary-600 mt-2 border-t border-muted pt-2 font-semibold"
+                  value="new-board"
+                >
+                  Create New Board <PlusIcon className="font-bold" />
+                </SelectItem>
 
                 {boards.map((board) => (
                   <SelectItem
                     key={board.id}
                     value={board.id}
                   >
-                    {board.title}
+                    <div className="flex items-center gap-2">
+                      <div className="rounded-xl p-1">
+                        <img
+                          className="size-8 object-contain object-center"
+                          src={board.thumbnail}
+                          alt=""
+                        />
+                      </div>
+                      <h4 className="text-lg font-semibold">{board.title}</h4>
+                    </div>
                   </SelectItem>
                 ))}
               </SelectContent>
