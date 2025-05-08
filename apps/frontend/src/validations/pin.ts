@@ -4,7 +4,24 @@ export const createPinFormSchema = z
   .object({
     title: z.string(),
     description: z.string().optional(),
-    link: z.string().optional(),
+    link: z
+      .string()
+      .optional()
+      .refine(
+        (value) => {
+          if (!value) return true;
+          try {
+            new URL(value);
+            return true;
+          } catch {
+            return false;
+          }
+        },
+        {
+          message: "Link must be a valid URL",
+        }
+      ),
+
     board: z.string().optional(),
     newBoardTitle: z.string().optional(),
     tags: z.array(z.string()).optional(),
