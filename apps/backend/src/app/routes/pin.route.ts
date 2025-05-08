@@ -6,7 +6,7 @@ import uploadImage from "@/middlewares/uploadImage.middleware";
 import validationMiddleware from "@/middlewares/validation.middleware";
 import verifyAuth from "@/middlewares/verifyAuth.middleware";
 
-import { createPinHandler } from "@/controllers/pin.controllers";
+import { createPinHandler, getAllPinsHandler } from "@/controllers/pin.controllers";
 
 const router = Router();
 
@@ -17,5 +17,7 @@ router.post(
     validationMiddleware(createPinSchema),
     createPinHandler
 );
+
+router.get("/", getAllPinsHandler);
 
 export const pinRouter = router;

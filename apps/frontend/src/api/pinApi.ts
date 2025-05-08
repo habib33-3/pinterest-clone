@@ -84,3 +84,8 @@ export const createPinApi = async (
 
   return res.data.data;
 };
+
+export const getAllPinsApi = async (): Promise<ApiResponse<Pin[]>> => {
+  const res = await apiPrivate.get<ApiResponse<Pin[]>>("/pin");
+  return res.data;
+};

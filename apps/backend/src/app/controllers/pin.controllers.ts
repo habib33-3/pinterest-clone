@@ -8,7 +8,7 @@ import sendResponse from "@/shared/sendResponse";
 
 import type { CreatePinType } from "@/validations/pin.validation";
 
-import { createPinService } from "@/services/pin.services";
+import { createPinService, getAllPinsService } from "@/services/pin.services";
 
 export const createPinHandler = asyncHandler(async (req: Request<{}, {}, CreatePinType>, res) => {
     if (!req.file) {
@@ -21,5 +21,14 @@ export const createPinHandler = asyncHandler(async (req: Request<{}, {}, CreateP
         message: "Pin uploaded successfully",
         data: result,
         statusCode: StatusCodes.CREATED,
+    });
+});
+
+export const getAllPinsHandler = asyncHandler(async (req, res) => {
+    const result = await getAllPinsService();
+
+    sendResponse(req, res, {
+        message: "Pins fetched successfully",
+        data: result,
     });
 });

@@ -10,7 +10,7 @@ export type Pin = {
   id: string;
   title: string;
   description: string;
-  image: string;
+  media: string;
   link: string;
   board: string;
   tags: string[];

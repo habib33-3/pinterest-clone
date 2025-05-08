@@ -107,3 +107,7 @@ export const createPinService = async (
 
     return createPinOnExistingBoard(data, img, user.id);
 };
+
+export const getAllPinsService = async () => {
+    return prisma.pin.findMany();
+};
