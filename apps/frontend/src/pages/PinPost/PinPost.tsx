@@ -21,7 +21,7 @@ const PinPost = () => {
 
   return (
     <div className="mx-auto min-h-screen max-w-7xl p-10">
-      <div className="flex">
+      <div className="flex items-center justify-center">
         <PinImage pin={pin} />
       </div>
     </div>

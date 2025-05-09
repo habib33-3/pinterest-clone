@@ -2,6 +2,8 @@ import { Link } from "react-router";
 
 import type { Pin } from "@/types/index";
 
+import InteractionsButtons from "./InteractionsButtons";
+
 type Props = {
   pin: Pin;
 };
@@ -15,7 +17,7 @@ const PinImage = ({ pin }: Props) => {
   } = pin;
 
   return (
-    <div className="overflow-hidden rounded-xl bg-white shadow-lg transition">
+    <div className="overflow-hidden rounded-xl bg-white">
       <div className="w-full bg-gray-100">
         <img
           src={media}
@@ -24,6 +26,7 @@ const PinImage = ({ pin }: Props) => {
         />
       </div>
       <div className="space-y-2 p-4">
+        <InteractionsButtons />
         <div className="flex items-center gap-2">
           <img
             src={avatar}

@@ -1,11 +1,13 @@
 import { Link } from "react-router";
 
-import { Ellipsis, MoveUpRight, Share } from "lucide-react";
+import { MoveUpRight } from "lucide-react";
 
 import type { Pin } from "@/types/index";
 
 import { Button } from "@/ui/button";
 import { Card } from "@/ui/card";
+
+import ShareMoreButtons from "@/buttons/ShareMoreButtons";
 
 type Props = {
   pin: Pin;
@@ -42,21 +44,8 @@ const PinCard = ({ pin }: Props) => {
               ) : null}
             </div>
           </div>
-          <div className="absolute right-4 bottom-4 flex items-center gap-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            <Button
-              variant="ghost"
-              className="group/share flex items-center border-2 border-gray-700 bg-white"
-            >
-              <Share className="transition-all duration-300 group-hover/share:-translate-y-1" />
-            </Button>
-            <Button
-              variant="ghost"
-              className="group/share flex items-center border-2 border-gray-700 bg-white"
-              title="More"
-            >
-              <Ellipsis className="transition-all duration-300 group-hover/share:-translate-y-1" />
-            </Button>
-          </div>
+
+          <ShareMoreButtons className="absolute right-4 bottom-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
         </Card>
       </div>
     </Link>
