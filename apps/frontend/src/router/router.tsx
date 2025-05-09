@@ -6,6 +6,7 @@ import CreatePage from "@/pages/CreatePage/CreatePage";
 import EditPin from "@/pages/EditPin/EditPin";
 import HomePage from "@/pages/HomePage/HomePage";
 import LoginPage from "@/pages/LoginPage/LoginPage";
+import PinPost from "@/pages/PinPost/PinPost";
 
 import ProtectedRouter from "./ProtectedRouter";
 
@@ -32,6 +33,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRouter>
             <EditPin />
+          </ProtectedRouter>
+        ),
+      },
+      {
+        path: "pin/:id",
+        element: (
+          <ProtectedRouter>
+            <PinPost />
           </ProtectedRouter>
         ),
       },

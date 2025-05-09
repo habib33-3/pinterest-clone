@@ -111,3 +111,30 @@ export const createPinService = async (
 export const getAllPinsService = async () => {
     return prisma.pin.findMany();
 };
+
+export const getSinglePinByIdService = async (pinId: string) => {
+    const pin = await prisma.pin.findUnique({
+        where: { id: pinId },
+        select: {
+            user: {
+                select: {
+                    id: true,
+                    displayName: true,
+                    avatar: true,
+                },
+            },
+            id: true,
+            title: true,
+            description: true,
+            link: true,
+            media: true,
+            tags: true,
+        },
+    });
+
+    if (!pin) {
+        throw new ApiError(StatusCodes.NOT_FOUND, "Pin not found");
+    }
+
+    return pin;
+};

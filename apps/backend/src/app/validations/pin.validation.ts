@@ -84,3 +84,11 @@ export const createPinSchema = z.object({
 });
 
 export type CreatePinType = z.infer<typeof createPinSchema>["body"];
+
+export const getSinglePinByIdSchema = z.object({
+    params: z.object({
+        pinId: z.string().uuid(),
+    }),
+});
+
+export type GetSinglePinByIdType = z.infer<typeof getSinglePinByIdSchema>["params"];

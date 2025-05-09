@@ -14,6 +14,12 @@ export type Pin = {
   link: string;
   board: string;
   tags: string[];
+  user: {
+    id: string;
+    email: string;
+    displayName: string;
+    avatar: string;
+  };
 };
 
 export type Board = {
