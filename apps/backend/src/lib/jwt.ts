@@ -1,6 +1,9 @@
-import jwt, { type SignOptions } from "jsonwebtoken";
+import { StatusCodes } from "http-status-codes";
+import jwt, { JsonWebTokenError, type SignOptions, TokenExpiredError } from "jsonwebtoken";
 
 import { env } from "@/config/env.config";
+
+import ApiError from "@/shared/ApiError";
 
 import type { TokenPayload } from "@/types";
 
@@ -14,5 +17,16 @@ export const createToken = (payload: TokenPayload): string => {
 };
 
 export const verifyToken = (token: string) => {
-    return jwt.verify(token, env.JWT_SECRET) as TokenPayload;
+    try {
+        return jwt.verify(token, env.JWT_SECRET) as TokenPayload;
+    } catch (error) {
+        if (error instanceof JsonWebTokenError) {
+            throw new ApiError(StatusCodes.UNAUTHORIZED, "Invalid token");
+        }
+        if (error instanceof TokenExpiredError) {
+            throw new ApiError(StatusCodes.UNAUTHORIZED, "Token expired");
+        }
+
+        throw new ApiError(StatusCodes.UNAUTHORIZED, "Token verification failed");
+    }
 };

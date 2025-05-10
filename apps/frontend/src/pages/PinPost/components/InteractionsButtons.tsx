@@ -1,28 +1,39 @@
-import { useState } from "react";
-
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import { MessageCircle } from "lucide-react";
 import { IoIosHeart, IoIosHeartEmpty } from "react-icons/io";
+
+import { cn } from "@/lib/utils";
 
 import { Button } from "@/ui/button";
 
 import ShareMoreButtons from "@/buttons/ShareMoreButtons";
 
+import useLikePin from "../hooks/useLikePin";
+
 const InteractionsButtons = () => {
-  const [isLiked, setIsLiked] = useState(false);
+  const { isLiking, likePin } = useLikePin();
+  // const {data,status}=useGetPinsLikeCount()
+
+  const isLiked = false;
 
   return (
     <div>
       <div className="flex items-center justify-start gap-3">
         <Button
           onClick={() => {
-            setIsLiked(!isLiked);
+            likePin();
           }}
           className="group/like flex items-center justify-center rounded-full bg-gray-100 p-2 transition-all duration-300 hover:bg-gray-200"
           variant="ghost"
           size="icon"
           aria-label="Like"
         >
-          <span className="text-red-500 transition-transform duration-300 group-hover/like:scale-110">
+          <span
+            className={cn(
+              "text-red-500 transition-transform duration-300 group-hover/like:scale-110",
+              isLiking && "animate-pop"
+            )}
+          >
             {isLiked ? (
               <IoIosHeart className="size-6" />
             ) : (

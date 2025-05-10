@@ -17,7 +17,7 @@ const PinImage = ({ pin }: Props) => {
   } = pin;
 
   return (
-    <div className="overflow-hidden rounded-xl bg-white">
+    <div className="w-1/2 overflow-hidden rounded-xl bg-white">
       <div className="w-full bg-gray-100">
         <img
           src={media}

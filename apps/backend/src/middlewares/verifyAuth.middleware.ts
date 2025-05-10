@@ -10,8 +10,9 @@ const verifyAuth = (req: Request, res: Response, next: NextFunction): void => {
     if (!token) {
         res.status(StatusCodes.UNAUTHORIZED).json({
             success: false,
-            message: "Unauthorized",
+            message: "No token provided, unauthorized",
         });
+
         return;
     }
 
@@ -19,10 +20,11 @@ const verifyAuth = (req: Request, res: Response, next: NextFunction): void => {
         const decoded = verifyToken(token);
         req.user = decoded;
         next();
-    } catch (_err) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
         res.status(StatusCodes.UNAUTHORIZED).json({
             success: false,
-            message: "Invalid or expired token",
+            message: err.message,
         });
     }
 };

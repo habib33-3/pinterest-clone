@@ -94,5 +94,6 @@ export const getSinglePinByIdApi = async (
   id: string
 ): Promise<ApiResponse<Pin>> => {
   const res = await apiPrivate.get<ApiResponse<Pin>>(`/pin/${id}`);
+
   return res.data;
 };
