@@ -1,6 +1,5 @@
-import type { AxiosResponse } from "axios";
-
 import { apiPrivate } from "@/lib/api/apiPrivate";
+import { apiPublic } from "@/lib/api/apiPublic";
 
 import type { ApiAxiosResponse, ApiResponse } from "@/types/response";
 
@@ -13,8 +12,8 @@ export const likePinApi = async (pinId: string) => {
 };
 
 export const getPinsCountApi = async (pinId: string) => {
-  const res = await apiPrivate.get<
-    AxiosResponse<ApiResponse<{ isLiked: boolean; count: number }>>
+  const res = await apiPublic.get<
+    ApiResponse<{ count: number; isLiked: boolean }>
   >(`/like/pin/${pinId}`);
 
   return res.data;

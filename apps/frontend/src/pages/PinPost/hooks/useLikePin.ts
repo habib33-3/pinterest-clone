@@ -18,7 +18,7 @@ const useLikePin = () => {
     mutationKey: ["like", pinId],
     onSuccess: (data) => {
       if (pinId) {
-        void queryClient.invalidateQueries({ queryKey: ["pin", pinId] });
+        void queryClient.invalidateQueries({ queryKey: ["like", pinId] });
       }
       toast.success(data.data.message);
     },
