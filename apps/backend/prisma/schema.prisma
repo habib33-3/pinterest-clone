@@ -95,7 +95,7 @@ model Like {
 
 model Comment {
   id          String @id @default(uuid())
-  description String
+  comment String
 
   pinId String
   pin   Pin    @relation(fields: [pinId], references: [id])

@@ -30,3 +30,13 @@ export type Board = {
   isPrivate: boolean;
   pins: Pin[];
 };
+
+export type Comment = {
+  id: string;
+  comment: string;
+  user: {
+    id: string;
+    displayName: string;
+    avatar: string;
+  };
+};
