@@ -1,8 +1,8 @@
 import useGetAllPins from "@/hooks/pin/useGetAllPins";
 
-import { Skeleton } from "@/ui/skeleton";
+import PinCard from "@/shared/PinCard/PinCard";
 
-import PinCard from "./components/PinCard";
+import { Skeleton } from "@/ui/skeleton";
 
 const HomePage = () => {
   const { pins, status } = useGetAllPins();

@@ -14,7 +14,12 @@ import type {
     RegisterUserType,
 } from "@/validations/user.validations";
 
-import { followUserService, registerUserService, userLoginService } from "@/services/user.services";
+import {
+    followUserService,
+    getUsersProfileService,
+    registerUserService,
+    userLoginService,
+} from "@/services/user.services";
 
 export const registerUserHandler = asyncHandler(
     async (req: Request<{}, {}, RegisterUserType>, res) => {
@@ -62,6 +67,17 @@ export const followUserHandler = asyncHandler(async (req: Request<{}, {}, Follow
 
     sendResponse(req, res, {
         message: result.message,
+        data: result,
+    });
+});
+
+export const getUsersProfileHandler = asyncHandler(async (req, res) => {
+    const { userName } = req.params;
+
+    const result = await getUsersProfileService(userName);
+
+    sendResponse(req, res, {
+        message: "Users fetched successfully",
         data: result,
     });
 });

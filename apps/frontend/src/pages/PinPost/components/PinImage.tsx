@@ -13,7 +13,7 @@ const PinImage = ({ pin }: Props) => {
     media,
     title,
     description,
-    user: { displayName, avatar, id: userId },
+    user: { displayName, avatar, userName },
   } = pin;
 
   return (
@@ -33,7 +33,7 @@ const PinImage = ({ pin }: Props) => {
             className="size-10 rounded-full"
             alt=""
           />
-          <Link to={`/profile/${userId}`}>
+          <Link to={`/profile/${userName}`}>
             <h5 className="ml-2 text-lg font-semibold hover:underline">
               {displayName}
             </h5>

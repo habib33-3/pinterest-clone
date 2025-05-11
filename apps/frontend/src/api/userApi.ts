@@ -1,12 +1,14 @@
 import { apiPrivate } from "@/lib/api/apiPrivate";
 import { apiPublic } from "@/lib/api/apiPublic";
 
+import type { ApiResponse } from "@/types/response";
+
 import type {
   LoginFormSchemaType,
   RegisterUserFormSchemaType,
 } from "@/validations/auth";
 
-import type { ApiResponse, User } from "../types";
+import type { User, UserProfile } from "../types";
 
 export const createUserApi = async ({
   email,
@@ -32,4 +34,12 @@ export const loginUserApi = async ({
 
 export const logoutApi = async () => {
   return apiPrivate.post("/user/logout");
+};
+
+export const getUserProfileApi = async (userName: string) => {
+  const res = await apiPrivate.get<ApiResponse<UserProfile>>(
+    `/user/profile/${userName}`
+  );
+
+  return res.data.data;
 };

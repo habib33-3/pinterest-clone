@@ -14,22 +14,26 @@ type Props = {
 };
 
 const PinCard = ({ pin }: Props) => {
-  const { media, link, id } = pin;
+  const { media, link, id, width, height } = pin;
 
   return (
     <Link to={`/pin/${id}`}>
       <div className="group mb-4 cursor-pointer break-inside-avoid rounded-2xl border-1">
-        <Card className="relative overflow-hidden rounded-lg shadow">
+        <Card className="relative overflow-hidden rounded-lg shadow group-hover:opacity-80">
           <img
             src={media}
+            style={{
+              width,
+              height,
+            }}
             alt={pin.title}
             className="block h-auto w-full object-contain"
           />
           <div className="absolute bottom-4 left-6 w-full opacity-0 transition-opacity duration-300 group-hover:opacity-100">
             <div className="flex items-center justify-between px-2">
               {link ? (
-                <Link
-                  to={link}
+                <a
+                  href={link}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -40,7 +44,7 @@ const PinCard = ({ pin }: Props) => {
                     <MoveUpRight className="transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
                     <p className="text-sm font-semibold">Visit Website</p>
                   </Button>
-                </Link>
+                </a>
               ) : null}
             </div>
           </div>

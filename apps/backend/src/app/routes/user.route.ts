@@ -11,6 +11,7 @@ import verifyAuth from "@/middlewares/verifyAuth.middleware";
 
 import {
     followUserHandler,
+    getUsersProfileHandler,
     registerUserHandler,
     userLoginHandler,
     userLogoutHandler,
@@ -25,5 +26,7 @@ router.post("/login", validationMiddleware(loginUserSchema), userLoginHandler);
 router.post("/logout", verifyAuth, userLogoutHandler);
 
 router.post("/follow", verifyAuth, validationMiddleware(followUserSchema), followUserHandler);
+
+router.get("/profile/:userName", getUsersProfileHandler);
 
 export const userRouter = router;

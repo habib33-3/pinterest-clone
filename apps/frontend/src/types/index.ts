@@ -1,6 +1,6 @@
 export type User = {
   id: string;
-  name: string;
+  displayName: string;
   email: string;
   userName: string;
   avatar: string;
@@ -14,12 +14,9 @@ export type Pin = {
   link: string;
   board: string;
   tags: string[];
-  user: {
-    id: string;
-    email: string;
-    displayName: string;
-    avatar: string;
-  };
+  width: number;
+  height: number;
+  user: User;
 };
 
 export type Board = {
@@ -28,15 +25,19 @@ export type Board = {
   thumbnail: string;
   description: string;
   isPrivate: boolean;
+  userId: string;
   pins: Pin[];
 };
 
 export type Comment = {
   id: string;
   comment: string;
-  user: {
-    id: string;
-    displayName: string;
-    avatar: string;
+  user: User;
+};
+
+export type UserProfile = {
+  user: User & {
+    Board: Board[];
+    Pin: Pin[];
   };
 };

@@ -70,7 +70,7 @@ export const userLoginService = async (email: string, password: string) => {
     const user = await findUserByEmail(email);
 
     if (!user) {
-        throw new ApiError(StatusCodes.NOT_FOUND, "User not found");
+        throw new ApiError(StatusCodes.NOT_FOUND, "User with this email not found");
     }
 
     const isPasswordMatch = await compareHashData(user.password, password);
@@ -121,4 +121,45 @@ export const followUserService = async (followerId: string, followingId: string)
     });
 
     return { message: "You are now following this user" };
+};
+
+export const getUsersProfileService = async (userName: string) => {
+    const user = await prisma.user.findUnique({
+        where: {
+            userName,
+        },
+        select: {
+            id: true,
+            email: true,
+            userName: true,
+            displayName: true,
+            avatar: true,
+            Board: {
+                select: {
+                    id: true,
+                    title: true,
+                    description: true,
+                    thumbnail: true,
+                    userId: true,
+                    isPrivate: true,
+                },
+            },
+            Pin: {
+                select: {
+                    id: true,
+                    title: true,
+                    media: true,
+                    width: true,
+                    height: true,
+                    link: true,
+                },
+            },
+        },
+    });
+
+    if (!user) {
+        throw new ApiError(StatusCodes.NOT_FOUND, "User not found");
+    }
+
+    return { user };
 };

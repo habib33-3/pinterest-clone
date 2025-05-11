@@ -7,6 +7,7 @@ import EditPin from "@/pages/EditPin/EditPin";
 import HomePage from "@/pages/HomePage/HomePage";
 import LoginPage from "@/pages/LoginPage/LoginPage";
 import PinPost from "@/pages/PinPost/PinPost";
+import UserProfile from "@/pages/UserProfile/UserProfile";
 
 import ProtectedRouter from "./ProtectedRouter";
 
@@ -43,6 +44,11 @@ const router = createBrowserRouter([
             <PinPost />
           </ProtectedRouter>
         ),
+      },
+
+      {
+        path: "/profile/:userName",
+        element: <UserProfile />,
       },
     ],
   },
