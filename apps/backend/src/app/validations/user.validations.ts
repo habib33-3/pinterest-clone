@@ -22,11 +22,3 @@ export const loginUserSchema = z.object({
 });
 
 export type LoginUserType = z.infer<typeof loginUserSchema>["body"];
-
-export const followUserSchema = z.object({
-    body: z.object({
-        followingId: z.string().uuid(),
-    }),
-});
-
-export type FollowUserType = z.infer<typeof followUserSchema>["body"];

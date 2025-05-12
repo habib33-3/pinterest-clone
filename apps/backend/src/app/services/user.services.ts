@@ -17,6 +17,10 @@ export const findUserById = async (id: string) => {
     return prisma.user.findUnique({ where: { id } });
 };
 
+export const findUserByUsername = async (userName: string) => {
+    return prisma.user.findUnique({ where: { userName } });
+};
+
 export const registerUserService = async (data: RegisterUserType) => {
     const isEmailExists = await findUserByEmail(data.email);
 
@@ -90,37 +94,6 @@ export const userLoginService = async (email: string, password: string) => {
         user: userWithoutPassword,
         token,
     };
-};
-
-export const followUserService = async (followerId: string, followingId: string) => {
-    if (followerId === followingId) {
-        throw new ApiError(StatusCodes.BAD_REQUEST, "You cannot follow yourself");
-    }
-
-    const userToFollow = await findUserById(followingId);
-    if (!userToFollow) {
-        throw new ApiError(StatusCodes.NOT_FOUND, "User not found");
-    }
-
-    const isAlreadyFollowing = await prisma.follow.findFirst({
-        where: {
-            followerId,
-            followingId,
-        },
-    });
-
-    if (isAlreadyFollowing) {
-        return { message: "You are already following this user" };
-    }
-
-    await prisma.follow.create({
-        data: {
-            followerId,
-            followingId,
-        },
-    });
-
-    return { message: "You are now following this user" };
 };
 
 export const getUsersProfileService = async (userName: string) => {

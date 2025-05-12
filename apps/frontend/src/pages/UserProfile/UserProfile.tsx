@@ -6,14 +6,15 @@ import { Button } from "@/ui/button";
 import { Skeleton } from "@/ui/skeleton";
 
 import Created from "./components/Created";
+import FollowMessageButton from "./components/FollowMessageButton";
 import Saved from "./components/Saved";
 import useGetUsersProfile from "./hooks/useGetUsersProfile";
 
+const tabs = ["Created", "Saved"] as const;
+type TabType = (typeof tabs)[number];
+
 const UserProfile = () => {
   const { status, profile } = useGetUsersProfile();
-
-  const tabs = ["Created", "Saved"] as const;
-  type TabType = (typeof tabs)[number];
 
   const [isTab, setIsTab] = useState<TabType>("Saved");
 
@@ -45,15 +46,7 @@ const UserProfile = () => {
         </div>
       </div>
 
-      <div className="mt-6 flex items-center justify-center gap-3">
-        <Button>Follow</Button>
-        <Button
-          variant="secondary"
-          className="border shadow-sm"
-        >
-          Message
-        </Button>
-      </div>
+      <FollowMessageButton userProfile={profile.user} />
 
       <div className="mt-10 flex items-center justify-center">
         <div className="flex items-center justify-center gap-4">
@@ -77,7 +70,6 @@ const UserProfile = () => {
         </div>
       </div>
 
-      {/* Tab Content */}
       <div className="mt-6">
         {isTab === "Created" && <Created pins={profile.user.Pin} />}
         {isTab === "Saved" && <Saved boards={profile.user.Board} />}

@@ -8,14 +8,9 @@ import asyncHandler from "@/shared/asyncHandler";
 import { COOKIE_NAME } from "@/shared/constants";
 import sendResponse from "@/shared/sendResponse";
 
-import type {
-    FollowUserType,
-    LoginUserType,
-    RegisterUserType,
-} from "@/validations/user.validations";
+import type { LoginUserType, RegisterUserType } from "@/validations/user.validations";
 
 import {
-    followUserService,
     getUsersProfileService,
     registerUserService,
     userLoginService,
@@ -55,19 +50,6 @@ export const userLogoutHandler = asyncHandler(async (req, res) => {
 
     sendResponse(req, res, {
         message: "User logout successfully",
-    });
-});
-
-export const followUserHandler = asyncHandler(async (req: Request<{}, {}, FollowUserType>, res) => {
-    const { followingId } = req.body;
-
-    const followerId = req.user?.id as string;
-
-    const result = await followUserService(followerId, followingId);
-
-    sendResponse(req, res, {
-        message: result.message,
-        data: result,
     });
 });
 

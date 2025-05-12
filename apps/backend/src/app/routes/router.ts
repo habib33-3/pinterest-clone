@@ -2,6 +2,7 @@ import { Router } from "express";
 
 import { boardRouter } from "./board.route";
 import { commentRouter } from "./comment.route";
+import { followRouter } from "./follow.route";
 import { likeRouter } from "./like.route";
 import { pinRouter } from "./pin.route";
 import { userRouter } from "./user.route";
@@ -32,6 +33,10 @@ const routes: {
     {
         path: "/comment",
         router: commentRouter,
+    },
+    {
+        path: "/follow",
+        router: followRouter,
     },
 ];
 
