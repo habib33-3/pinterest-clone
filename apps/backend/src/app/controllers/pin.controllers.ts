@@ -29,7 +29,9 @@ export const createPinHandler = asyncHandler(async (req: Request<{}, {}, CreateP
 });
 
 export const getAllPinsHandler = asyncHandler(async (req, res) => {
-    const result = await getAllPinsService();
+    const { search } = req.query as { search: string };
+
+    const result = await getAllPinsService(search);
 
     sendResponse(req, res, {
         message: "Pins fetched successfully",
