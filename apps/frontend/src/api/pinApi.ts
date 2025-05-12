@@ -1,6 +1,7 @@
 import type { AxiosResponse } from "axios";
 
 import { apiPrivate } from "@/lib/api/apiPrivate";
+import { apiPublic } from "@/lib/api/apiPublic";
 
 import type {
   CanvasOptions,
@@ -97,7 +98,7 @@ export const getAllPinsApi = async (
 export const getSinglePinByIdApi = async (
   id: string
 ): Promise<ApiResponse<Pin>> => {
-  const res = await apiPrivate.get<ApiResponse<Pin>>(`/pin/${id}`);
+  const res = await apiPublic.get<ApiResponse<Pin>>(`/pin/${id}`);
 
   return res.data;
 };

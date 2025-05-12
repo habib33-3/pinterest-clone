@@ -26,7 +26,6 @@ const handleImageUpload = async (file: Express.Multer.File, data: CreatePinType)
 };
 
 const createNewBoardWithPin = async (data: CreatePinType, img: UploadResponse, user: string) => {
-    const isPrivate = Boolean(data.isNewBoardPrivate);
     const boardTitle = data.newBoardTitle as string;
 
     return prisma.$transaction(async (tx) => {
@@ -36,7 +35,7 @@ const createNewBoardWithPin = async (data: CreatePinType, img: UploadResponse, u
                 userId: user,
                 thumbnail: img.url,
                 description: data.newBoardDescription ?? "",
-                isPrivate,
+                isPrivate: data.isNewBoardPrivate,
             },
         });
 

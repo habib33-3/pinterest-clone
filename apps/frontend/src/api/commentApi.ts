@@ -1,6 +1,7 @@
 import type { AxiosResponse } from "axios";
 
 import { apiPrivate } from "@/lib/api/apiPrivate";
+import { apiPublic } from "@/lib/api/apiPublic";
 
 import type { ApiResponse } from "@/types/response";
 
@@ -19,7 +20,7 @@ export const postCommentApi = async (data: {
 };
 
 export const getAllCommentsApi = async (pinId: string) => {
-  const res = await apiPrivate.get<ApiResponse<Comment[]>>(`/comment/${pinId}`);
+  const res = await apiPublic.get<ApiResponse<Comment[]>>(`/comment/${pinId}`);
 
   return res.data;
 };

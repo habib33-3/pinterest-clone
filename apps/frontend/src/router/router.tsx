@@ -39,11 +39,7 @@ const router = createBrowserRouter([
       },
       {
         path: "pin/:id",
-        element: (
-          <ProtectedRouter>
-            <PinPost />
-          </ProtectedRouter>
-        ),
+        element: <PinPost />,
       },
 
       {
