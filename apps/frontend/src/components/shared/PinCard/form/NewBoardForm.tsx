@@ -1,3 +1,5 @@
+import type { Dispatch, SetStateAction } from "react";
+
 import { PlusIcon } from "lucide-react";
 
 import useSavePinToNewBoard from "@/hooks/pin/useSavePinToNewBoard";
@@ -5,6 +7,8 @@ import useSavePinToNewBoard from "@/hooks/pin/useSavePinToNewBoard";
 import { cn } from "@/lib/utils";
 
 import type { Pin } from "@/types/index";
+
+import type { SavePinToNewBoardSchemaType } from "@/validations/pin";
 
 import { Button } from "@/ui/button";
 import {
@@ -31,17 +35,30 @@ import { Switch } from "@/ui/switch";
 import SubmitButton from "@/buttons/SubmitButton";
 
 type Props = {
-  onOpenChange?: (open: boolean) => void;
+  setOpenNewBoardForm: Dispatch<SetStateAction<boolean>>;
+  openNewBoardForm: boolean;
   pin: Pin;
 };
 
-const NewBoardForm = ({ onOpenChange, pin }: Props) => {
+const NewBoardForm = ({
+  pin,
+  openNewBoardForm,
+  setOpenNewBoardForm,
+}: Props) => {
   const { form, handleSavePinToNewForm, isPending } = useSavePinToNewBoard(
     pin.id
   );
 
+  const onSubmit = (data: SavePinToNewBoardSchemaType) => {
+    handleSavePinToNewForm(data);
+    setOpenNewBoardForm(false);
+  };
+
   return (
-    <Dialog onOpenChange={onOpenChange}>
+    <Dialog
+      onOpenChange={setOpenNewBoardForm}
+      open={openNewBoardForm}
+    >
       <DialogTrigger asChild>
         <Button
           variant="ghost"
@@ -71,7 +88,7 @@ const NewBoardForm = ({ onOpenChange, pin }: Props) => {
           <div>
             <Form {...form}>
               <form
-                onSubmit={form.handleSubmit(handleSavePinToNewForm)}
+                onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-6"
               >
                 <FormField

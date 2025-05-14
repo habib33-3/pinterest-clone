@@ -1,3 +1,6 @@
+import type { Dispatch, SetStateAction } from "react";
+import { useState } from "react";
+
 import useGetAllBoards from "@/hooks/board/useGetAllBoards";
 
 import type { Pin } from "@/types/index";
@@ -19,10 +22,14 @@ import SelectBoardForm from "../form/SelectBoardForm";
 
 type Props = {
   pin: Pin;
+  openSavePinModal: boolean;
+  setOpenSavePinModal: Dispatch<SetStateAction<boolean>>;
 };
 
-const SavePin = ({ pin }: Props) => {
+const SavePin = ({ pin, openSavePinModal, setOpenSavePinModal }: Props) => {
   const { boards, status } = useGetAllBoards();
+
+  const [openNewBoardForm, setOpenNewBoardForm] = useState(false);
 
   if (status === "pending") return <Skeleton />;
 
@@ -30,9 +37,17 @@ const SavePin = ({ pin }: Props) => {
 
   return (
     <div className="mx-auto w-full">
-      <Dialog>
+      <Dialog
+        open={openSavePinModal}
+        onOpenChange={setOpenSavePinModal}
+      >
         <DialogTrigger asChild>
-          <Button variant="outline">Edit Profile</Button>
+          <Button
+            variant="outline"
+            className="bg-red-700 text-gray-100"
+          >
+            Save Pin
+          </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
@@ -42,6 +57,7 @@ const SavePin = ({ pin }: Props) => {
           <div className="h-60 overflow-y-scroll">
             {boards.map((board) => (
               <SelectBoardForm
+                setOpenSavePinModal={setOpenSavePinModal}
                 key={board.id}
                 board={board}
                 pin={pin}
@@ -49,7 +65,11 @@ const SavePin = ({ pin }: Props) => {
             ))}
           </div>
           <Separator />
-          <NewBoardForm pin={pin} />
+          <NewBoardForm
+            pin={pin}
+            openNewBoardForm={openNewBoardForm}
+            setOpenNewBoardForm={setOpenNewBoardForm}
+          />
         </DialogContent>
       </Dialog>
     </div>

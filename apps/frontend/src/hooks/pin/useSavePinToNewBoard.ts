@@ -34,11 +34,11 @@ const useSavePinToNewBoard = (pinId: string) => {
     },
   });
 
-  const handleSavePinToNewForm = (data: SavePinToNewBoardSchemaType) => {
-    mutate.mutate(data);
+  return {
+    form,
+    handleSavePinToNewForm: mutate.mutate,
+    isPending: mutate.isPending,
   };
-
-  return { form, handleSavePinToNewForm, isPending: mutate.isPending };
 };
 
 export default useSavePinToNewBoard;

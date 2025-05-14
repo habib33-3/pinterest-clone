@@ -18,11 +18,7 @@ const useSavePin = ({ pinId }: { pinId: string }) => {
     },
   });
 
-  const handleSavePin = (boardId: string) => {
-    mutate.mutate(boardId);
-  };
-
-  return { handleSavePin, isPending: mutate.isPending };
+  return { handleSavePin: mutate.mutate, isPending: mutate.isPending };
 };
 
 export default useSavePin;

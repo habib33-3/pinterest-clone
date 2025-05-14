@@ -1,3 +1,5 @@
+import type { Dispatch, SetStateAction } from "react";
+
 import { LockIcon } from "lucide-react";
 
 import useSavePin from "@/hooks/pin/useSavePin";
@@ -9,10 +11,17 @@ import { Button } from "@/ui/button";
 type Props = {
   pin: Pin;
   board: Board;
+  setOpenSavePinModal: Dispatch<SetStateAction<boolean>>;
 };
 
-const SelectBoardForm = ({ board, pin }: Props) => {
+const SelectBoardForm = ({ board, pin, setOpenSavePinModal }: Props) => {
   const { handleSavePin, isPending } = useSavePin({ pinId: pin.id });
+
+  const handleOnClick = () => {
+    setOpenSavePinModal(false);
+
+    handleSavePin(board.id);
+  };
 
   return (
     <div className="group relative flex w-full items-center justify-between gap-4 rounded-xl border bg-white p-3 shadow transition-all duration-200 hover:shadow-md">
@@ -36,9 +45,7 @@ const SelectBoardForm = ({ board, pin }: Props) => {
       <Button
         size="sm"
         disabled={isPending}
-        onClick={() => {
-          handleSavePin(board.id);
-        }}
+        onClick={handleOnClick}
         className="bg-red-700 opacity-0 transition-opacity group-hover:opacity-100"
       >
         Save
