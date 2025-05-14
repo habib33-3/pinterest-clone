@@ -15,7 +15,7 @@ import {
 } from "@/ui/select";
 import { Textarea } from "@/ui/textarea";
 
-import useGetAllBoards from "../hook/useGetAllBoards";
+import useGetAllBoards from "../../../../hooks/board/useGetAllBoards";
 
 type BoardSelectorProps = {
   isNewBoard: boolean;

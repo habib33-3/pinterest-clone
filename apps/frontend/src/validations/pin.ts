@@ -49,3 +49,18 @@ export const createPinFormSchema = z
   });
 
 export type CreatePinFormSchemaType = z.infer<typeof createPinFormSchema>;
+
+export const savePinSchema = z.object({
+  boardId: z.string(),
+});
+
+export type SavePinSchemaType = z.infer<typeof savePinSchema>;
+
+export const savePinToNewBoardSchema = z.object({
+  boardTitle: z.string(),
+  isBoardPrivate: z.boolean(),
+});
+
+export type SavePinToNewBoardSchemaType = z.infer<
+  typeof savePinToNewBoardSchema
+>;

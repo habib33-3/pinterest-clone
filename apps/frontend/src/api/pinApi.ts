@@ -10,7 +10,10 @@ import type {
 } from "@/types/editingOptions";
 import type { ApiResponse } from "@/types/response";
 
-import type { CreatePinFormSchemaType } from "@/validations/pin";
+import type {
+  CreatePinFormSchemaType,
+  SavePinToNewBoardSchemaType,
+} from "@/validations/pin";
 
 import type { Pin } from "../types";
 
@@ -99,6 +102,39 @@ export const getSinglePinByIdApi = async (
   id: string
 ): Promise<ApiResponse<Pin>> => {
   const res = await apiPublic.get<ApiResponse<Pin>>(`/pin/${id}`);
+
+  return res.data;
+};
+
+export const savePinApi = async (pinId: string, boardId: string) => {
+  const res = await apiPrivate.post<ApiResponse<{ message: string }>>(
+    "/pin/save",
+    {
+      pinId,
+      boardId,
+    }
+  );
+
+  return res.data;
+};
+
+export const savePinInNewBoardApi = async ({
+  board,
+  pinId,
+}: {
+  pinId: string;
+  board: SavePinToNewBoardSchemaType;
+}) => {
+  const data = {
+    newBoardTitle: board.boardTitle,
+    pinId,
+    isNewBoardPrivate: board.isBoardPrivate,
+  };
+
+  const res = await apiPrivate.post<ApiResponse<{ message: string }>>(
+    "/pin/save/new-board",
+    data
+  );
 
   return res.data;
 };
