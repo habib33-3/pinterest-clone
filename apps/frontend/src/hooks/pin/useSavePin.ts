@@ -1,26 +1,14 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
-import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { savePinApi } from "@/api/pinApi";
 
 import type { ApiResponse } from "@/types/response";
 
-import type { SavePinSchemaType } from "@/validations/pin";
-import { savePinSchema } from "@/validations/pin";
-
-const useSavePin = (pinId: string) => {
-  const form = useForm<SavePinSchemaType>({
-    resolver: zodResolver(savePinSchema),
-    defaultValues: {
-      boardId: "",
-    },
-  });
-
-  const { mutate, isPending } = useMutation({
-    mutationKey: ["board", pinId],
+const useSavePin = ({ pinId }: { pinId: string }) => {
+  const mutate = useMutation({
+    mutationKey: ["save-pin", pinId],
     mutationFn: (boardId: string) => savePinApi(pinId, boardId),
     onSuccess: (data) => {
       toast.success(data.message);
@@ -30,19 +18,11 @@ const useSavePin = (pinId: string) => {
     },
   });
 
-  const handleSavePin = (data: SavePinSchemaType) => {
-    if (data.boardId) {
-      mutate(data.boardId);
-    } else {
-      toast.error("Please select a board.");
-    }
+  const handleSavePin = (boardId: string) => {
+    mutate.mutate(boardId);
   };
 
-  return {
-    form,
-    handleSavePin,
-    isLoading: isPending,
-  };
+  return { handleSavePin, isPending: mutate.isPending };
 };
 
 export default useSavePin;

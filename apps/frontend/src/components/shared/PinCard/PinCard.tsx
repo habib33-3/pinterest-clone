@@ -2,7 +2,7 @@ import { Link } from "react-router";
 
 import { MoveUpRight } from "lucide-react";
 
-import SavePin from "@/shared/PinCard/form/SavePin";
+import SavePin from "@/shared/PinCard/components/SavePin";
 
 import type { Pin } from "@/types/index";
 
@@ -19,9 +19,9 @@ const PinCard = ({ pin }: Props) => {
   const { media, link, id, width, height } = pin;
 
   return (
-    <div className="group mb-4 cursor-pointer break-inside-avoid rounded-2xl border-1">
+    <div className="group mb-4 w-full cursor-pointer break-inside-avoid rounded-2xl border-1">
       <Card className="relative overflow-hidden rounded-lg shadow group-hover:opacity-80">
-        <div className="z-10s absolute inset-0">
+        <div className="absolute top-4 left-1/3 z-10 opacity-0 transition-all duration-300 group-hover:opacity-100">
           <SavePin pin={pin} />
         </div>
         <Link to={`/pin/${id}`}>

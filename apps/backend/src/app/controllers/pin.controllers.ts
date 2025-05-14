@@ -74,8 +74,6 @@ export const savePinToNewBoardHandler = asyncHandler(
     async (req: Request<{}, {}, SavePinToNewBoardType>, res) => {
         const userId = req.user?.id as string;
 
-        console.log(req.body);
-
         const result = await savePinToNewBoardService(req.body, userId);
 
         sendResponse(req, res, {

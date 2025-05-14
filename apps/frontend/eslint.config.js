@@ -33,8 +33,17 @@ const typescriptRules = {
     ...typescriptPlugin.configs["recommended-requiring-type-checking"].rules,
     ...typescriptPlugin.configs["strict-type-checked"].rules,
 
-    "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
-    "@typescript-eslint/consistent-type-imports": "error",
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        vars: "all",
+        args: "after-used",
+        ignoreRestSiblings: true,
+        varsIgnorePattern: "^_",
+        argsIgnorePattern: "^_",
+      },
+    ],
+    "@typescript-eslint/consistent-type-imports": "warn",
     "@typescript-eslint/no-misused-promises": [
       "error",
       { checksVoidReturn: false },
@@ -49,7 +58,7 @@ const typescriptRules = {
     "@typescript-eslint/prefer-ts-expect-error": "warn",
 
     // Additional best practices
-    "@typescript-eslint/consistent-type-definitions": ["error", "type"],
+    "@typescript-eslint/consistent-type-definitions": ["warn", "type"],
     "@typescript-eslint/prefer-readonly": "warn",
     "@typescript-eslint/prefer-enum-initializers": "warn",
     "@typescript-eslint/no-unnecessary-type-arguments": "warn",
