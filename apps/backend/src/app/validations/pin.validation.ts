@@ -92,3 +92,22 @@ export const getSinglePinByIdSchema = z.object({
 });
 
 export type GetSinglePinByIdType = z.infer<typeof getSinglePinByIdSchema>["params"];
+
+export const savePinSchema = z.object({
+    body: z.object({
+        pinId: z.string().uuid(),
+        boardId: z.string().uuid(),
+    }),
+});
+
+export type SavePinType = z.infer<typeof savePinSchema>["body"];
+
+export const savePinToNewBoardSchema = z.object({
+    body: z.object({
+        pinId: z.string().uuid(),
+        newBoardTitle: z.string(),
+        isNewBoardPrivate: z.boolean(),
+    }),
+});
+
+export type SavePinToNewBoardType = z.infer<typeof savePinToNewBoardSchema>["body"];

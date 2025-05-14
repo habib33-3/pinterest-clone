@@ -6,12 +6,19 @@ import ApiError from "@/shared/ApiError";
 import asyncHandler from "@/shared/asyncHandler";
 import sendResponse from "@/shared/sendResponse";
 
-import type { CreatePinType, GetSinglePinByIdType } from "@/validations/pin.validation";
+import type {
+    CreatePinType,
+    GetSinglePinByIdType,
+    SavePinToNewBoardType,
+    SavePinType,
+} from "@/validations/pin.validation";
 
 import {
     createPinService,
     getAllPinsService,
     getSinglePinByIdService,
+    savePinService,
+    savePinToNewBoardService,
 } from "@/services/pin.services";
 
 export const createPinHandler = asyncHandler(async (req: Request<{}, {}, CreatePinType>, res) => {
@@ -47,6 +54,32 @@ export const getSinglePinByIdHandler = asyncHandler(
 
         sendResponse(req, res, {
             message: "Pin fetched successfully",
+            data: result,
+        });
+    }
+);
+
+export const savePinHandler = asyncHandler(async (req: Request<{}, {}, SavePinType>, res) => {
+    const id = req.user?.id as string;
+
+    const result = await savePinService(req.body, id);
+
+    sendResponse(req, res, {
+        message: "Pin saved successfully",
+        data: result,
+    });
+});
+
+export const savePinToNewBoardHandler = asyncHandler(
+    async (req: Request<{}, {}, SavePinToNewBoardType>, res) => {
+        const userId = req.user?.id as string;
+
+        console.log(req.body);
+
+        const result = await savePinToNewBoardService(req.body, userId);
+
+        sendResponse(req, res, {
+            message: "Pin saved successfully",
             data: result,
         });
     }

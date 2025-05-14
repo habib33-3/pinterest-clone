@@ -31,16 +31,16 @@ model User {
 model Board {
   id          String  @id @default(uuid())
   title       String
-  description String
+  description String?
   isPrivate   Boolean @default(false)
   thumbnail   String
 
   userId String
   user   User   @relation(fields: [userId], references: [id])
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  Pin       Pin[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  BoardPin  BoardPin[]
 
   @@unique([title, userId])
 }
@@ -55,18 +55,32 @@ model Pin {
   link        String
   tags        String[]
 
-  boardId String
-  board   Board  @relation(fields: [boardId], references: [id])
-
   userId String
   user   User   @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Save    Save[]
-  Like    Like[]
-  Comment Comment[]
+  saves    Save[]
+  likes    Like[]
+  comments Comment[]
+
+  BoardPin BoardPin[]
+}
+
+model BoardPin {
+  id String @id @default(uuid())
+
+  boardId String
+  pinId   String
+
+  board Board @relation(fields: [boardId], references: [id])
+  pin   Pin   @relation(fields: [pinId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([pinId, boardId], name: "pinId_boardId")
 }
 
 model Save {

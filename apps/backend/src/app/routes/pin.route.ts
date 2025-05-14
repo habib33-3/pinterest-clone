@@ -1,6 +1,11 @@
 import { Router } from "express";
 
-import { createPinSchema, getSinglePinByIdSchema } from "@/validations/pin.validation";
+import {
+    createPinSchema,
+    getSinglePinByIdSchema,
+    savePinSchema,
+    savePinToNewBoardSchema,
+} from "@/validations/pin.validation";
 
 import uploadImage from "@/middlewares/uploadImage.middleware";
 import validationMiddleware from "@/middlewares/validation.middleware";
@@ -10,9 +15,20 @@ import {
     createPinHandler,
     getAllPinsHandler,
     getSinglePinByIdHandler,
+    savePinHandler,
+    savePinToNewBoardHandler,
 } from "@/controllers/pin.controllers";
 
 const router = Router();
+
+router.post("/save", verifyAuth, validationMiddleware(savePinSchema), savePinHandler);
+
+router.post(
+    "/save/new-board",
+    verifyAuth,
+    validationMiddleware(savePinToNewBoardSchema),
+    savePinToNewBoardHandler
+);
 
 router.post(
     "/",

@@ -5,7 +5,11 @@ import { uploadImageToImageKit } from "@/lib/image-kit";
 
 import ApiError from "@/shared/ApiError";
 
-import type { CreatePinType } from "@/validations/pin.validation";
+import type {
+    CreatePinType,
+    SavePinToNewBoardType,
+    SavePinType,
+} from "@/validations/pin.validation";
 
 import { prisma } from "@/db/prisma";
 
@@ -39,41 +43,63 @@ const createNewBoardWithPin = async (data: CreatePinType, img: UploadResponse, u
             },
         });
 
-        return tx.pin.create({
+        const pin = await tx.pin.create({
             data: {
                 title: data.title,
                 description: data.description ?? "",
                 link: data.link ?? "",
                 media: img.url,
-                boardId: board.id,
+
                 width: img.width,
                 height: img.height,
                 userId: user,
             },
         });
+
+        return tx.boardPin.create({
+            data: {
+                pinId: pin.id,
+                boardId: board.id,
+            },
+        });
     });
 };
 
-const createPinOnExistingBoard = async (data: CreatePinType, img: UploadResponse, user: string) => {
-    const board = await prisma.board.findUnique({
-        where: { id: data.board },
-    });
+const createPinOnExistingBoard = async (
+    data: CreatePinType,
+    img: UploadResponse,
+    userId: string
+) => {
+    return prisma.$transaction(async (tx) => {
+        const board = await tx.board.findUnique({
+            where: {
+                id: data.board as string,
+            },
+        });
 
-    if (!board) {
-        throw new ApiError(StatusCodes.NOT_FOUND, "Board not found");
-    }
+        if (!board) {
+            throw new ApiError(StatusCodes.NOT_FOUND, "Board not found");
+        }
 
-    return prisma.pin.create({
-        data: {
-            title: data.title,
-            description: data.description ?? "",
-            link: data.link ?? "",
-            media: img.url,
-            boardId: board.id,
-            width: img.width,
-            height: img.height,
-            userId: user,
-        },
+        const pin = await tx.pin.create({
+            data: {
+                title: data.title,
+                description: data.description ?? "",
+                link: data.link ?? "",
+                media: img.url,
+
+                width: img.width,
+                height: img.height,
+                userId,
+            },
+        });
+
+        return tx.boardPin.create({
+            data: {
+                pinId: pin.id,
+                boardId: board.id,
+            },
+        });
     });
 };
 
@@ -165,4 +191,66 @@ export const getSinglePinByIdService = async (pinId: string) => {
     }
 
     return pin;
+};
+
+export const savePinService = async ({ boardId, pinId }: SavePinType, userId: string) => {
+    const board = await prisma.board.findUnique({
+        where: {
+            id: boardId,
+            userId,
+        },
+    });
+
+    if (!board) {
+        throw new ApiError(StatusCodes.NOT_FOUND, "Board not found");
+    }
+
+    await prisma.boardPin.upsert({
+        where: {
+            pinId_boardId: {
+                pinId,
+                boardId,
+            },
+        },
+        update: {},
+        create: {
+            pinId,
+            boardId,
+        },
+    });
+
+    return {
+        message: "Pin saved successfully",
+    };
+};
+
+export const savePinToNewBoardService = async (payload: SavePinToNewBoardType, userId: string) => {
+    const { pinId, newBoardTitle, isNewBoardPrivate } = payload;
+
+    return prisma.$transaction(async (tx) => {
+        const pin = await tx.pin.findUniqueOrThrow({
+            where: { id: pinId },
+            select: { id: true, media: true },
+        });
+
+        const board = await tx.board.create({
+            data: {
+                title: newBoardTitle,
+                userId,
+                thumbnail: pin.media,
+                isPrivate: isNewBoardPrivate,
+            },
+        });
+
+        await tx.boardPin.create({
+            data: {
+                pinId,
+                boardId: board.id,
+            },
+        });
+
+        return {
+            message: "Pin saved successfully",
+        };
+    });
 };
