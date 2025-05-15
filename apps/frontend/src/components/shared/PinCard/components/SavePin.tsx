@@ -2,27 +2,28 @@ import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
 
 import useGetAllBoards from "@/hooks/board/useGetAllBoards";
+import useSavePinToNewBoard from "@/hooks/pin/useSavePinToNewBoard";
 import useDebounce from "@/hooks/useDebounce";
 
 import type { Pin } from "@/types/index";
+
+import type { SavePinToNewBoardSchemaType } from "@/validations/pin";
 
 import { DEBOUNCE_DELAY } from "@/constants/index";
 
 import { Button } from "@/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/ui/dialog";
-import { Input } from "@/ui/input";
-import { Separator } from "@/ui/separator";
-import { Skeleton } from "@/ui/skeleton";
 
-import NewBoardForm from "../form/NewBoardForm";
-import SelectBoardForm from "../form/SelectBoardForm";
+import CreateBoardFormView from "../form/CreateBoardFormView";
+import SelectBoardView from "./SelectBoardView";
 
 type Props = {
   pin: Pin;
@@ -32,16 +33,20 @@ type Props = {
 
 const SavePin = ({ pin, openSavePinModal, setOpenSavePinModal }: Props) => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [showNewBoardForm, setShowNewBoardForm] = useState(false);
 
   const debouncedQuery = useDebounce(searchQuery, DEBOUNCE_DELAY);
-
   const { boards, status } = useGetAllBoards(debouncedQuery);
 
-  const [openNewBoardForm, setOpenNewBoardForm] = useState(false);
+  const { form, handleSavePinToNewForm, isPending } = useSavePinToNewBoard(
+    pin.id
+  );
 
-  if (status === "pending") return <Skeleton />;
-
-  if (status === "error") return <div>Error</div>;
+  const onSubmit = (data: SavePinToNewBoardSchemaType) => {
+    handleSavePinToNewForm(data);
+    setShowNewBoardForm(false);
+    setOpenSavePinModal(false);
+  };
 
   return (
     <div className="mx-auto w-full">
@@ -57,39 +62,44 @@ const SavePin = ({ pin, openSavePinModal, setOpenSavePinModal }: Props) => {
             Save Pin
           </Button>
         </DialogTrigger>
+
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle className="text-center">Select Board</DialogTitle>
+            <DialogTitle className="text-center">
+              {showNewBoardForm ? "Create New Board" : "Select Board"}
+            </DialogTitle>
             <DialogDescription />
           </DialogHeader>
 
-          <div className="">
-            <Input
-              placeholder="Search Board...."
-              className="w-full"
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-              }}
+          {showNewBoardForm ? (
+            <CreateBoardFormView
+              pin={pin}
+              form={form}
+              isPending={isPending}
+              onSubmit={onSubmit}
             />
-          </div>
+          ) : (
+            <SelectBoardView
+              pin={pin}
+              boards={boards}
+              status={status}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+              setShowNewBoardForm={setShowNewBoardForm}
+              setOpenSavePinModal={setOpenSavePinModal}
+            />
+          )}
 
-          <div className="h-60 overflow-y-scroll">
-            {boards.map((board) => (
-              <SelectBoardForm
-                setOpenSavePinModal={setOpenSavePinModal}
-                key={board.id}
-                board={board}
-                pin={pin}
-              />
-            ))}
+          <div className="flex justify-end gap-2 pt-4">
+            <DialogClose asChild>
+              <Button
+                type="button"
+                variant="secondary"
+              >
+                Cancel
+              </Button>
+            </DialogClose>
           </div>
-          <Separator />
-          <NewBoardForm
-            pin={pin}
-            setOpenSavePinModal={setOpenSavePinModal}
-            openNewBoardForm={openNewBoardForm}
-            setOpenNewBoardForm={setOpenNewBoardForm}
-          />
         </DialogContent>
       </Dialog>
     </div>
