@@ -38,12 +38,14 @@ type Props = {
   setOpenNewBoardForm: Dispatch<SetStateAction<boolean>>;
   openNewBoardForm: boolean;
   pin: Pin;
+  setOpenSavePinModal: Dispatch<SetStateAction<boolean>>;
 };
 
 const NewBoardForm = ({
   pin,
   openNewBoardForm,
   setOpenNewBoardForm,
+  setOpenSavePinModal,
 }: Props) => {
   const { form, handleSavePinToNewForm, isPending } = useSavePinToNewBoard(
     pin.id
@@ -52,6 +54,7 @@ const NewBoardForm = ({
   const onSubmit = (data: SavePinToNewBoardSchemaType) => {
     handleSavePinToNewForm(data);
     setOpenNewBoardForm(false);
+    setOpenSavePinModal(false);
   };
 
   return (

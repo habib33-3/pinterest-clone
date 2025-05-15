@@ -2,8 +2,11 @@ import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
 
 import useGetAllBoards from "@/hooks/board/useGetAllBoards";
+import useDebounce from "@/hooks/useDebounce";
 
 import type { Pin } from "@/types/index";
+
+import { DEBOUNCE_DELAY } from "@/constants/index";
 
 import { Button } from "@/ui/button";
 import {
@@ -14,6 +17,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/ui/dialog";
+import { Input } from "@/ui/input";
 import { Separator } from "@/ui/separator";
 import { Skeleton } from "@/ui/skeleton";
 
@@ -27,7 +31,11 @@ type Props = {
 };
 
 const SavePin = ({ pin, openSavePinModal, setOpenSavePinModal }: Props) => {
-  const { boards, status } = useGetAllBoards();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const debouncedQuery = useDebounce(searchQuery, DEBOUNCE_DELAY);
+
+  const { boards, status } = useGetAllBoards(debouncedQuery);
 
   const [openNewBoardForm, setOpenNewBoardForm] = useState(false);
 
@@ -54,6 +62,17 @@ const SavePin = ({ pin, openSavePinModal, setOpenSavePinModal }: Props) => {
             <DialogTitle className="text-center">Select Board</DialogTitle>
             <DialogDescription />
           </DialogHeader>
+
+          <div className="">
+            <Input
+              placeholder="Search Board...."
+              className="w-full"
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+              }}
+            />
+          </div>
+
           <div className="h-60 overflow-y-scroll">
             {boards.map((board) => (
               <SelectBoardForm
@@ -67,6 +86,7 @@ const SavePin = ({ pin, openSavePinModal, setOpenSavePinModal }: Props) => {
           <Separator />
           <NewBoardForm
             pin={pin}
+            setOpenSavePinModal={setOpenSavePinModal}
             openNewBoardForm={openNewBoardForm}
             setOpenNewBoardForm={setOpenNewBoardForm}
           />
