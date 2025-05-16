@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -20,13 +20,18 @@ const useSavePinToNewBoard = (pinId: string) => {
     },
   });
 
+  const queryClient = useQueryClient();
+
   const mutate = useMutation({
+    mutationKey: ["save-pin", pinId],
     mutationFn: (data: SavePinToNewBoardSchemaType) =>
       savePinInNewBoardApi({
         pinId,
         board: data,
       }),
     onSuccess: (data) => {
+      void queryClient.invalidateQueries({ queryKey: ["save-pin", pinId] });
+
       toast.success(data.message);
     },
     onError: (error: AxiosError<ApiResponse<{ message: string }>>) => {

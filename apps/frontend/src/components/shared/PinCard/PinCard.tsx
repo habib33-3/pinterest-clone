@@ -4,14 +4,19 @@ import { Link } from "react-router";
 
 import { MoveUpRight } from "lucide-react";
 
+import useGetSavedBoard from "@/hooks/board/useGetSavedBoard";
+
 import SavePin from "@/shared/PinCard/components/SavePin";
 
 import type { Pin } from "@/types/index";
 
 import { Button } from "@/ui/button";
 import { Card } from "@/ui/card";
+import { Skeleton } from "@/ui/skeleton";
 
 import ShareMoreButtons from "@/buttons/ShareMoreButtons";
+
+import SavedBoardName from "./components/SavedBoardName";
 
 type Props = {
   pin: Pin;
@@ -22,15 +27,32 @@ const PinCard = ({ pin }: Props) => {
 
   const [openSavePinModal, setOpenSavePinModal] = useState(false);
 
+  const { board, status } = useGetSavedBoard(id);
+
   return (
     <div className="group mb-4 w-full cursor-pointer break-inside-avoid rounded-2xl border-1">
       <Card className="relative overflow-hidden rounded-lg shadow group-hover:opacity-80">
         <div className="absolute top-4 left-1/3 z-10 opacity-0 transition-all duration-300 group-hover:opacity-100">
-          <SavePin
-            pin={pin}
-            openSavePinModal={openSavePinModal}
-            setOpenSavePinModal={setOpenSavePinModal}
-          />
+          <div className="">{status === "pending" && <Skeleton />}</div>
+
+          <div className="">
+            {status === "error" && (
+              <p className="text-destructive">Failed to load boards.</p>
+            )}
+          </div>
+
+          {board ? (
+            <SavedBoardName
+              board={board}
+              pinId={id}
+            />
+          ) : (
+            <SavePin
+              pin={pin}
+              openSavePinModal={openSavePinModal}
+              setOpenSavePinModal={setOpenSavePinModal}
+            />
+          )}
         </div>
         <Link to={`/pin/${id}`}>
           <img

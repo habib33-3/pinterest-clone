@@ -2,16 +2,15 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 import { toast } from "sonner";
 
-import { savePinApi } from "@/api/pinApi";
+import { removePinFromBoardApi } from "@/api/boardApi";
 
 import type { ApiResponse } from "@/types/response";
 
-const useSavePin = ({ pinId }: { pinId: string }) => {
+const useRemovePinFromBoard = (pinId: string, boardId: string) => {
   const queryClient = useQueryClient();
 
   const mutate = useMutation({
-    mutationKey: ["save-pin", pinId],
-    mutationFn: (boardId: string) => savePinApi(pinId, boardId),
+    mutationFn: () => removePinFromBoardApi(boardId, pinId),
     onSuccess: (data) => {
       void queryClient.invalidateQueries({ queryKey: ["save-pin", pinId] });
 
@@ -22,7 +21,14 @@ const useSavePin = ({ pinId }: { pinId: string }) => {
     },
   });
 
-  return { handleSavePin: mutate.mutate, isPending: mutate.isPending };
+  const handleRemovePinFromBoard = () => {
+    mutate.mutate();
+  };
+
+  return {
+    handleRemovePinFromBoard,
+    isPending: mutate.isPending,
+  };
 };
 
-export default useSavePin;
+export default useRemovePinFromBoard;

@@ -13,3 +13,17 @@ export const getAllBoardApi = async (searchQuery?: string) => {
 
   return res.data;
 };
+
+export const getSavedBoardApi = async (pinId: string) => {
+  const res = await apiPrivate.get<ApiResponse<Board>>(`/board/saved/${pinId}`);
+
+  return res.data;
+};
+
+export const removePinFromBoardApi = async (boardId: string, pinId: string) => {
+  const res = await apiPrivate.delete<ApiResponse<{ message: string }>>(
+    `/board/${boardId}/pin/${pinId}`
+  );
+
+  return res.data;
+};
