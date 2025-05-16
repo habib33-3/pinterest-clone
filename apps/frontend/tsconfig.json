@@ -1,0 +1,32 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/api/*": ["src/api/*"],
+      "@/assets/*": ["src/assets/*"],
+      "@/config/*": ["src/config/*"],
+      "@/constants/*": ["src/constants/*"],
+      "@/form/*": ["src/components/form/*"],
+      "@/hooks/*": ["src/hooks/*"],
+      "@/layouts/*": ["src/layouts/*"],
+      "@/lib/*": ["src/lib/*"],
+      "@/pages/*": ["src/pages/*"],
+      "@/providers/*": ["src/providers/*"],
+      "@/router/*": ["src/router/*"],
+      "@/services/*": ["src/services/*"],
+      "@/shared/*": ["src/components/shared/*"],
+      "@/stores/*": ["src/stores/*"],
+      "@/types/*": ["src/types/*"],
+      "@/ui/*": ["src/components/ui/*"],
+      "@/buttons/*": ["src/components/buttons/*"],
+      "@/utils/*": ["src/utils/*"],
+      "@/validations/*": ["src/validations/*"],
+      "@/components/*": ["src/components/*"]
+    }
+  }
+}

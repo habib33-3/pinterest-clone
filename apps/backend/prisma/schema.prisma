@@ -1,0 +1,137 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String  @id @default(uuid())
+  email       String  @unique
+  password    String
+  displayName String
+  userName    String  @unique
+  avatar      String? @default("https://ik.imagekit.io/habav0i4f/general/noAvatar.png")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Board   Board[]
+  Pin     Pin[]
+  Save    Save[]
+  Like    Like[]
+  Comment Comment[]
+
+  following Follow[] @relation("Following")
+  followers Follow[] @relation("Followers")
+}
+
+model Board {
+  id          String  @id @default(uuid())
+  title       String
+  description String?
+  isPrivate   Boolean @default(false)
+  thumbnail   String
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  BoardPin  BoardPin[]
+
+  @@unique([title, userId])
+}
+
+model Pin {
+  id          String   @id @default(uuid())
+  media       String
+  width       Int
+  height      Int
+  title       String
+  description String
+  link        String
+  tags        String[]
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  saves    Save[]
+  likes    Like[]
+  comments Comment[]
+
+  BoardPin BoardPin[]
+}
+
+model BoardPin {
+  id String @id @default(uuid())
+
+  boardId String
+  pinId   String
+
+  board Board @relation(fields: [boardId], references: [id])
+  pin   Pin   @relation(fields: [pinId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([pinId, boardId], name: "pinId_boardId")
+}
+
+model Save {
+  id String @id @default(uuid())
+
+  pinId String
+  pin   Pin    @relation(fields: [pinId], references: [id])
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Like {
+  id String @id @default(uuid())
+
+  pinId String
+  pin   Pin    @relation(fields: [pinId], references: [id])
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Comment {
+  id      String @id @default(uuid())
+  comment String
+
+  pinId String
+  pin   Pin    @relation(fields: [pinId], references: [id])
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Follow {
+  id String @id @default(uuid())
+
+  followerId String
+  follower   User   @relation("Following", fields: [followerId], references: [id])
+
+  followingId String
+  following   User   @relation("Followers", fields: [followingId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
