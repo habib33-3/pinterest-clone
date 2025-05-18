@@ -1,14 +1,17 @@
+import type { JSX } from "react";
 import { Suspense, lazy } from "react";
 
 import { createBrowserRouter } from "react-router";
 
 import { Skeleton } from "@/ui/skeleton";
 
+import ErrorPage from "@/pages/ErrorPage/ErrorPage";
+import NotFoundPage from "@/pages/NotFoundPage/NotFoundPage";
+
 import ProtectedRouter from "./ProtectedRouter";
 
 const RootLayout = lazy(() => import("@/layouts/RootLayout"));
 
-// Lazy-loaded pages
 const CreatePage = lazy(() => import("@/pages/CreatePage/CreatePage"));
 const EditPin = lazy(() => import("@/pages/EditPin/EditPin"));
 const HomePage = lazy(() => import("@/pages/HomePage/HomePage"));
@@ -16,26 +19,25 @@ const LoginPage = lazy(() => import("@/pages/LoginPage/LoginPage"));
 const PinPost = lazy(() => import("@/pages/PinPost/PinPost"));
 const UserProfile = lazy(() => import("@/pages/UserProfile/UserProfile"));
 
+const withFallback = (element: JSX.Element) => (
+  <Suspense fallback={<Skeleton />}>{element}</Suspense>
+);
+
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <RootLayout />,
+    errorElement: <ErrorPage />,
+    element: withFallback(<RootLayout />),
     children: [
       {
         index: true,
-        element: (
-          <Suspense fallback={<Skeleton />}>
-            <HomePage />
-          </Suspense>
-        ),
+        element: <HomePage />,
       },
       {
         path: "create",
         element: (
           <ProtectedRouter>
-            <Suspense fallback={<Skeleton />}>
-              <CreatePage />
-            </Suspense>
+            <CreatePage />
           </ProtectedRouter>
         ),
       },
@@ -43,37 +45,30 @@ const router = createBrowserRouter([
         path: "edit-pin",
         element: (
           <ProtectedRouter>
-            <Suspense fallback={<Skeleton />}>
-              <EditPin />
-            </Suspense>
+            <EditPin />
           </ProtectedRouter>
         ),
       },
       {
         path: "pin/:id",
-        element: (
-          <Suspense fallback={<Skeleton />}>
-            <PinPost />
-          </Suspense>
-        ),
+        element: <PinPost />,
       },
       {
-        path: "/profile/:userName",
-        element: (
-          <Suspense fallback={<Skeleton />}>
-            <UserProfile />
-          </Suspense>
-        ),
+        path: "profile/:userName",
+        element: <UserProfile />,
       },
-    ],
+    ].map((route) => ({
+      ...route,
+      element: withFallback(route.element),
+    })),
   },
   {
     path: "/login",
-    element: (
-      <Suspense fallback={<Skeleton />}>
-        <LoginPage />
-      </Suspense>
-    ),
+    element: withFallback(<LoginPage />),
+  },
+  {
+    path: "*",
+    element: withFallback(<NotFoundPage />),
   },
 ]);
 
