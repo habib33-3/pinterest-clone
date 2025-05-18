@@ -18,9 +18,9 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Board   Board[]
-  Pin     Pin[]
-  Save    Save[]
+  Board Board[]
+  Pin   Pin[]
+
   Like    Like[]
   Comment Comment[]
 
@@ -61,7 +61,6 @@ model Pin {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  saves    Save[]
   likes    Like[]
   comments Comment[]
 
@@ -81,19 +80,6 @@ model BoardPin {
   updatedAt DateTime @updatedAt
 
   @@unique([pinId, boardId], name: "pinId_boardId")
-}
-
-model Save {
-  id String @id @default(uuid())
-
-  pinId String
-  pin   Pin    @relation(fields: [pinId], references: [id])
-
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model Like {

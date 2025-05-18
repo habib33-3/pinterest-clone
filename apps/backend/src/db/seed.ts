@@ -5,7 +5,7 @@ import { prisma } from "./prisma";
 const seed = async () => {
     await prisma.comment.deleteMany();
     await prisma.like.deleteMany();
-    await prisma.save.deleteMany();
+
     await prisma.pin.deleteMany();
     await prisma.board.deleteMany();
     await prisma.follow.deleteMany();

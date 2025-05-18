@@ -4,7 +4,7 @@ import { useImageStore } from "@/stores/imgStore";
 
 import { cn } from "@/lib/utils";
 
-import type { TextAlignment } from "@/types/index";
+import type { TextAlignment } from "@/types/editingOptions";
 
 import { Button } from "@/ui/button";
 
