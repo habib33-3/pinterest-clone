@@ -1,7 +1,11 @@
+import { Suspense } from "react";
+
 import { Outlet } from "react-router";
 
 import Navbar from "@/shared/Navbar/Navbar";
 import Sidebar from "@/shared/Navbar/components/Sidebar";
+
+import { Skeleton } from "@/ui/skeleton";
 
 const RootLayout = () => {
   return (
@@ -9,7 +13,9 @@ const RootLayout = () => {
       <Sidebar />
       <div className="mr-4 flex-1">
         <Navbar />
-        <Outlet />
+        <Suspense fallback={<Skeleton />}>
+          <Outlet />
+        </Suspense>
       </div>
     </main>
   );

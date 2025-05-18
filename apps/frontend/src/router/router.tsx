@@ -1,26 +1,38 @@
+import type { JSX } from "react";
+import { Suspense, lazy } from "react";
+
 import { createBrowserRouter } from "react-router";
 
-import RootLayout from "@/layouts/RootLayout";
+import { Skeleton } from "@/ui/skeleton";
 
-import CreatePage from "@/pages/CreatePage/CreatePage";
-import EditPin from "@/pages/EditPin/EditPin";
-import HomePage from "@/pages/HomePage/HomePage";
-import LoginPage from "@/pages/LoginPage/LoginPage";
-import PinPost from "@/pages/PinPost/PinPost";
-import UserProfile from "@/pages/UserProfile/UserProfile";
+import ErrorPage from "@/pages/ErrorPage/ErrorPage";
+import NotFoundPage from "@/pages/NotFoundPage/NotFoundPage";
 
 import ProtectedRouter from "./ProtectedRouter";
+
+const RootLayout = lazy(() => import("@/layouts/RootLayout"));
+
+const CreatePage = lazy(() => import("@/pages/CreatePage/CreatePage"));
+const EditPin = lazy(() => import("@/pages/EditPin/EditPin"));
+const HomePage = lazy(() => import("@/pages/HomePage/HomePage"));
+const LoginPage = lazy(() => import("@/pages/LoginPage/LoginPage"));
+const PinPost = lazy(() => import("@/pages/PinPost/PinPost"));
+const UserProfile = lazy(() => import("@/pages/UserProfile/UserProfile"));
+
+const withFallback = (element: JSX.Element) => (
+  <Suspense fallback={<Skeleton />}>{element}</Suspense>
+);
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <RootLayout />,
+    errorElement: <ErrorPage />,
+    element: withFallback(<RootLayout />),
     children: [
       {
         index: true,
         element: <HomePage />,
       },
-
       {
         path: "create",
         element: (
@@ -41,16 +53,22 @@ const router = createBrowserRouter([
         path: "pin/:id",
         element: <PinPost />,
       },
-
       {
-        path: "/profile/:userName",
+        path: "profile/:userName",
         element: <UserProfile />,
       },
-    ],
+    ].map((route) => ({
+      ...route,
+      element: withFallback(route.element),
+    })),
   },
   {
     path: "/login",
-    element: <LoginPage />,
+    element: withFallback(<LoginPage />),
+  },
+  {
+    path: "*",
+    element: withFallback(<NotFoundPage />),
   },
 ]);
 

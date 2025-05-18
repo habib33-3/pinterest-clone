@@ -8,7 +8,11 @@
     "start": "node dist/server.js",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "seed": "ts-node -r tsconfig-paths/register src/db/seed.ts"
+    "seed": "ts-node -r tsconfig-paths/register src/db/seed.ts",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:studio": "prisma studio",
+    "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",
