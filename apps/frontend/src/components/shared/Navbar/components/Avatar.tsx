@@ -49,7 +49,7 @@ const Avatar = () => {
       <PopoverTrigger>
         <img
           src={user.avatar}
-          alt=""
+          alt={user.userName}
           className="size-10 cursor-pointer rounded-full"
         />
       </PopoverTrigger>
@@ -57,7 +57,7 @@ const Avatar = () => {
         <ul className="flex flex-col items-start justify-center space-y-2">
           <li>
             <Link
-              to="/profile"
+              to={`/profile/${user.userName}`}
               className="text-sm hover:underline"
             >
               Profile

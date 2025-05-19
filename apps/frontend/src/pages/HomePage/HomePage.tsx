@@ -4,6 +4,8 @@ import PinCard from "@/shared/PinCard/PinCard";
 
 import { Skeleton } from "@/ui/skeleton";
 
+import ErrorPage from "../ErrorPage/ErrorPage";
+
 const HomePage = () => {
   const { pins, status } = useGetAllPins();
 
@@ -12,7 +14,7 @@ const HomePage = () => {
   }
 
   if (status === "error") {
-    return <div>Error</div>;
+    return <ErrorPage />;
   }
 
   return (
@@ -23,6 +25,14 @@ const HomePage = () => {
           key={pin.id}
         />
       ))}
+
+      {pins.length > 0 && (
+        <div className="col-span-full flex items-center justify-center py-8">
+          <div className="rounded-lg border border-dashed border-gray-300 px-6 py-4 text-lg text-gray-500 italic shadow-sm">
+            🎉 You&apos;ve reached the end. No more pins to display!
+          </div>
+        </div>
+      )}
     </div>
   );
 };

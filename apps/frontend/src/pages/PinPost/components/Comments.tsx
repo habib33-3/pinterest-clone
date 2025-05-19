@@ -22,6 +22,12 @@ const Comments = () => {
   return (
     <div className="mx-auto flex h-[80vh] w-full max-w-2xl flex-col overflow-hidden rounded-xl border bg-white shadow-sm">
       <div className="flex-1 space-y-4 overflow-y-auto border-b border-gray-200 p-4">
+        {comments.length === 0 && (
+          <div className="text-center text-gray-500">
+            No comments yet. Be the first one to comment!
+          </div>
+        )}
+
         {comments.map((comment) => (
           <CommentBox
             key={comment.id}

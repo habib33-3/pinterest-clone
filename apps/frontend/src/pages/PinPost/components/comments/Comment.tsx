@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 import type { Comment } from "@/types/index";
 
 type Props = {
@@ -7,17 +9,20 @@ type Props = {
 const CommentBox = ({ comment }: Props) => {
   const {
     comment: commentText,
-    user: { avatar, displayName },
+    user: { avatar, displayName, userName },
   } = comment;
 
   return (
     <div className="w-full rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-shadow duration-200 hover:shadow-md">
       <div className="mb-3 flex items-center gap-3">
-        <img
-          src={avatar}
-          alt={`${displayName}'s avatar`}
-          className="h-10 w-10 rounded-full object-cover"
-        />
+        <Link to={`/profile/${userName}`}>
+          <img
+            src={avatar}
+            alt={`${displayName}'s avatar`}
+            className="h-10 w-10 rounded-full object-cover"
+          />
+        </Link>
+
         <h5 className="text-sm font-medium text-gray-800">{displayName}</h5>
       </div>
       <p className="ml-2 text-sm leading-relaxed text-gray-700">
