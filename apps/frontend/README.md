@@ -1,54 +1,79 @@
-# React + TypeScript + Vite
+# 📌 Pinterest Clone - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the **frontend** application for the Pinterest Clone monorepo, built with **React**, **Tailwind CSS**, and **Zustand** to provide a fast, responsive user interface.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🧩 Overview
 
-## Expanding the ESLint configuration
+- User-friendly UI to explore, create, and manage pins, boards, comments, likes, and follows.
+- Responsive design using **Tailwind CSS** and **Shadcn UI**.
+- Client-side routing powered by **React Router**.
+- State management via **Zustand**.
+- Connects to backend API with **axios** for data fetching and user authentication.
+- Efficient server state management and caching using **TanStack Query** .
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
-```
+## 🧰 Frontend Technologies
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- **React** – For building user interfaces with reusable components.
+- **TypeScript** – Adds static typing for better code quality and developer experience.
+- **React Router** – Enables client-side routing and navigation.
+- **Tailwind CSS** – Utility-first CSS framework for fast, responsive styling.
+- **Shadcn UI** – Prebuilt UI components for consistent design.
+- **Zustand** – Lightweight state management solution.
+- **TanStack Query (React Query)** – Data fetching, caching, and synchronization with server state.
+- **axios** – Promise-based HTTP client for API requests.
+- **Vite** – Next-generation frontend build tool for fast development and bundling.
 
-```js
-// eslint.config.js
-import reactDom from "eslint-plugin-react-dom";
-import reactX from "eslint-plugin-react-x";
+## 📁 Project Structure
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    "react-x": reactX,
-    "react-dom": reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs["recommended-typescript"].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-});
+```bash
+apps/frontend/
+├── public/                 # Static assets like images, icons, and fonts
+├── src/
+│   ├── api/                # API request functions and endpoints
+│   ├── assets/             # Images, fonts, and other static resources used in the app
+│   ├── components/         # Reusable UI components
+│   ├── config/             # Configuration files and constants for frontend
+│   ├── constants/          # App-wide constant values
+│   ├── hooks/              # Custom React hooks
+│   ├── layouts/            # Layout components for different pages
+│   ├── lib/                # Utility functions and helpers
+│   ├── pages/              # Route components (page views)
+│   ├── providers/          # Context providers and global state wrappers
+│   ├── router/             # Routing setup (React Router)
+│   ├── stores/             # Zustand or other state management stores
+│   ├── types/              # TypeScript type definitions
+│   ├── validations/        # Form or input validation schemas
+│   ├── index.css           # Global CSS imports
+│   └── main.tsx            # Application entry point
+├── dist/                   # Production build output
+├── components.json         # Component metadata/configuration (optional)
+├── eslint.config.js        # ESLint configuration
+├── lint-staged.config.mjs  # Git pre-commit hook config
+├── package.json            # Project dependencies and scripts
+├── prettier.config.mjs     # Prettier formatting configuration
+├── tsconfig.app.json       # TypeScript config for the app
+├── tsconfig.node.json      # TypeScript config for Node.js environment
+├── tsconfig.json           # Base TypeScript config
+├── vite.config.ts          # Vite build and dev server configuration
+├── index.html              # HTML template
+└── README.md               # Frontend README file
+
+## 📸 Screenshots
+
+
+
+---
+
+## 🧰 Technologies Used
+
+* React + TypeScript
+* React Router
+* Tailwind CSS + Shadcn UI
+* Zustand (state management)
+
+
 ```

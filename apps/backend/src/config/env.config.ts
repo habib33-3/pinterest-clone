@@ -3,7 +3,14 @@ import "dotenv/config";
 import ms, { type StringValue } from "ms";
 import { z } from "zod";
 
-import { DEFAULT_PORT, DEFAULT_RATE_LIMIT_WINDOW_MS } from "@/shared/constants";
+import {
+    COOKIE_NAME,
+    DEFAULT_MAX_FILE_SIZE,
+    DEFAULT_MAX_REQUESTS,
+    DEFAULT_PORT,
+    DEFAULT_RATE_LIMIT_WINDOW_MS,
+    DEFAULT_TOKEN_EXPIRATION,
+} from "@/shared/constants";
 import { logger } from "@/shared/logger";
 
 const envSchema = z.object({
@@ -20,29 +27,35 @@ const envSchema = z.object({
             if (!val) return [];
             return val.split(",").map((origin) => origin.trim());
         }),
-    TOKEN_EXPIRATION: z.string().transform((val, ctx) => {
-        const result = ms(val as StringValue);
-        if (typeof result !== "number") {
-            ctx.addIssue({
-                code: z.ZodIssueCode.custom,
-                message: "TOKEN_EXPIRATION must be a valid duration string like '1h', '7d', etc.",
-            });
-            return z.NEVER;
-        }
-        return result;
-    }),
+    TOKEN_EXPIRATION: z
+        .string()
+        .default(DEFAULT_TOKEN_EXPIRATION)
+        .transform((val, ctx) => {
+            const result = ms(val as StringValue);
+            if (typeof result !== "number") {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message:
+                        "TOKEN_EXPIRATION must be a valid duration string like '1h', '7d', etc.",
+                });
+                return z.NEVER;
+            }
+            return result;
+        }),
     IMAGEKIT_PUBLIC_KEY: z.string(),
     IMAGEKIT_PRIVATE_KEY: z.string(),
     IMAGEKIT_URL_ENDPOINT: z.string(),
+
+    MAX_REQUESTS: z.coerce.number().min(1).default(DEFAULT_MAX_REQUESTS),
+    MAX_FILE_SIZE: z.coerce.number().min(1).default(DEFAULT_MAX_FILE_SIZE),
+    COOKIE_NAME: z.string().default(COOKIE_NAME),
 });
 
 export const parsedEnv = envSchema.safeParse(process.env);
 
 if (!parsedEnv.success) {
     const errorMessages = parsedEnv.error.errors
-        .map((err) => {
-            return `Environment variable '${err.path.join(".")}' is invalid: ${err.message}`;
-        })
+        .map((err) => `Environment variable '${err.path.join(".")}' is invalid: ${err.message}`)
         .join("\n");
 
     logger.error(`Invalid environment variables:\n${errorMessages}`);

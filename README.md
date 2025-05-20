@@ -1,84 +1,128 @@
-# Turborepo starter
+# 📌 Pinterest Clone
 
-This Turborepo starter is maintained by the Turborepo core team.
+A full-featured Pinterest clone built with modern web technologies and a scalable **Turborepo** monorepo setup. This app allows users to explore, create, and manage pins and boards, interact through likes and comments, and connect with others via follow functionality.
 
-## Using this example
+---
 
-Run the following command:
+## ✨ Features
 
-```sh
-npx create-turbo@latest
-```
+- **Authentication**: Sign up, log in, and log out securely using JWT and cookies
+- **Post Management**: Create, edit, and delete posts
+- **Board Management**: Create, edit, and delete boards
+- **Pin Management**: Create, edit, and delete pins
+- **Comment System**: Add, edit, and delete comments on pins
+- **Likes**: Like and unlike pins
+- **Follow System**: Follow and unfollow other users
+- **Search**: Find pins, boards, and users with dynamic search
 
-## What's inside?
+---
 
-This Turborepo includes the following packages/apps:
+## 🧩 Monorepo Structure
 
-### Apps and Packages
+Powered by **Turborepo** for optimized builds and shared tooling.
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+```bash
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
+.
+├── apps/
+│   ├── frontend/        # Frontend (React, Tailwind)
+│   └── backend/        # Backend (Express, Prisma)
+├── packages/
+│   ├── ui/         # Shared UI components (optional)
+│   └── config/     # Shared configs (eslint, tsconfig, etc.)
+├── turbo.json
+└── README.md
 
 ```
-cd my-turborepo
-pnpm build
+
+## 🛠️ Technologies Used
+
+### 📦 Languages & Tooling
+
+- **TypeScript**
+- **ESLint** – for code linting
+- **Prettier** – for code formatting
+- **Husky** – for Git hooks (pre-commit)
+- **lint-staged** – for running linters on staged files
+
+### 💻 Frontend
+
+- React
+- React Router
+- Shadcn UI
+- Tailwind CSS
+- Zustand (state management)
+
+### 🧠 Backend
+
+- Node.js
+- Express.js
+- Prisma ORM
+- PostgreSQL
+
+### 🔐 Authentication
+
+- JWT
+- argon2
+- cookie-parser
+
+### 🖼️ Media Handling
+
+- ImageKit (image uploads and optimization)
+
+### 📦 Monorepo Tooling
+
+- Turborepo
+
+## ⚙️ Setup & Installation
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/habib33-3/pinterest-clone
 ```
 
-### Develop
+```bash
+cd pinterest-clone
+```
 
-To develop all apps and packages, run the following command:
+### 2. Install Dependencies
+
+```bash
+pnpm install
+```
+
+### 3. Set Up Environment Variables
+
+Copy `.env.example` into `.env` files in both frontend and backend:
+
+```bash
+cp apps/frontend/.env.example apps/frontend/.env
+cp apps/backend/.env.example apps/backend/.env
 
 ```
-cd my-turborepo
+
+### 4. Run the App
+
+```bash
 pnpm dev
 ```
 
-### Remote Caching
+## 📸 Demo
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+- **Live Site**: _Coming soon..._
+- **Screenshots**: Add GIFs or images of UI/UX
 
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+## 📄 License
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+This project is licensed under the [MIT License](LICENSE).
 
-```
-cd my-turborepo
-npx turbo login
-```
+---
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+## 🙋‍♂️ Contact
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+- **Portfolio**: [https://habibur-rahman-snowy.vercel.app](https://habibur-rahman-snowy.vercel.app)
+- **Email**: [habib.rahman0330@gmail.com](mailto:habib.rahman0330@gmail.com)
+- **GitHub**: [@habib33-3](https://github.com/habib33-3)
 
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/docs/reference/command-line-reference)
+---
