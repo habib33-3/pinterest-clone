@@ -135,7 +135,6 @@ async function main() {
             });
         }
 
-        // Some pins might have comments, others none
         const commentCount = faker.number.int({ min: 0, max: 2 });
         for (let c = 0; c < commentCount; c++) {
             const commentUser = faker.helpers.arrayElement(users);

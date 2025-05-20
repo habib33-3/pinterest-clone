@@ -1,12 +1,12 @@
 import { SendHorizontal } from "lucide-react";
 
+import usePostComment from "@/hooks/comments/usePostComment";
+
 import { useUserStore } from "@/stores/userStore";
 
 import { Button } from "@/ui/button";
 import { Form, FormField, FormItem, FormMessage } from "@/ui/form";
 import { Textarea } from "@/ui/textarea";
-
-import usePostComment from "../../hooks/usePostComment";
 
 const CommentInput = () => {
   const { user } = useUserStore();

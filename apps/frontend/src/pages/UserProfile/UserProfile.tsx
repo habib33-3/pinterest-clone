@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import useGetUsersProfile from "@/hooks/users/useGetUsersProfile";
+
 import { cn } from "@/lib/utils";
 
 import { Button } from "@/ui/button";
@@ -8,7 +10,6 @@ import { Skeleton } from "@/ui/skeleton";
 import Created from "./components/Created";
 import FollowMessageButton from "./components/FollowMessageButton";
 import Saved from "./components/Saved";
-import useGetUsersProfile from "./hooks/useGetUsersProfile";
 
 const tabs = ["Created", "Saved"] as const;
 type TabType = (typeof tabs)[number];

@@ -1,12 +1,12 @@
+import useFollowUser from "@/hooks/users/useFollowUser";
+import useGetFollowerCount from "@/hooks/users/useGetFollowerCount";
+
 import { useUserStore } from "@/stores/userStore";
 
 import type { User } from "@/types/index";
 
 import { Button } from "@/ui/button";
 import { Skeleton } from "@/ui/skeleton";
-
-import useFollowUser from "../hooks/useFollowUser";
-import useGetFollowerCount from "../hooks/useGetFollowerCount";
 
 type Props = {
   userProfile: User;

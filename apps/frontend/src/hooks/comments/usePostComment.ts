@@ -44,7 +44,7 @@ const usePostComment = () => {
   return {
     form,
     handlePostComment,
-    isPosting: mutation.status === "pending",
+    isPosting: mutation.isPending,
   };
 };
 

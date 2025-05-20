@@ -8,8 +8,8 @@ import { Skeleton } from "@/ui/skeleton";
 
 import ShareMoreButtons from "@/buttons/ShareMoreButtons";
 
-import useGetPinsLikeCount from "../hooks/useGetPinsLikeCount";
-import useLikePin from "../hooks/useLikePin";
+import useGetPinsLikeCount from "../../../hooks/pin/useGetPinsLikeCount";
+import useLikePin from "../../../hooks/pin/useLikePin";
 
 type PinsLikeCount = {
   count: number;

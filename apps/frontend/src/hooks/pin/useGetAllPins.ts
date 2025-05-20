@@ -4,17 +4,31 @@ import { useQuery } from "@tanstack/react-query";
 
 import { getAllPinsApi } from "@/api/pinApi";
 
+import { DEBOUNCE_DELAY, GC_TIME, STALE_TIME } from "@/constants/index";
+
+import useDebounce from "../useDebounce";
+
+const MIN_SEARCH_LENGTH = 3;
+
 const useGetAllPins = () => {
   const [searchParams] = useSearchParams();
+  const rawSearchTerm = searchParams.get("search")?.trim() ?? "";
+  const searchTerm = useDebounce(rawSearchTerm, DEBOUNCE_DELAY);
 
-  const search = searchParams.get("search") || "";
+  const shouldFetch =
+    searchTerm.length === 0 || searchTerm.length >= MIN_SEARCH_LENGTH;
 
   const { data, status } = useQuery({
-    queryKey: ["pins", search],
-    queryFn: () => getAllPinsApi(search),
+    queryKey: ["pins", { search: searchTerm }],
+    queryFn: () => getAllPinsApi(searchTerm),
+    enabled: shouldFetch,
+    staleTime: STALE_TIME,
+    gcTime: GC_TIME,
+    select: (response) => response.data ?? [],
+    placeholderData: (previousData) => previousData ?? { data: [] },
   });
 
-  return { pins: data?.data ?? [], status };
+  return { data, status };
 };
 
 export default useGetAllPins;

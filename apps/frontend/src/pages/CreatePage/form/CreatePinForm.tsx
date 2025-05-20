@@ -1,3 +1,5 @@
+import { useCreatePinForm } from "@/hooks/pin/useCreatePin";
+
 import { cn } from "@/lib/utils";
 
 import { Form, FormField, FormItem, FormLabel, FormMessage } from "@/ui/form";
@@ -8,7 +10,6 @@ import SubmitButton from "@/buttons/SubmitButton";
 
 import BoardSelector from "./components/BoardSelector";
 import TagInput from "./components/TagInput";
-import { useCreatePinForm } from "./hook/useCreatePin";
 
 const CreatePinForm = () => {
   const {
