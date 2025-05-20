@@ -23,24 +23,19 @@ type Props = {
 };
 
 const PinCard = ({ pin }: Props) => {
-  const { media, link, id, width, height } = pin;
-
+  const { media, link, id } = pin;
   const [openSavePinModal, setOpenSavePinModal] = useState(false);
-
   const { board, status } = useGetSavedBoard(id);
 
   return (
-    <div className="group mb-4 w-full cursor-pointer break-inside-avoid rounded-2xl border-1">
-      <Card className="relative overflow-hidden rounded-lg shadow group-hover:opacity-80">
-        <div className="absolute top-4 left-1/3 z-10 opacity-0 transition-all duration-300 group-hover:opacity-100">
-          <div className="">{status === "pending" && <Skeleton />}</div>
-
-          <div className="">
-            {status === "error" && (
-              <p className="text-destructive">Failed to load boards.</p>
-            )}
-          </div>
-
+    <div className="group mb-6 w-full cursor-pointer rounded-2xl transition-shadow hover:shadow-lg">
+      <Card className="relative overflow-hidden rounded-2xl">
+        {/* Top Left Floating Board Info */}
+        <div className="absolute top-4 left-1/2 z-10 -translate-x-1/2 space-y-1 opacity-0 transition-all duration-300 group-hover:opacity-100">
+          {status === "pending" && <Skeleton className="h-5 w-32" />}
+          {status === "error" && (
+            <p className="text-sm text-destructive">Failed to load board</p>
+          )}
           {board ? (
             <SavedBoardName
               board={board}
@@ -54,36 +49,38 @@ const PinCard = ({ pin }: Props) => {
             />
           )}
         </div>
+
+        {/* Image with maintained aspect ratio */}
         <Link to={`/pin/${id}`}>
-          <img
-            src={media}
-            style={{ width, height }}
-            alt={pin.title}
-            className="block h-auto w-full object-contain"
-          />
+          <div className="aspect-[4/5] w-full overflow-hidden rounded-t-2xl bg-muted">
+            <img
+              src={media}
+              alt={pin.title}
+              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+          </div>
         </Link>
 
-        <div className="absolute bottom-4 left-6 w-full opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-          <div className="flex items-center justify-between px-2">
-            {link ? (
-              <a
-                href={link}
-                target="_blank"
-                rel="noopener noreferrer"
+        {/* Bottom Buttons */}
+        <div className="absolute right-4 bottom-4 left-4 flex justify-between opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+          {link ? (
+            <a
+              href={link}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button
+                className="flex items-center gap-2 border border-border bg-white/70 shadow backdrop-blur-sm hover:scale-105"
+                variant="secondary"
               >
-                <Button
-                  className="flex items-center gap-2 border-2 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-secondary/80 hover:shadow-xl"
-                  variant="secondary"
-                >
-                  <MoveUpRight className="transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
-                  <p className="text-sm font-semibold">Visit Website</p>
-                </Button>
-              </a>
-            ) : null}
-          </div>
-        </div>
+                <MoveUpRight className="h-4 w-4" />
+                <span className="text-sm font-medium">Visit Website</span>
+              </Button>
+            </a>
+          ) : null}
 
-        <ShareMoreButtons className="absolute right-4 bottom-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+          <ShareMoreButtons className="ml-auto" />
+        </div>
       </Card>
     </div>
   );

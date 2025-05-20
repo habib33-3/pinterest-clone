@@ -24,11 +24,11 @@ const useGetAllPins = () => {
     enabled: shouldFetch,
     staleTime: STALE_TIME,
     gcTime: GC_TIME,
-    select: (response) => response.data ?? [],
+
     placeholderData: (previousData) => previousData ?? { data: [] },
   });
 
-  return { data, status };
+  return { pins: data?.data ?? [], status };
 };
 
 export default useGetAllPins;
