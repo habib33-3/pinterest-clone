@@ -34,7 +34,7 @@ async function main() {
 
     logger.info("Generating fake users...");
     const usersData = await Promise.all(
-        Array.from({ length: 9 }).map(async () => ({
+        Array.from({ length: 3 }).map(async () => ({
             email: faker.internet.email(),
             password: await hashData("password"),
             displayName: faker.person.fullName(),
@@ -55,7 +55,7 @@ async function main() {
     logger.info("Preparing boards data...");
     const boardsData = [];
     for (const user of users) {
-        const numBoards = faker.number.int({ min: 1, max: 5 });
+        const numBoards = faker.number.int({ min: 1, max: 2 });
         for (let j = 0; j < numBoards; j++) {
             boardsData.push({
                 title: faker.lorem.words(3),
@@ -82,14 +82,13 @@ async function main() {
     const commentsData = [];
 
     for (const board of boards) {
-        // Find the user for this board
         const user = users.find((u) => u.id === board.userId);
         if (!user) {
             logger.warn(`User not found for boardId ${board.id}`);
             continue;
         }
 
-        const numPins = faker.number.int({ min: 1, max: 6 });
+        const numPins = faker.number.int({ min: 1, max: 3 });
         for (let k = 0; k < numPins; k++) {
             pinsData.push({
                 media: faker.image.url(),
@@ -100,7 +99,7 @@ async function main() {
                 link: faker.internet.url(),
                 tags: faker.helpers.arrayElements(["design", "tech", "nature", "art", "code"], 3),
                 userId: user.id,
-                boardId: board.id, // keep for linking after pin creation
+                boardId: board.id,
             });
         }
     }
@@ -125,8 +124,7 @@ async function main() {
             pinId: pin.id,
         });
 
-        // Some pins might have multiple likes, others none
-        const likeCount = faker.number.int({ min: 0, max: 3 });
+        const likeCount = faker.number.int({ min: 0, max: 1 });
         for (let l = 0; l < likeCount; l++) {
             const likeUser = faker.helpers.arrayElement(users);
             likesData.push({
@@ -135,7 +133,7 @@ async function main() {
             });
         }
 
-        const commentCount = faker.number.int({ min: 0, max: 2 });
+        const commentCount = faker.number.int({ min: 0, max: 1 });
         for (let c = 0; c < commentCount; c++) {
             const commentUser = faker.helpers.arrayElement(users);
             commentsData.push({
@@ -165,7 +163,10 @@ async function main() {
     const followData = [];
     for (const user of users) {
         const otherUsers = users.filter((u) => u.id !== user.id);
-        const followed = faker.helpers.arrayElements(otherUsers, 2);
+        const followed = faker.helpers.arrayElements(
+            otherUsers,
+            faker.number.int({ min: 1, max: 2 })
+        );
         for (const f of followed) {
             followData.push({
                 followerId: user.id,
@@ -179,7 +180,7 @@ async function main() {
     await prisma.follow.createMany({ data: followData });
     logger.info("Follow relationships created.");
 
-    logger.info("🌱 Random seed data created successfully.");
+    logger.info("🌱 seed data created successfully.");
 }
 
 main()
