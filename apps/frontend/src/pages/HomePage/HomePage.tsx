@@ -25,7 +25,7 @@ const HomePage = () => {
 
   return (
     <div className="w-full px-4 py-6">
-      <div className="columns-1 gap-4 space-y-4 sm:columns-2 md:columns-3">
+      <div className="columns-1 gap-4 sm:columns-2 md:columns-3">
         {pins.map((pin) => (
           <PinCard
             key={pin.id}

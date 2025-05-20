@@ -28,9 +28,9 @@ const PinCard = ({ pin }: Props) => {
   const { board, status } = useGetSavedBoard(id);
 
   return (
-    <div className="group mb-6 w-full cursor-pointer rounded-2xl transition-shadow hover:shadow-lg">
+    <div className="group mb-4 w-full cursor-pointer break-inside-avoid rounded-2xl transition-shadow hover:shadow-lg">
       <Card className="relative overflow-hidden rounded-2xl">
-        {/* Top Left Floating Board Info */}
+        {/* Top Floating Board Info */}
         <div className="absolute top-4 left-1/2 z-10 -translate-x-1/2 space-y-1 opacity-0 transition-all duration-300 group-hover:opacity-100">
           {status === "pending" && <Skeleton className="h-5 w-32" />}
           {status === "error" && (
@@ -50,13 +50,14 @@ const PinCard = ({ pin }: Props) => {
           )}
         </div>
 
-        {/* Image with maintained aspect ratio */}
+        {/* Image with max dimensions */}
         <Link to={`/pin/${id}`}>
-          <div className="aspect-[4/5] w-full overflow-hidden rounded-t-2xl bg-muted">
+          <div className="w-full overflow-hidden rounded-t-2xl">
             <img
               src={media}
               alt={pin.title}
-              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+              loading="lazy"
+              className="max-h-[500px] w-full max-w-full rounded-t-2xl object-cover"
             />
           </div>
         </Link>
