@@ -82,27 +82,46 @@ Powered by **Turborepo** for optimized builds and shared tooling.
 git clone https://github.com/habib33-3/pinterest-clone
 ```
 
+### 2. Change Directory
+
 ```bash
 cd pinterest-clone
 ```
 
-### 2. Install Dependencies
+### 3. Install Dependencies
 
 ```bash
 pnpm install
 ```
 
-### 3. Set Up Environment Variables
+### 4. Set Up Environment Variables
 
-Copy `.env.example` into `.env` files in both frontend and backend:
+Copy `.env.example` files into `.env` for both frontend and backend:
 
 ```bash
 cp apps/frontend/.env.example apps/frontend/.env
 cp apps/backend/.env.example apps/backend/.env
-
 ```
 
-### 4. Run the App
+### 5. Generate Prisma Client
+
+```bash
+pnpm db:generate
+```
+
+### 6. Push Prisma Schema to the Database (optional for fresh setup)
+
+```bash
+pnpm db:push
+```
+
+### 7. Seed the Database
+
+```bash
+pnpm seed
+```
+
+### 8. Run the App
 
 ```bash
 pnpm dev

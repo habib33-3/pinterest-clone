@@ -5,8 +5,12 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "format": "prettier --write .",
+    "format": "turbo run format",
     "check-types": "turbo run check-types",
+    "db:generate": "turbo run db:generate --filter=pinterest-clone-backend",
+    "db:push": "turbo run db:push --filter=pinterest-clone-backend",
+    "db:studio": "turbo run db:studio --filter=pinterest-clone-backend",
+    "seed": "turbo run seed --filter=pinterest-clone-backend",
     "prepare": "husky"
   },
   "devDependencies": {
