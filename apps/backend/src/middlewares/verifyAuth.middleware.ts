@@ -4,7 +4,9 @@ import { StatusCodes } from "http-status-codes";
 
 import { verifyToken } from "@/lib/jwt";
 
-const verifyAuth = (req: Request, res: Response, next: NextFunction): void => {
+import { prisma } from "@/db/prisma";
+
+const verifyAuth = async (req: Request, res: Response, next: NextFunction) => {
     const token = req.cookies.token;
 
     if (!token) {
@@ -18,7 +20,25 @@ const verifyAuth = (req: Request, res: Response, next: NextFunction): void => {
 
     try {
         const decoded = verifyToken(token);
-        req.user = decoded;
+
+        const user = await prisma.user.findUnique({
+            where: {
+                id: decoded.id,
+            },
+        });
+        if (!user) {
+            res.status(StatusCodes.UNAUTHORIZED).json({
+                success: false,
+                message: "User not found, unauthorized",
+            });
+            return;
+        }
+
+        req.user = {
+            ...(req.user || {}),
+            id: user.id,
+            email: user.email,
+        };
         next();
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {

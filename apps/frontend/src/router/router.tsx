@@ -31,7 +31,11 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <HomePage />,
+        element: (
+          <ProtectedRouter>
+            <HomePage />
+          </ProtectedRouter>
+        ),
       },
       {
         path: "create",
