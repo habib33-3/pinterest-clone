@@ -1,6 +1,12 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+* {
+  font-family:
+    "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", "Noto Emoji",
+    sans-serif;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

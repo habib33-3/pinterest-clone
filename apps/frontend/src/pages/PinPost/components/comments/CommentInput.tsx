@@ -1,4 +1,8 @@
-import { SendHorizontal } from "lucide-react";
+import { useState } from "react";
+
+import type { EmojiClickData } from "emoji-picker-react";
+import EmojiPicker from "emoji-picker-react";
+import { SendHorizontal, Smile } from "lucide-react";
 
 import usePostComment from "@/hooks/comments/usePostComment";
 
@@ -11,24 +15,58 @@ import { Textarea } from "@/ui/textarea";
 const CommentInput = () => {
   const { user } = useUserStore();
   const { form, handlePostComment, isPosting } = usePostComment();
+  const [emojiOpen, setEmojiOpen] = useState(false);
+
+  const handleEmojiClick = (emojiData: EmojiClickData) => {
+    const current = form.getValues("comment") || "";
+    form.setValue("comment", current + emojiData.emoji);
+    setEmojiOpen(false);
+  };
 
   return (
-    <div className="rounded-xl border bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+    <div className="relative rounded-xl border bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-gray-900">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handlePostComment)}>
+        <form
+          onSubmit={form.handleSubmit(handlePostComment)}
+          className="space-y-2"
+        >
           <div className="flex items-end gap-2">
             <FormField
               control={form.control}
               name="comment"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <Textarea
-                    id="comment"
-                    placeholder="Add a comment..."
-                    className="min-h-[60px] resize-none rounded-lg border border-none border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-none outline-none placeholder:text-gray-400 focus:ring-2 focus:ring-primary focus:outline-none"
-                    rows={2}
-                    {...field}
-                  />
+                  <div className="relative">
+                    <Textarea
+                      id="comment"
+                      placeholder="Add a comment..."
+                      className="min-h-[60px] resize-none rounded-lg bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 dark:bg-gray-900 dark:text-white"
+                      rows={2}
+                      {...field}
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className="absolute top-2 right-2"
+                      onClick={() => {
+                        setEmojiOpen((prev) => !prev);
+                      }}
+                    >
+                      <Smile
+                        size={20}
+                        className="text-gray-500"
+                      />
+                    </Button>
+                  </div>
+                  {emojiOpen ? (
+                    <div className="absolute top-[100%] right-2 z-50 mt-2">
+                      <EmojiPicker
+                        onEmojiClick={handleEmojiClick}
+                        lazyLoadEmojis
+                      />
+                    </div>
+                  ) : null}
                   <FormMessage />
                 </FormItem>
               )}
