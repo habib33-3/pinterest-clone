@@ -32,6 +32,7 @@ export type Board = {
 export type Comment = {
   id: string;
   comment: string;
+  createdAt: Date;
   user: User;
 };
 
