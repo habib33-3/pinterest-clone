@@ -24,3 +24,23 @@ export const getAllCommentsApi = async (pinId: string) => {
 
   return res.data;
 };
+
+export const updateCommentApi = async (data: {
+  commentId: string;
+  commentText: string;
+}) => {
+  const res = await apiPrivate.patch<AxiosResponse<ApiResponse<Comment>>>(
+    `/comment/${data.commentId}`,
+    { comment: data.commentText }
+  );
+
+  return res.data;
+};
+
+export const deleteCommentApi = async (commentId: string) => {
+  const res = await apiPrivate.delete<AxiosResponse<ApiResponse<Comment>>>(
+    `/comment/${commentId}`
+  );
+
+  return res.data;
+};
