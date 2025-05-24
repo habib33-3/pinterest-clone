@@ -2,6 +2,8 @@ import { useState } from "react";
 
 import useGetUsersProfile from "@/hooks/users/useGetUsersProfile";
 
+import { useUserStore } from "@/stores/userStore";
+
 import { cn } from "@/lib/utils";
 
 import { Button } from "@/ui/button";
@@ -10,12 +12,15 @@ import { Skeleton } from "@/ui/skeleton";
 import Created from "./components/Created";
 import FollowMessageButton from "./components/FollowMessageButton";
 import Saved from "./components/Saved";
+import ShareEditButton from "./components/ShareEditButton";
 
 const tabs = ["Created", "Saved"] as const;
 type TabType = (typeof tabs)[number];
 
 const UserProfile = () => {
   const { status, profile } = useGetUsersProfile();
+
+  const { user } = useUserStore();
 
   const [isTab, setIsTab] = useState<TabType>("Saved");
 
@@ -47,7 +52,11 @@ const UserProfile = () => {
         </div>
       </div>
 
-      <FollowMessageButton userProfile={profile.user} />
+      {user?.id === profile.user.id ? (
+        <ShareEditButton />
+      ) : (
+        <FollowMessageButton userProfile={profile.user} />
+      )}
 
       <div className="mt-10 flex items-center justify-center">
         <div className="flex items-center justify-center gap-4">
