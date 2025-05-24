@@ -129,8 +129,10 @@ pnpm dev
 
 ## 📸 Demo
 
-- **Live Site**: _Coming soon..._
-- **Screenshots**: Add GIFs or images of UI/UX
+You can try out the app using the following demo credentials:
+
+**Email:** `user@email.com`  
+**Password:** `password`
 
 ## 📄 License
 
