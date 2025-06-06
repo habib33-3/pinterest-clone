@@ -1,0 +1,67 @@
+# --- TypeScript / JavaScript ---
+*.ts linguist-language=TypeScript
+*.tsx linguist-language=TypeScript
+*.js linguist-language=JavaScript
+*.jsx linguist-language=JavaScript
+*.d.ts linguist-language=TypeScript linguist-generated=true
+
+# --- Prisma ---
+*.prisma linguist-language=Prisma
+
+# --- JSON / YAML / TOML ---
+*.json linguist-language=JSON linguist-detectable=true
+*.yaml linguist-language=YAML linguist-detectable=true
+*.yml  linguist-language=YAML linguist-detectable=true
+*.toml linguist-language=TOML linguist-detectable=true
+
+# --- Config / Data Files ---
+*.ini linguist-language=INI linguist-detectable=true
+*.properties linguist-language=INI linguist-detectable=true
+*.csv linguist-language=CSV linguist-detectable=true
+*.sql linguist-language=SQL linguist-detectable=true
+*.xml linguist-language=XML linguist-detectable=true
+*.xsd linguist-language=XML linguist-detectable=true
+*.xslt linguist-language=XSLT linguist-detectable=true
+*.graphql linguist-language=GraphQL linguist-detectable=true
+*.gql linguist-language=GraphQL linguist-detectable=true
+*.proto linguist-language=Protocol Buffer linguist-detectable=true
+*.cue linguist-language=CUE linguist-detectable=true
+
+# --- Documentation ---
+*.md linguist-language=Markdown linguist-detectable=true
+*.txt linguist-language=Text linguist-detectable=true
+
+# --- Shell / Infra / DevOps ---
+*.sh linguist-language=Shell
+Dockerfile linguist-language=Dockerfile
+Makefile linguist-language=Makefile
+*.tf linguist-language=HCL
+*.tfvars linguist-language=HCL
+
+# --- Templating (Optional override) ---
+# *.j2 linguist-language=HTML linguist-detectable=true  # or YAML, depending on context
+
+# --- Helm (if applicable) ---
+charts/**/*.yaml linguist-language=YAML linguist-detectable=true
+templates/**/*.yaml linguist-language=YAML linguist-detectable=true
+
+# --- Include config/data folders explicitly ---
+config/*.json linguist-language=JSON linguist-detectable=true
+data/*.csv linguist-language=CSV linguist-detectable=true
+
+# --- Vendored/Generated ---
+node_modules/** linguist-vendored
+dist/** linguist-vendored
+build/** linguist-vendored
+.next/** linguist-vendored
+.vite/** linguist-vendored
+out/** linguist-vendored
+coverage/** linguist-vendored
+.vercel/** linguist-vendored
+.env* linguist-generated
+*.min.js linguist-generated
+*.lock linguist-vendored
+
+# --- Optional override of specific file detection ---
+# my_project/src/some_minified_file.js linguist-generated=false linguist-language=JavaScript
+# my_custom_vendor_lib/*.js linguist-vendored=false linguist-language=JavaScript
