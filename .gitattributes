@@ -1,67 +1,92 @@
-# --- TypeScript / JavaScript ---
-*.ts linguist-language=TypeScript
-*.tsx linguist-language=TypeScript
-*.js linguist-language=JavaScript
-*.jsx linguist-language=JavaScript
-*.d.ts linguist-language=TypeScript linguist-generated=true
+# Text normalization (end-of-line normalization)
+* text=auto
 
-# --- Prisma ---
-*.prisma linguist-language=Prisma
+# Source code files with LF line endings
+*.js       text eol=lf
+*.ts       text eol=lf
+*.tsx      text eol=lf
+*.json     text eol=lf linguist-language=JSON linguist-detectable=true
+*.css      text eol=lf
+*.scss     text eol=lf
+*.md       text eol=lf linguist-language=Markdown linguist-detectable=true
+*.yml      text eol=lf linguist-language=YAML linguist-detectable=true
+*.yaml     text eol=lf linguist-language=YAML linguist-detectable=true
+*.html     text eol=lf
+*.env      text eol=lf
+*.sh       text eol=lf linguist-language=Shell
+*.prisma   text eol=lf linguist-language=Prisma
+migrations/** text eol=lf
 
-# --- JSON / YAML / TOML ---
-*.json linguist-language=JSON linguist-detectable=true
-*.yaml linguist-language=YAML linguist-detectable=true
-*.yml  linguist-language=YAML linguist-detectable=true
-*.toml linguist-language=TOML linguist-detectable=true
+# Additional programming languages with LF line endings and linguist settings
+*.py       text eol=lf linguist-language=Python linguist-detectable=true
+*.pyw      text eol=lf linguist-language=Python linguist-detectable=true
 
-# --- Config / Data Files ---
-*.ini linguist-language=INI linguist-detectable=true
+# C++ family
+*.cpp      text eol=lf linguist-language=C++ linguist-detectable=true
+*.cxx      text eol=lf linguist-language=C++ linguist-detectable=true
+*.cc       text eol=lf linguist-language=C++ linguist-detectable=true
+*.h        text eol=lf linguist-language=C++ linguist-detectable=true
+*.hpp      text eol=lf linguist-language=C++ linguist-detectable=true
+
+# Other languages
+*.rs       text eol=lf linguist-language=Rust linguist-detectable=true
+*.go       text eol=lf linguist-language=Go linguist-detectable=true
+*.swift    text eol=lf linguist-language=Swift linguist-detectable=true
+*.kt       text eol=lf linguist-language=Kotlin linguist-detectable=true
+*.java     text eol=lf linguist-language=Java linguist-detectable=true
+*.scala    text eol=lf linguist-language=Scala linguist-detectable=true
+*.dart     text eol=lf linguist-language=Dart linguist-detectable=true
+*.tsv      text eol=lf linguist-language=TSV linguist-detectable=true
+
+# Prisma schema file
+schema.prisma merge=union linguist-language=Prisma
+
+# Binary assets (images, fonts, icons)
+*.svg      text
+*.png      binary
+*.jpg      binary
+*.jpeg     binary
+*.gif      binary
+*.ico      binary
+*.woff     binary
+*.woff2    binary
+*.ttf      binary
+*.eot      binary
+*.otf      binary
+
+# Git LFS (optional, uncomment if used)
+# *.psd filter=lfs diff=lfs merge=lfs -text
+
+# Linguist language overrides for other common file types
+*.toml      linguist-language=TOML linguist-detectable=true
+*.txt       linguist-language=Text linguist-detectable=true
+*.sql       linguist-language=SQL linguist-detectable=true
+*.xml       linguist-language=XML linguist-detectable=true
+*.xsd       linguist-language=XML linguist-detectable=true
+*.xslt      linguist-language=XSLT linguist-detectable=true
+*.csv       linguist-language=CSV linguist-detectable=true
+*.ini       linguist-language=INI linguist-detectable=true
 *.properties linguist-language=INI linguist-detectable=true
-*.csv linguist-language=CSV linguist-detectable=true
-*.sql linguist-language=SQL linguist-detectable=true
-*.xml linguist-language=XML linguist-detectable=true
-*.xsd linguist-language=XML linguist-detectable=true
-*.xslt linguist-language=XSLT linguist-detectable=true
-*.graphql linguist-language=GraphQL linguist-detectable=true
-*.gql linguist-language=GraphQL linguist-detectable=true
-*.proto linguist-language=Protocol Buffer linguist-detectable=true
-*.cue linguist-language=CUE linguist-detectable=true
 
-# --- Documentation ---
-*.md linguist-language=Markdown linguist-detectable=true
-*.txt linguist-language=Text linguist-detectable=true
-
-# --- Shell / Infra / DevOps ---
-*.sh linguist-language=Shell
+# Special files
 Dockerfile linguist-language=Dockerfile
-Makefile linguist-language=Makefile
-*.tf linguist-language=HCL
-*.tfvars linguist-language=HCL
+Makefile   linguist-language=Makefile
 
-# --- Templating (Optional override) ---
-# *.j2 linguist-language=HTML linguist-detectable=true  # or YAML, depending on context
+# Other languages
+*.rego     linguist-language=Rego
+*.tf       linguist-language=HCL
+*.tfvars   linguist-language=HCL
+*.graphql  linguist-language=GraphQL linguist-detectable=true
+*.gql      linguist-language=GraphQL linguist-detectable=true
+*.proto    linguist-language=Protocol Buffer linguist-detectable=true
+*.cue      linguist-language=CUE linguist-detectable=true
 
-# --- Helm (if applicable) ---
-charts/**/*.yaml linguist-language=YAML linguist-detectable=true
+# Directory-specific overrides
+charts/**/*.yaml    linguist-language=YAML linguist-detectable=true
 templates/**/*.yaml linguist-language=YAML linguist-detectable=true
+config/*.json       linguist-language=JSON linguist-detectable=true
+data/*.csv          linguist-language=CSV linguist-detectable=true
 
-# --- Include config/data folders explicitly ---
-config/*.json linguist-language=JSON linguist-detectable=true
-data/*.csv linguist-language=CSV linguist-detectable=true
-
-# --- Vendored/Generated ---
-node_modules/** linguist-vendored
-dist/** linguist-vendored
-build/** linguist-vendored
-.next/** linguist-vendored
-.vite/** linguist-vendored
-out/** linguist-vendored
-coverage/** linguist-vendored
-.vercel/** linguist-vendored
-.env* linguist-generated
-*.min.js linguist-generated
-*.lock linguist-vendored
-
-# --- Optional override of specific file detection ---
-# my_project/src/some_minified_file.js linguist-generated=false linguist-language=JavaScript
-# my_custom_vendor_lib/*.js linguist-vendored=false linguist-language=JavaScript
+# Custom overrides for specific files or folders
+my_project/src/some_minified_file.js linguist-generated=false linguist-language=JavaScript
+my_custom_vendor_lib/*.js            linguist-vendored=false linguist-language=JavaScript
