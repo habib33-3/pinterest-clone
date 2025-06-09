@@ -14,7 +14,6 @@ import security from "eslint-plugin-security";
 import unicorn from "eslint-plugin-unicorn";
 import { defineConfig, globalIgnores } from "eslint/config";
 import globals from "globals";
-
 const baseJsConfig = js.configs.recommended;
 
 const typescriptRules = {
