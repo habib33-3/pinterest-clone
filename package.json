@@ -5,6 +5,7 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
+    "lint:fix": "turbo run lint -- --fix",
     "format": "turbo run format",
     "check-types": "turbo run check-types",
     "db:generate": "turbo run db:generate --filter=pinterest-clone-backend",

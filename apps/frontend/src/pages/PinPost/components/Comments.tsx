@@ -1,6 +1,7 @@
+import useGetAllComments from "@/hooks/comments/useGetAllComments";
+
 import { Skeleton } from "@/ui/skeleton";
 
-import useGetAllComments from "../../../hooks/comments/useGetAllComments";
 import CommentBox from "./comments/Comment";
 import CommentInput from "./comments/CommentInput";
 

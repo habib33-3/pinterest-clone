@@ -137,6 +137,22 @@ const jsBestPractices = {
     "no-duplicate-imports": "error",
 };
 
+const enforceAliasImports = {
+    rules: {
+        "no-restricted-imports": [
+            "error",
+            {
+                patterns: ["../../*", "../../../*"],
+            },
+        ],
+    },
+    settings: {
+        "import/resolver": {
+            typescript: {},
+        },
+    },
+};
+
 // === 🧠 Final Export ===
 export default tseslint.config(
     ignorePatterns,
@@ -172,6 +188,7 @@ export default tseslint.config(
             ...sonarRules,
             ...unicornRules,
             ...jsBestPractices,
+            ...enforceAliasImports.rules,
         },
     }
 );

@@ -1,15 +1,15 @@
 import { MessageCircle } from "lucide-react";
 import { IoIosHeart, IoIosHeartEmpty } from "react-icons/io";
 
+import useGetPinsLikeCount from "@/hooks/pin/useGetPinsLikeCount";
+import useLikePin from "@/hooks/pin/useLikePin";
+
 import { cn } from "@/lib/utils";
 
 import { Button } from "@/ui/button";
 import { Skeleton } from "@/ui/skeleton";
 
 import ShareMoreButtons from "@/buttons/ShareMoreButtons";
-
-import useGetPinsLikeCount from "../../../hooks/pin/useGetPinsLikeCount";
-import useLikePin from "../../../hooks/pin/useLikePin";
 
 type PinsLikeCount = {
   count: number;
@@ -57,6 +57,7 @@ const InteractionsButtons = () => {
               className={cn(
                 "transition-transform duration-300 group-hover/like:scale-110",
                 isLiked ? "text-red-500" : "text-gray-800",
+                // eslint-disable-next-line better-tailwindcss/no-unregistered-classes
                 isLiking && "animate-pop"
               )}
             >

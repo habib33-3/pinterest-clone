@@ -3,6 +3,7 @@ import eslintPluginQuery from "@tanstack/eslint-plugin-query";
 import typescriptPlugin from "@typescript-eslint/eslint-plugin";
 import typescriptParser from "@typescript-eslint/parser";
 import prettier from "eslint-config-prettier";
+import tailwindPlugin from "eslint-plugin-better-tailwindcss";
 import jsxA11y from "eslint-plugin-jsx-a11y";
 import noUnsanitized from "eslint-plugin-no-unsanitized";
 import reactDom from "eslint-plugin-react-dom";
@@ -32,7 +33,6 @@ const typescriptRules = {
     ...typescriptPlugin.configs.recommended.rules,
     ...typescriptPlugin.configs["recommended-requiring-type-checking"].rules,
     ...typescriptPlugin.configs["strict-type-checked"].rules,
-
     "@typescript-eslint/no-unused-vars": [
       "warn",
       {
@@ -56,8 +56,6 @@ const typescriptRules = {
     "@typescript-eslint/switch-exhaustiveness-check": "error",
     "@typescript-eslint/no-floating-promises": "error",
     "@typescript-eslint/prefer-ts-expect-error": "warn",
-
-    // Additional best practices
     "@typescript-eslint/consistent-type-definitions": ["warn", "type"],
     "@typescript-eslint/prefer-readonly": "warn",
     "@typescript-eslint/prefer-enum-initializers": "warn",
@@ -125,6 +123,27 @@ const unicornRules = {
   },
 };
 
+const tailwindRules = {
+  plugins: {
+    "better-tailwindcss": tailwindPlugin,
+  },
+  settings: {
+    "better-tailwindcss": {
+      entryPoint: "src/index.css",
+    },
+  },
+  rules: {
+    "better-tailwindcss/enforce-consistent-line-wrapping": "off",
+    "better-tailwindcss/no-unnecessary-whitespace": "warn",
+    "better-tailwindcss/enforce-consistent-class-order": "off",
+    "better-tailwindcss/no-duplicate-classes": "warn",
+    "better-tailwindcss/enforce-consistent-variable-syntax": "warn",
+    "better-tailwindcss/no-unregistered-classes": "warn",
+    "better-tailwindcss/no-conflicting-classes": "warn",
+    "better-tailwindcss/no-restricted-classes": "warn",
+  },
+};
+
 const globalReactRules = {
   languageOptions: {
     globals: {
@@ -153,7 +172,6 @@ const globalReactRules = {
     "react/no-danger": "error",
     "react/no-unstable-nested-components": "warn",
     "react/jsx-no-leaked-render": "warn",
-
     "no-console": ["warn", { allow: ["warn", "error", "info"] }],
     "no-implicit-coercion": "warn",
     "prefer-const": "error",
@@ -171,8 +189,6 @@ const globalReactRules = {
       },
     ],
     "no-alert": "warn",
-
-    // Additional best practices
     "no-magic-numbers": [
       "warn",
       {
@@ -257,6 +273,22 @@ const reactDomReactXRules = {
   },
 };
 
+const enforceAliasImports = {
+  rules: {
+    "no-restricted-imports": [
+      "error",
+      {
+        patterns: ["../../*", "../../../*"],
+      },
+    ],
+  },
+  settings: {
+    "import/resolver": {
+      typescript: {},
+    },
+  },
+};
+
 export default defineConfig([
   globalIgnores(["**/node_modules/", "**/dist/"]),
   baseJsConfig,
@@ -271,5 +303,7 @@ export default defineConfig([
   securityRules,
   noUnsanitizedRules,
   reactDomReactXRules,
+  enforceAliasImports,
+  tailwindRules,
   prettier,
 ]);

@@ -1,6 +1,8 @@
 import { PlusIcon } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 
+import useGetAllBoards from "@/hooks/board/useGetAllBoards";
+
 import type { CreatePinFormSchemaType } from "@/validations/pin";
 
 import { Checkbox } from "@/ui/checkbox";
@@ -14,8 +16,6 @@ import {
   SelectValue,
 } from "@/ui/select";
 import { Textarea } from "@/ui/textarea";
-
-import useGetAllBoards from "../../../../hooks/board/useGetAllBoards";
 
 type BoardSelectorProps = {
   isNewBoard: boolean;
@@ -55,7 +55,7 @@ const BoardSelector = ({ isNewBoard, setIsNewBoard }: BoardSelectorProps) => {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem
-                  className="text-primary-600 mt-2 border-t border-muted pt-2 font-semibold"
+                  className="mt-2 border-t border-muted pt-2 font-semibold text-primary"
                   value="new-board"
                 >
                   Create New Board <PlusIcon className="font-bold" />
