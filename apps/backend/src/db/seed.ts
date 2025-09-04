@@ -1,10 +1,11 @@
 /* eslint-disable security/detect-object-injection */
 import { faker } from "@faker-js/faker";
-import { PrismaClient } from "@prisma/client";
 
 import { hashData } from "@/lib/hash";
 
 import { logger } from "@/shared/logger";
+
+import { PrismaClient } from "@/generated/prisma";
 
 const prisma = new PrismaClient();
 
