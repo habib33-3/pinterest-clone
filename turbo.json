@@ -9,41 +9,39 @@
     },
     "dev": {
       "cache": false,
-      "persistent": true,
-      "outputs": []
+      "persistent": true
+    },
+    "start": {
+      "dependsOn": ["^start"]
     },
     "lint": {
-      "dependsOn": ["^lint"],
-      "outputs": []
+      "dependsOn": ["^lint"]
+    },
+    "lint:fix": {
+      "dependsOn": ["^lint:fix"]
     },
     "format": {
-      "dependsOn": ["^format"],
-      "outputs": []
+      "dependsOn": ["^format"]
     },
-    "check-types": {
-      "dependsOn": ["^check-types"],
-      "outputs": []
+    "type-check": {
+      "dependsOn": ["^type-check"]
     },
     "db:generate": {
       "cache": false,
+      "inputs": ["prisma/schema.prisma"],
       "outputs": ["node_modules/.prisma/**"]
     },
     "db:push": {
       "cache": false,
-      "outputs": []
+      "inputs": ["prisma/schema.prisma"]
     },
     "db:studio": {
       "cache": false,
-      "persistent": true,
-      "outputs": []
+      "persistent": true
     },
     "seed": {
-      "dependsOn": ["build"],
-      "outputs": []
-    },
-    "start": {
-      "dependsOn": ["build"],
-      "outputs": []
+      "dependsOn": ["db:push", "^seed", "^db:push"],
+      "inputs": ["prisma/**", "scripts/seed.ts", ".env*"]
     }
   }
 }
