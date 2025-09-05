@@ -38,3 +38,4 @@ yarn-error.log*
 *.pem
 pnpm-lock.yaml
 apps/backend/src/generated
+apps/backend/dist

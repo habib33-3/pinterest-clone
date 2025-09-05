@@ -5,7 +5,7 @@
   "scripts": {
     "seed": "ts-node -r tsconfig-paths/register src/db/seed.ts",
     "dev": "ts-node-dev --respawn --transpile-only -r tsconfig-paths/register src/server.ts",
-    "build": "npm run type-check && rimraf dist && prisma generate && tsc && tsc-alias",
+    "build": " rimraf dist && prisma generate && npm run type-check  && tsc && tsc-alias",
     "start": "node dist/server.js",
     "lint": "eslint . --max-warnings=0",
     "lint:fix": "eslint . --fix",
