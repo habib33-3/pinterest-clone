@@ -14,6 +14,7 @@
     "db:push": "prisma db push",
     "db:studio": "prisma studio",
     "db:migrate": "prisma migrate dev",
+    "db:deploy": "prisma migrate deploy",
     "clean": "rimraf dist",
     "clean:all": "rimraf dist node_modules",
     "type-check": "tsc --noEmit"

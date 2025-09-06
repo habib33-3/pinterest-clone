@@ -7,6 +7,7 @@ services:
       dockerfile: apps/backend/Dockerfile
     ports:
       - "5000:5000"
+      - "5555:5555"
     env_file:
       - ./apps/backend/.env
     networks:

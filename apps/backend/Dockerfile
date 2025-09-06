@@ -17,7 +17,7 @@ COPY apps/backend/prisma ./apps/backend/prisma/
 COPY apps/backend/src ./apps/backend/src/
 COPY apps/backend/tsconfig.json ./apps/backend/
 
-# Generate Prisma client
+# Generate Prisma client (no db push at build time)
 RUN pnpm --filter pinterest-clone-backend prisma generate
 
 # Build backend
@@ -31,19 +31,23 @@ WORKDIR /app
 # Copy compiled backend
 COPY --from=build /app/apps/backend/dist ./dist
 COPY --from=build /app/apps/backend/src/generated/prisma ./src/generated/prisma
-COPY --from=build /app/apps/backend/prisma ./prisma
+
+# COPY Prisma schema INTO apps/backend so Prisma can find it
+COPY --from=build /app/apps/backend/prisma ./apps/backend/prisma
 
 # Copy root manifests
 COPY package.json pnpm-workspace.yaml turbo.json ./
-
-# Copy backend manifest
 COPY apps/backend/package.json ./apps/backend/
 
-# Copy production dependencies for backend only
+# Install production dependencies only
 RUN pnpm install --filter pinterest-clone-backend --prod --ignore-scripts --shamefully-hoist
 
-# Expose port
-EXPOSE 5000
+# Expose ports
+EXPOSE 5000 5555
+
+# Copy entry-point script
+COPY apps/backend/entry-point.sh ./entry-point.sh
+RUN chmod +x ./entry-point.sh
 
 # Start backend
-CMD ["node", "dist/server.js"]
+CMD ["./entry-point.sh"]
