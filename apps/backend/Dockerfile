@@ -42,6 +42,8 @@ COPY apps/backend/package.json ./apps/backend/
 # Install production dependencies only
 RUN pnpm install --filter pinterest-clone-backend --prod --ignore-scripts --shamefully-hoist
 
+ENV NODE_ENV=production
+
 # Expose ports
 EXPOSE 5000 5555
 

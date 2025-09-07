@@ -1,78 +1,67 @@
 # 📌 Pinterest Clone
 
-A full-featured Pinterest clone built with modern web technologies and a scalable **Turborepo** monorepo setup. This app allows users to explore, create, and manage pins and boards, interact through likes and comments, and connect with others via follow functionality.
+A full-featured Pinterest clone built with modern web technologies in a **Turborepo** monorepo setup. Explore, create, and manage pins and boards, interact with others through likes, comments, and follows, and enjoy a responsive and scalable web application.
 
 ---
 
 ## ✨ Features
 
-- **Authentication**: Sign up, log in, and log out securely using JWT and cookies
-- **Post Management**: Create, edit, and delete posts
-- **Board Management**: Create, edit, and delete boards
-- **Pin Management**: Create, edit, and delete pins
-- **Comment System**: Add, edit, and delete comments on pins
-- **Likes**: Like and unlike pins
-- **Follow System**: Follow and unfollow other users
-- **Search**: Find pins, boards, and users with dynamic search
+- **Authentication**: Sign up, log in, and log out securely using JWT and cookies.
+- **Post Management**: Create, edit, and delete posts.
+- **Board Management**: Create, edit, and delete boards.
+- **Pin Management**: Add, edit, and delete pins.
+- **Comments**: Add, edit, and delete comments on pins.
+- **Likes**: Like and unlike pins.
+- **Follow System**: Follow and unfollow other users.
+- **Search**: Dynamic search for pins, boards, and users.
 
 ---
 
 ## 🧩 Monorepo Structure
 
-Powered by **Turborepo** for optimized builds and shared tooling.
+Built with **Turborepo** for optimized builds and shared tooling:
 
 ```bash
-
 .
 ├── apps/
 │   ├── frontend/        # Frontend (React, Tailwind)
-│   └── backend/        # Backend (Express, Prisma)
+│   └── backend/         # Backend (Express, Prisma)
 ├── packages/
-│   ├── ui/         # Shared UI components (optional)
-│   └── config/     # Shared configs (eslint, tsconfig, etc.)
+│   ├── ui/              # Shared UI components
+│   └── config/          # Shared configs (eslint, tsconfig, etc.)
 ├── turbo.json
 └── README.md
-
 ```
+
+---
 
 ## 🛠️ Technologies Used
 
 ### 📦 Languages & Tooling
 
-- **TypeScript**
-- **ESLint** – for code linting
-- **Prettier** – for code formatting
-- **Husky** – for Git hooks (pre-commit)
-- **lint-staged** – for running linters on staged files
+- TypeScript, ESLint, Prettier, Husky, lint-staged
 
 ### 💻 Frontend
 
-- React
-- React Router
-- Shadcn UI
-- Tailwind CSS
-- Zustand (state management)
+- React, React Router, Shadcn UI, Tailwind CSS, Zustand
 
 ### 🧠 Backend
 
-- Node.js
-- Express.js
-- Prisma ORM
-- PostgreSQL
+- Node.js, Express.js, Prisma ORM, PostgreSQL
 
 ### 🔐 Authentication
 
-- JWT
-- argon2
-- cookie-parser
+- JWT, argon2, cookie-parser
 
 ### 🖼️ Media Handling
 
-- ImageKit (image uploads and optimization)
+- ImageKit for image uploads and optimization
 
 ### 📦 Monorepo Tooling
 
 - Turborepo
+
+---
 
 ## ⚙️ Setup & Installation
 
@@ -80,59 +69,78 @@ Powered by **Turborepo** for optimized builds and shared tooling.
 
 ```bash
 git clone https://github.com/habib33-3/pinterest-clone
-```
-
-### 2. Change Directory
-
-```bash
 cd pinterest-clone
 ```
 
-### 3. Install Dependencies
+### 2. Install Dependencies
 
 ```bash
 pnpm install
 ```
 
-### 4. Set Up Environment Variables
+### 3. Set Up Environment Variables
 
-Copy `.env.example` files into `.env` for both frontend and backend:
+Copy `.env.example` to `.env` for both frontend and backend:
 
 ```bash
 cp apps/frontend/.env.example apps/frontend/.env
 cp apps/backend/.env.example apps/backend/.env
 ```
 
-### 5. Generate Prisma Client
+### 4. Generate Prisma Client
 
 ```bash
 pnpm db:generate
 ```
 
-### 6. Push Prisma Schema to the Database (optional for fresh setup)
+### 5. Push Prisma Schema (optional)
 
 ```bash
 pnpm db:push
 ```
 
-### 7. Seed the Database
+### 6. Seed the Database
 
 ```bash
 pnpm seed
 ```
 
-### 8. Run the App
+### 7. Run the App (Development Mode)
 
 ```bash
 pnpm dev
 ```
 
-## 📸 Demo
+---
 
-You can try out the app using the following demo credentials:
+## 🐳 Docker Setup
 
-**Email:** `user@email.com`  
+Run the entire stack with Docker Compose:
+
+```bash
+docker compose up -d
+```
+
+### Seed the database inside Docker
+
+```bash
+docker compose exec backend sh -c "DATABASE_URL=postgresql://postgres:admin@db:5432/pinterest-clone NODE_ENV=development pnpm i && node dist/db/seed.js"
+```
+
+This sets up:
+
+- Backend → `http://localhost:5000`
+- Frontend → `http://localhost:8080`
+- PostgreSQL database → accessible internally via Docker network
+
+---
+
+## 📸 Demo Credentials
+
+**Email:** `user@email.com`
 **Password:** `password`
+
+---
 
 ## 📄 License
 
@@ -145,5 +153,3 @@ This project is licensed under the [MIT License](LICENSE).
 - **Portfolio**: [https://habibur-rahman-snowy.vercel.app](https://habibur-rahman-snowy.vercel.app)
 - **Email**: [habib.rahman0330@gmail.com](mailto:habib.rahman0330@gmail.com)
 - **GitHub**: [@habib33-3](https://github.com/habib33-3)
-
----
