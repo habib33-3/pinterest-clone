@@ -3,7 +3,6 @@
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
-import { visualizer } from "rollup-plugin-visualizer";
 import { defineConfig } from "vite";
 
 // https://vite.dev/config/
@@ -33,16 +32,4 @@ export default defineConfig({
       "@": path.resolve(__dirname, "src"),
     },
   },
-  // build: {
-  //   rollupOptions: {
-  //     plugins: [
-  //       visualizer({
-  //         filename: "dist/stats.html", // output file
-  //         open: true, // open report automatically after build
-  //         gzipSize: true, // show gzip size
-  //         brotliSize: true, // show brotli size
-  //       }),
-  //     ],
-  //   },
-  // },
 });
