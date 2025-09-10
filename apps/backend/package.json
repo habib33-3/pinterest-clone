@@ -4,9 +4,9 @@
   "main": "index.js",
   "scripts": {
     "seed": "ts-node -r tsconfig-paths/register src/db/seed.ts",
-    "dev": "ts-node-dev --respawn --transpile-only -r tsconfig-paths/register src/server.ts",
-    "build": " rimraf dist && prisma generate && npm run type-check  && tsc && tsc-alias",
-    "start": "node dist/server.js",
+    "dev": "node init && ts-node-dev --respawn --transpile-only -r tsconfig-paths/register src/server.ts",
+    "build": "node init &&  rimraf dist && prisma generate && npm run type-check  && tsc && tsc-alias",
+    "start": "node init && node dist/server.js",
     "lint": "eslint . --max-warnings=0",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
@@ -45,7 +45,6 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.24.0",
-
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",
