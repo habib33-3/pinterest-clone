@@ -1,55 +1,63 @@
-# ---------- Build Stage ----------
+# ---------- Base Builder ----------
+FROM node:22-alpine AS base
+RUN corepack enable
+WORKDIR /app
+
+# Copy monorepo manifests
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json ./
+COPY apps/backend/package.json apps/backend/
+
+# Install dependencies (frozen lockfile for reproducibility)
+RUN pnpm install --frozen-lockfile
+
+# Copy full repo for turbo prune/build
+COPY . .
+
+# Generate a pruned workspace for backend
+RUN pnpm turbo prune pinterest-clone-backend --docker
+
+
+# ---------- Pruned Builder ----------
 FROM node:22-alpine AS build
 RUN corepack enable
 WORKDIR /app
 
-# Copy root manifests
-COPY package.json pnpm-workspace.yaml turbo.json ./
+# Copy pruned workspace
+COPY --from=base /app/out/json/ ./
+COPY --from=base /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 
-# Copy backend manifest
-COPY apps/backend/package.json ./apps/backend/
+# Install only pruned deps
+RUN pnpm install --frozen-lockfile
 
-# Install dependencies
-RUN pnpm install
+# Copy pruned source
+COPY --from=base /app/out/full/ ./
 
-# Copy backend source and Prisma schema
-COPY apps/backend/prisma ./apps/backend/prisma/
-COPY apps/backend/src ./apps/backend/src/
-COPY apps/backend/tsconfig.json ./apps/backend/
+# Build backend + generate Prisma client
+RUN pnpm turbo run build --filter=...pinterest-clone-backend
+RUN pnpm --filter=pinterest-clone-backend prisma generate
 
-# Generate Prisma client (no db push at build time)
-RUN pnpm --filter pinterest-clone-backend prisma generate
 
-# Build backend
-RUN pnpm build --filter pinterest-clone-backend
-
-# ---------- Runtime Stage ----------
+# ---------- Runtime ----------
 FROM node:22-alpine AS runtime
 RUN corepack enable
 WORKDIR /app
 
-# Copy compiled backend
+# Copy lockfile + manifest (from pruned build)
+COPY --from=build /app/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY --from=build /app/apps/backend/package.json ./package.json
+
+# Copy backend dist + prisma
 COPY --from=build /app/apps/backend/dist ./dist
-COPY --from=build /app/apps/backend/src/generated/prisma ./src/generated/prisma
+COPY --from=build /app/apps/backend/prisma ./prisma
 
-# COPY Prisma schema INTO apps/backend so Prisma can find it
-COPY --from=build /app/apps/backend/prisma ./apps/backend/prisma
+# Install production-only deps
+RUN pnpm install --prod --ignore-scripts --prefer-offline
 
-# Copy root manifests
-COPY package.json pnpm-workspace.yaml turbo.json ./
-COPY apps/backend/package.json ./apps/backend/
+RUN pnpm prisma generate
 
-# Install production dependencies only
-RUN pnpm install --filter pinterest-clone-backend --prod --ignore-scripts --shamefully-hoist
-
-ENV NODE_ENV=production
-
-# Expose ports
-EXPOSE 5000 5555
-
-# Copy entry-point script
+# Entrypoint (migrations + start)
 COPY apps/backend/entry-point.sh ./entry-point.sh
 RUN chmod +x ./entry-point.sh
 
-# Start backend
+EXPOSE 5000 5555
 CMD ["./entry-point.sh"]
