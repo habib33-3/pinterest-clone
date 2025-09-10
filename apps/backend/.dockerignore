@@ -1,0 +1,52 @@
+# Node dependencies
+node_modules
+**/node_modules
+.pnpm-store
+.pnp.*
+.pnpm-debug.log
+
+# Build outputs (safe to ignore client-only outputs)
+.next
+out
+build
+**/.turbo
+**/.next
+**/out
+**/build
+
+# ❌ DO NOT ignore dist globally
+# both frontend and backend need dist to run in runtime image
+
+# Logs
+*.log
+logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS & editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.tmp
+*.bak
+*.old
+*.orig
+
+# Docker related (ignore only root-level files, not per-app Dockerfiles)
+/Dockerfile
+/.dockerignore
+
+# Env files (don’t bake secrets into image)
+.env
+.env.*
+!.env.example
+
+# Cache
+.cache
+**/.cache
+.vscode
+.idea
+*.tsbuildinfo
