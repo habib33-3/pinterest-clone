@@ -21,13 +21,17 @@ services:
       context: .
       dockerfile: apps/frontend/Dockerfile
       args:
-        VITE_BACKEND_API_URL: ${VITE_BACKEND_API_URL}
+        VITE_BACKEND_API_URL: "http://localhost:5000/api/v1" 
     ports:
       - "8080:80"
     networks:
       - app-network
     depends_on:
       - backend
+    env_file:
+      - ./apps/frontend/.env
+
+    
 
   db:
     image: postgres:16-alpine

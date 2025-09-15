@@ -13,7 +13,8 @@
     "db:push": "turbo run db:push",
     "db:studio": "turbo run db:studio",
     "seed": "turbo run seed",
-    "prepare": "husky"
+    "prepare": "husky",
+    "docker:run": "docker compose down && docker compose build && docker compose up"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^8.30.1",

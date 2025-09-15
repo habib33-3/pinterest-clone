@@ -56,8 +56,8 @@ RUN pnpm install --prod --ignore-scripts --prefer-offline
 RUN pnpm prisma generate
 
 # Entrypoint (migrations + start)
-COPY apps/backend/entry-point.sh ./entry-point.sh
-RUN chmod +x ./entry-point.sh
+COPY apps/backend/scripts/docker-run.sh ./docker-run.sh
+RUN chmod +x ./docker-run.sh
 
 EXPOSE 5000 5555
-CMD ["./entry-point.sh"]
+CMD ["./docker-run.sh"]
