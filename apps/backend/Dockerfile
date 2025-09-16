@@ -17,7 +17,7 @@ COPY --chown=nodeuser:nodejs package.json pnpm-lock.yaml pnpm-workspace.yaml tur
 COPY --chown=nodeuser:nodejs apps/backend/package.json apps/backend/
 
 # Performance: Install dependencies with cache optimization
-RUN --mount=type=cache,target=/root/.local/share/pnpm,uid=1001,gid=1001 \
+RUN --mount=type=cache,target=/home/nodeuser/.local/share/pnpm,uid=1001,gid=1001 \
     pnpm install --frozen-lockfile
 
 # Copy source code
@@ -26,35 +26,41 @@ COPY --chown=nodeuser:nodejs . .
 # Generate pruned workspace
 RUN pnpm turbo prune pinterest-clone-backend --docker
 
+
+# ---------- Builder ----------
 # ---------- Builder ----------
 FROM node:22-alpine AS builder
 
-# Security: Create non-root user
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nodeuser
 
 RUN corepack enable
 WORKDIR /app
 
-# Security: Change ownership
-RUN chown nodeuser:nodejs /app
-USER nodeuser
-
-# Performance: Copy pruned workspace with proper ownership
+# copy files
 COPY --from=base --chown=nodeuser:nodejs /app/out/json/ ./
 COPY --from=base --chown=nodeuser:nodejs /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 
-# Performance: Install with cache mount
-RUN --mount=type=cache,target=/home/nodeuser/.local/share/pnpm,uid=1001,gid=1001 \
+# Run install as root (avoids EACCES), still uses cache
+RUN --mount=type=cache,target=/root/.local/share/pnpm \
     pnpm install --frozen-lockfile
 
-# Copy source and build
+# copy rest and fix ownership
 COPY --from=base --chown=nodeuser:nodejs /app/out/full/ ./
+RUN chown -R nodeuser:nodejs /app
 
-# Performance: Build with cache for node_modules
-RUN --mount=type=cache,target=/home/nodeuser/.local/share/pnpm,uid=1001,gid=1001 \
-    pnpm turbo run build --filter=...pinterest-clone-backend && \
+# Build and generate prisma
+USER nodeuser
+RUN pnpm turbo run build --filter=...pinterest-clone-backend && \
     pnpm --filter=pinterest-clone-backend prisma generate
+
+# Deploy production deps
+USER root
+RUN pnpm deploy --filter=pinterest-clone-backend --prod /app/prod
+RUN chown -R nodeuser:nodejs /app/prod
+USER nodeuser
+
+
 
 # ---------- Runtime ----------
 FROM node:22-alpine AS runtime
@@ -70,20 +76,13 @@ RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nodeuser
 
 WORKDIR /app
-
-# Security: Change ownership
 RUN chown nodeuser:nodejs /app
 
 # Performance: Copy only necessary files with proper ownership
-COPY --from=builder --chown=nodeuser:nodejs /app/pnpm-lock.yaml ./pnpm-lock.yaml
-COPY --from=builder --chown=nodeuser:nodejs /app/apps/backend/package.json ./package.json
+COPY --from=builder --chown=nodeuser:nodejs /app/prod/node_modules ./node_modules
 COPY --from=builder --chown=nodeuser:nodejs /app/apps/backend/dist ./dist
 COPY --from=builder --chown=nodeuser:nodejs /app/apps/backend/prisma ./prisma
-
-# Performance: Install production deps with cache (as root for pnpm access)
-RUN --mount=type=cache,target=/root/.local/share/pnpm \
-    pnpm install --prod --ignore-scripts --prefer-offline && \
-    pnpm prisma generate
+COPY --from=builder --chown=nodeuser:nodejs /app/apps/backend/package.json ./package.json
 
 # Security: Copy and set permissions for startup script
 COPY --chown=nodeuser:nodejs apps/backend/scripts/docker-run.sh ./docker-run.sh

@@ -1,28 +1,53 @@
 #!/bin/sh
 set -euo pipefail
 
-# Security: Validate required environment variables
-: "${DATABASE_URL:?DATABASE_URL environment variable is required}"
+# --- Helpers ---
+log() {
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*"
+}
+
+run_step() {
+  local name="$1"
+  shift
+  log "▶️  $name..."
+  local start=$(date +%s)
+  "$@"
+  local end=$(date +%s)
+  local duration=$((end - start))
+  log "✅ $name completed in ${duration}s"
+}
+
+# --- Signal Handling (graceful shutdown) ---
+trap "log '🛑 Caught termination signal, shutting down...'; exit 0" SIGTERM SIGINT
+
+# --- Required Environment Variables ---
+: "${DATABASE_URL:?❌ DATABASE_URL environment variable is required}"
+
+# --- Default Environment Variables ---
 : "${NODE_ENV:=production}"
+: "${FORCE_MIGRATE:=false}"
 
-echo "🔍 Environment: $NODE_ENV"
-echo "🚀 Running Prisma migrations..."
+log "🔍 Environment: $NODE_ENV"
 
-# Security: Use exec form and validate schema path
+# --- Validate Prisma Schema ---
 if [ ! -f "./prisma/schema.prisma" ]; then
-    echo "❌ Error: Prisma schema not found at ./prisma/schema.prisma"
+    log "❌ Error: Prisma schema not found at ./prisma/schema.prisma"
     exit 1
 fi
 
-# Performance: Skip migration in development if needed
-if [ "$NODE_ENV" = "production" ] || [ "${FORCE_MIGRATE:-true}" = "true" ]; then
-    pnpm exec prisma migrate deploy --schema ./prisma/schema.prisma
-    echo "✅ Prisma migrations applied"
+# --- Generate Prisma Client ---
+run_step "Generate Prisma client" pnpm exec prisma generate --schema ./prisma/schema.prisma
+
+# --- Apply Migrations ---
+if [ "$NODE_ENV" = "production" ] || [ "$FORCE_MIGRATE" = "true" ]; then
+    run_step "Run Prisma migrations" pnpm exec prisma migrate deploy --schema ./prisma/schema.prisma
 else
-    echo "⚠️  Skipping migrations in development mode"
+    log "⚠️  Skipping migrations (NODE_ENV=$NODE_ENV, FORCE_MIGRATE=$FORCE_MIGRATE)"
 fi
 
-echo "📦 Starting backend server..."
+# --- Optional: Healthcheck marker for Docker ---
+echo "✅ Backend initialized" > /tmp/healthy
+log "🩺 Healthcheck marker written to /tmp/healthy"
 
-# Security: Use exec to replace shell process with node process
-exec node dist/server.js
+# --- Start Backend Server ---
+run_step "Start backend server" exec node dist/server.js

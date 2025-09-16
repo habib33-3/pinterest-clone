@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -20,6 +20,7 @@ export const useCreatePinForm = () => {
   const [isNewBoard, setIsNewBoard] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const form = useForm<CreatePinFormSchemaType>({
     resolver: zodResolver(createPinFormSchema),
@@ -60,6 +61,11 @@ export const useCreatePinForm = () => {
         textBoxOptions,
       }),
     onSuccess: () => {
+      // Invalidate all pins queries to refresh the homepage data
+      void queryClient.invalidateQueries({
+        queryKey: ["pins"],
+      });
+
       form.reset();
       setTags([]);
       reset();
