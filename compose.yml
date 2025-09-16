@@ -15,6 +15,12 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:5000/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s  # give time for app to boot
 
   frontend:
     build:
@@ -27,11 +33,10 @@ services:
     networks:
       - app-network
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
     env_file:
       - ./apps/frontend/.env
-
-    
 
   db:
     image: postgres:16-alpine

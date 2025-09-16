@@ -3,6 +3,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import helmet from "helmet";
+import { StatusCodes } from "http-status-codes";
 
 import { env } from "@/config/env.config";
 
@@ -35,12 +36,21 @@ app.use(limiter);
 // Logger middleware (after security and rate limiting)
 app.use(logger.middleware);
 
+// Health check (before error handling)
+app.get("/health", (_req, res) => {
+    res.status(StatusCodes.OK).json({
+        status: "ok",
+        uptime: process.uptime(),
+        timestamp: new Date().toISOString(),
+    });
+});
+
 app.use("/api/v1", router);
 
 // Error handling middleware
 app.use(globalErrorMiddleware);
 
-// Not found handler (after global error handler)
+// Not found handler
 app.use(notFoundMiddleware);
 
 export default app;
