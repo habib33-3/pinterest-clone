@@ -2,9 +2,9 @@
   "name": "pinterest-clone",
   "private": true,
   "scripts": {
-    "dev": "turbo run dev --parallel",
-    "build": "turbo run build",
-    "start": "turbo run start",
+    "dev": "node init && turbo run dev --parallel",
+    "build": "node init && turbo run build",
+    "start": "node init && turbo run start",
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix",
     "format": "turbo run format",
