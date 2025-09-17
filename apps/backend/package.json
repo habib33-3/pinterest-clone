@@ -4,9 +4,9 @@
   "main": "index.js",
   "scripts": {
     "seed": "ts-node -r tsconfig-paths/register src/db/seed.ts",
-    "dev": "ts-node-dev --respawn --transpile-only -r tsconfig-paths/register src/server.ts",
-    "build": "sh ./scripts/build.sh",
-    "start": "node dist/server.js",
+    "dev": "node init && ts-node-dev --respawn --transpile-only -r tsconfig-paths/register src/server.ts",
+    "build": "node init && sh ./scripts/build.sh",
+    "start": "node init && node dist/server.js",
     "lint": "eslint . --max-warnings=0",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
