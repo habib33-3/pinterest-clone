@@ -10,11 +10,12 @@ import {
     DEFAULT_PORT,
     DEFAULT_RATE_LIMIT_WINDOW_MS,
     DEFAULT_TOKEN_EXPIRATION,
+    NodeEnv,
 } from "@/shared/constants";
 import { logger } from "@/shared/logger";
 
 const envSchema = z.object({
-    NODE_ENV: z.enum(["dev", "test", "production"]).default("production"),
+    NODE_ENV: z.enum(NodeEnv).default("dev"),
     // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     PORT: z.coerce.number().min(1).max(65535).default(DEFAULT_PORT),
     RATE_LIMIT_WINDOW_MS: z.coerce.number().min(1).default(DEFAULT_RATE_LIMIT_WINDOW_MS),

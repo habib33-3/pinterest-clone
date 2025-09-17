@@ -5,6 +5,8 @@ services:
     build:
       context: .
       dockerfile: apps/backend/Dockerfile
+      args:
+        BUILD_APP: pinterest-clone-backend
     ports:
       - "5000:5000"
       - "5555:5555"
@@ -20,14 +22,15 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 15s  # give time for app to boot
+      start_period: 15s
 
   frontend:
     build:
       context: .
       dockerfile: apps/frontend/Dockerfile
       args:
-        VITE_BACKEND_API_URL: "http://localhost:5000/api/v1" 
+        BUILD_APP: pinterest-clone-frontend
+        VITE_BACKEND_API_URL: "http://localhost:5000/api/v1"
     ports:
       - "8080:80"
     networks:
